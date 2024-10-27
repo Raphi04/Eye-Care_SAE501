@@ -22,13 +22,29 @@ Hugo BAJOUE
 **Matthieu TISSIER** : WebDesigner UI/UX | 3D (?)  
 **Raphael CADETE** : Dev Fullstack | Architecture base de donnée
 
+## **Gestion du projet**
+
+Pour ce projet, nous utiliserons la méthode Agile pour nous organiser. Nous fonctionnerons alors par Sprints de deux semaines, nous rédigerons des tickets que nous associerons aux personnes concernées et nous feront une réunion en visio-conférence tous les dimanches pour faire un point sur l'avancée du projet.
+
+- [Organisation du projet sur GitHub](explicationSprintsTickets.md)
+
+- [Gestion des tickets sur Trello](https://trello.com/invite/b/6716485644ba4a725571bfb6/ATTI9b3d3fd1e713ac72691e5b67eec35a97481582C2/sae501)
+
 ## **Architecture et conception**
 
-[À faire](https://www.figma.com/design/zHbMjVxPjYs1uBgSnp01ie/Architecture-Eye-Care?node-id=0-1&t=Jm5u6C5WBqmpivFk-1)
+### **Schéma représentant l'arborescence du site**
+
+![Schéma représentant l'arborescence du site](ressources/urlSite.jpg)
+
+### **Schéma représentant l'architecture fonctionnel du site**
+
+![Schéma représentant l'architecture fonctionnel du site](ressources/architectureSite.jpg)
+
+### **[Figma contenant la maquette](https://www.figma.com/design/yCE0aSzJkImClMNJHQTMjg/Untitled?node-id=0-1&t=dU6bidFVG8KhXNQ0-1)**
 
 ## **Carte mentale**
 
-[À compléter](https://miro.com/welcomeonboard/NzMzVVZRbGEyWHhINTU4ZjJUTUhLT2w1VTh0UVpGMGpIV2hWc0hhT2VyQWw2WWxQanFsUWM1bGtKY0NpbjBCcnwzNDU4NzY0NjAzNjA5OTQyMjM5fDI=?share_link_id=693671242576)
+![Carte mentale](ressources/carteMental.jpg)
 
 ---
 

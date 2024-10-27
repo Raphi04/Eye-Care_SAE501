@@ -67,3 +67,7 @@
 ---
 
 ### Si tout c'est bien passé, vous venez de fusioner votre travail avec celui des autres pour le Sprint actuel
+
+---
+
+- [Retour à la phase de cadrage](phaseCadrage.md)
