@@ -16,10 +16,10 @@ Hugo BAJOUE
 
 ### **Rôles**
 
-**Arno LE MOIL** : Dev Front-End | WebDesigner UI/UX  
+**Arno LE MOIL** : Dev Front-End | WebDesigner UI/UX | Référent Front-end  
 **Hugo BAJOUE** : Chef de Projet | Dev Fullstack  
-**Jérémie PARANT** : Dev Back-end  
-**Matthieu TISSIER** : WebDesigner UI/UX | 3D (?)  
+**Jérémie PARANT** : Dev Back-end | Référent Back-end  
+**Matthieu TISSIER** : WebDesigner UI/UX | 3D | Référent WebDesigner  
 **Raphael CADETE** : Dev Fullstack | Architecture base de donnée
 
 ## **Gestion du projet**
@@ -29,6 +29,24 @@ Pour ce projet, nous utiliserons la méthode Agile pour nous organiser. Nous fon
 - [Organisation du projet sur GitHub](explicationSprintsTickets.md)
 
 - [Gestion des tickets sur Trello](https://trello.com/invite/b/6716485644ba4a725571bfb6/ATTI9b3d3fd1e713ac72691e5b67eec35a97481582C2/sae501)
+
+## **Planification**
+
+### **Conception du projet (16 octobre au 31 octobre ) :**
+
+- Rédaction du 1er rendu (Note de cadrage) ;
+- Conception et Proposition d’implémentation pour le site ;
+- Premières propositions de visuel pour le site (chartes graphiques et logo).
+
+### **Tâche à accomplir :**
+
+- Recherche sur l’ophtalmologie ;
+- Création des maquettes ;
+- Développement de l’API backend ;
+- Développement du frontend ;
+- Mise en place des tests ;
+- Rédaction des articles ;
+- Création des visuels en 3D.
 
 ## **Architecture et conception**
 
