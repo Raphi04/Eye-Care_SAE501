@@ -1,0 +1,86 @@
+/* Variables */
+$darkGray: #3b3b3b;
+$darkGrayHover: #212121;
+
+/* Fonts */
+@font-face {
+  font-family: "Korolev Thin";
+  font-style: normal;
+  font-weight: lighter;
+  src: url("../public/font/Korolev-Thin.woff") format("woff");
+}
+
+@font-face {
+  font-family: "Korolev Light";
+  font-style: normal;
+  font-weight: lighter;
+  src: url("../public/font/Korolev-Light.woff") format("woff");
+}
+
+@font-face {
+  font-family: "Korolev Light";
+  font-style: italic;
+  font-weight: lighter;
+  src: url("../public/font/Korolev-Light-Italic.woff") format("woff");
+}
+
+@font-face {
+  font-family: "Korolev Medium";
+  font-style: normal;
+  font-weight: normal;
+  src: url("../public/font/Korolev-Medium.woff") format("woff");
+}
+
+@font-face {
+  font-family: "Korolev Medium";
+  font-style: italic;
+  font-weight: normal;
+  src: url("../public/font/Korolev-Medium-Italic.woff") format("woff");
+}
+
+@font-face {
+  font-family: "Korolev Bold";
+  font-style: normal;
+  font-weight: bold;
+  src: url("../public/font/Korolev-Bold.woff") format("woff");
+}
+
+@font-face {
+  font-family: "Korolev Bold";
+  font-style: italic;
+  font-weight: bold;
+  src: url("../public/font/Korolev-Bold-Italic.woff") format("woff");
+}
+
+@font-face {
+  font-family: "Korolev Heavy";
+  font-style: normal;
+  font-weight: bolder;
+  src: url("../public/font/Korolev-Heavy.woff") format("woff");
+}
+
+@font-face {
+  font-family: "Korolev Heavy";
+  font-style: italic;
+  font-weight: bolder;
+  src: url("../public/font/Korolev-Heavy-Italic.woff") format("woff");
+}
+
+html,
+body {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+
+  font-family: "Korolev Medium";
+  font-weight: normal;
+  font-style: normal;
+
+  a {
+    text-decoration: none;
+  }
+
+  p {
+    margin: 0;
+  }
+}
