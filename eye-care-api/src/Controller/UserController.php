@@ -91,6 +91,23 @@ class UserController extends AbstractController
         return new JsonResponse($data, JsonResponse::HTTP_OK);
     }
 
+    #[Route('/private/user', name: 'get_users_api', methods: ['GET'])]
+    public function getAllUsersApi(EntityManagerInterface $entityManager): JsonResponse
+    {
+        $users = $entityManager->getRepository(User::class)->findAll();
+
+        foreach ($users as $user) {
+            $data[] = [
+                'id' => $user->getId(),
+                'email' => $user->getEmail(),
+                'username' => $user->getUsername(),
+                'password' => $user->getPassword(),
+                'role' => $user->getRole()
+            ];
+        }
+        return new JsonResponse($data, JsonResponse::HTTP_OK);
+    }
+
     #[Route('/user/{id}', name: 'get_user', methods: ['GET'])]
     public function getUserById(int $id, EntityManagerInterface $entityManager): JsonResponse
     {

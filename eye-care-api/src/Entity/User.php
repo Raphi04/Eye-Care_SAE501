@@ -4,9 +4,10 @@ namespace App\Entity;
 
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-class User
+class User implements UserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -24,6 +25,9 @@ class User
 
     #[ORM\Column(length: 255, unique: true)]
     private ?string $email = null;
+
+    #[ORM\Column(name: "api_token", length: 255, nullable: true)]
+    private ?string $apiToken = null;
 
     public function getId(): ?int
     {
@@ -74,6 +78,18 @@ class User
     public function setEmail(string $email): static
     {
         $this->email = $email;
+
+        return $this;
+    }
+
+    public function getApiToken(): ?string
+    {
+        return $this->apiToken;
+    }
+
+    public function setApiToken(?string $apiToken): static
+    {
+        $this->apiToken = $apiToken;
 
         return $this;
     }
