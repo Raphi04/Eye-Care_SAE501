@@ -16,9 +16,9 @@ class UserController extends AbstractController
 {
     #[Route('/register', name: 'register', methods: ['POST'])]
     public function createUser(Request $request, EntityManagerInterface $entityManager): JsonResponse
-    {
-        define('DEFAULT_ROLE', 'user');
-        
+    {        
+        define('DEFAULT_ROLE', 'ROLE_USER');
+
         $data = json_decode($request->getContent(), true);
         $email = $data['email'];
         $username = $data['username'];
@@ -36,7 +36,7 @@ class UserController extends AbstractController
         $user->setEmail($email);
         $user->setUsername($username);
         $user->setPassword($password);
-        $user->setRole(DEFAULT_ROLE);
+        $user->setRoles([DEFAULT_ROLE]);
 
         $entityManager->persist($user);
         $entityManager->flush();
@@ -85,24 +85,7 @@ class UserController extends AbstractController
                 'email' => $user->getEmail(),
                 'username' => $user->getUsername(),
                 'password' => $user->getPassword(),
-                'role' => $user->getRole()
-            ];
-        }
-        return new JsonResponse($data, JsonResponse::HTTP_OK);
-    }
-
-    #[Route('/private/user', name: 'get_users_api', methods: ['GET'])]
-    public function getAllUsersApi(EntityManagerInterface $entityManager): JsonResponse
-    {
-        $users = $entityManager->getRepository(User::class)->findAll();
-
-        foreach ($users as $user) {
-            $data[] = [
-                'id' => $user->getId(),
-                'email' => $user->getEmail(),
-                'username' => $user->getUsername(),
-                'password' => $user->getPassword(),
-                'role' => $user->getRole()
+                'roles' => $user->getRoles()
             ];
         }
         return new JsonResponse($data, JsonResponse::HTTP_OK);
@@ -125,5 +108,12 @@ class UserController extends AbstractController
             'role' => $user->getRole()
         ];
         return new JsonResponse($data, JsonResponse::HTTP_OK);
+    }
+
+    // Fonction de test temporaire
+    #[Route('/private/api_token_test', name: 'api_token_test', methods: ['GET'])]
+    public function getAllUsersApi(EntityManagerInterface $entityManager): JsonResponse
+    {
+        return new JsonResponse("Est authentifié", JsonResponse::HTTP_OK);
     }
 }
