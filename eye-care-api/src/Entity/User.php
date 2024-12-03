@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -31,11 +32,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, unique: true)]
     private ?string $username = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $apiToken = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $tokenExpiresAt = null;
 
     public function getId(): ?int
     {
@@ -134,4 +138,33 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+    // public function setRandomApiToken(): static
+    // {
+    //     $randomToken = bin2hex(random_bytes(10));
+    //     $this->apiToken = $randomToken;
+        
+    //     return $this;
+    // }
+
+    public function getTokenExpiresAt(): ?\DateTimeInterface
+    {
+        return $this->tokenExpiresAt;
+    }
+
+    public function setTokenExpiresAt(?\DateTimeInterface $tokenExpiresAt): static
+    {
+        $this->tokenExpiresAt = $tokenExpiresAt;
+
+        return $this;
+    }
+
+    // public function setTokenExpiresAtAfter72Hours(): static
+    // {
+    //     $currentDateTime = new \DateTime();
+    //     $tokenExpiresAt = $currentDateTime->modify('+3 days');
+    //     $this->tokenExpiresAt = $tokenExpiresAt;
+
+    //     return $this;
+    // }
 }
