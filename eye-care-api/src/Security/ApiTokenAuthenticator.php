@@ -12,10 +12,18 @@ use Symfony\Component\Security\Http\Authenticator\AbstractAuthenticator;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPassport;
+use App\Service\TokenService;
 
 class ApiTokenAuthenticator extends AbstractAuthenticator
 {
-	 public function supports(Request $request): ?bool
+    private TokenService $tokenService;
+
+    public function __construct(TokenService $tokenService)
+    {
+        $this->tokenService = $tokenService;
+    }
+
+	public function supports(Request $request): ?bool
     {
         return $request->headers->has('auth-token');
     }
@@ -29,14 +37,18 @@ class ApiTokenAuthenticator extends AbstractAuthenticator
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
-        // Ajouter un compteur
+        $user = $token->getUser();
+        if (!$this->tokenService->isTokenValid($user)) {
+            throw new CustomUserMessageAuthenticationException('Token expired.');
+        }
+
+        $this->tokenService->setTokenExpiration($user, true);
+        
         return null;
     }
 
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response
     {
-        return new JsonResponse([
-            'message' => $exception->getMessage()
-            ],Response::HTTP_UNAUTHORIZED);
+        return new JsonResponse(['message' => $exception->getMessage()],Response::HTTP_UNAUTHORIZED);
     }
 }
