@@ -10,6 +10,11 @@ main {
     font-size: 9rem;
     font-family: $fontBolder;
     color: $blueBlack;
+    transition: color 0.3s ease-out;
+
+    body.dark & {
+      color: $white;
+    }
   }
 
   .welcomeContainer {
@@ -39,12 +44,22 @@ main {
         font-size: 2.7rem;
         font-family: $fontBold;
         color: $blueBlack;
+        transition: color 0.3s ease-out;
+
+        body.dark & {
+          color: $white;
+        }
       }
 
       p {
         font-size: 1.6rem;
         text-align: justify;
         line-height: 2rem;
+        transition: color 0.3s ease-out;
+
+        body.dark & {
+          color: $white;
+        }
       }
     }
 
@@ -57,7 +72,12 @@ main {
       border-radius: 25px;
       background-color: $blueBlack;
       box-shadow: $boxShadow;
-      transition: all 0.2s ease-in-out;
+      transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+
+      body.dark & {
+        background-color: $blueLight;
+        box-shadow: $boxShadowBlue;
+      }
 
       &:hover {
         background-color: $blueStrong;
@@ -71,6 +91,10 @@ main {
         font-size: 2.4rem;
         font-family: $fontBold;
         color: $white;
+
+        body.dark & {
+          color: $blueBlack;
+        }
       }
     }
   }
@@ -84,6 +108,11 @@ main {
     align-items: center;
     background-color: $blueBlack;
     box-shadow: $boxShadow;
+
+    body.dark & {
+      background-color: $blueLight;
+      box-shadow: $boxShadowBlue;
+    }
 
     .textContainer {
       display: flex;
@@ -99,6 +128,10 @@ main {
         font-size: 2.7rem;
         font-family: $fontBold;
         color: $white;
+
+        body.dark & {
+          color: $blueBlack;
+        }
       }
 
       p {
@@ -106,6 +139,10 @@ main {
         text-align: justify;
         line-height: 2rem;
         color: $white;
+
+        body.dark & {
+          color: $blueBlack;
+        }
       }
     }
   }
@@ -137,6 +174,11 @@ main {
         font-size: 2.7rem;
         font-family: $fontBold;
         color: $blueBlack;
+        transition: color 0.3s ease-out;
+
+        body.dark & {
+          color: $white;
+        }
       }
 
       p {
@@ -144,6 +186,11 @@ main {
         text-align: justify;
         line-height: 2rem;
         color: $blueBlack;
+        transition: color 0.3s ease-out;
+
+        body.dark & {
+          color: $white;
+        }
       }
 
       .button {
@@ -162,10 +209,19 @@ main {
     background-color: $blueBlack;
     box-shadow: $boxShadow;
 
+    body.dark & {
+      background-color: $blueLight;
+      box-shadow: $boxShadowBlue;
+    }
+
     h2 {
       font-size: 2.7rem;
       font-family: $fontBold;
       color: $white;
+
+      body.dark & {
+        color: $blueBlack;
+      }
     }
 
     .allArticlesContainer {
@@ -198,6 +254,11 @@ main {
     h2 {
       font-size: 2.7rem;
       font-family: $fontBold;
+      transition: color 0.3s ease-out;
+
+      body.dark & {
+        color: $white;
+      }
     }
 
     article {

@@ -2,16 +2,29 @@ import { Link } from "react-router-dom";
 
 import EyeCareLogo from "../../assets/Eye_care_proposition_finale.svg?react";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser } from "@fortawesome/free-solid-svg-icons";
-
 import "./header.scss";
-
+import DayNightMode from "../DayNightMode/DayNightMode";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowRightFromBracket } from "@fortawesome/free-solid-svg-icons";
+import { useState } from "react";
 interface HeaderProps {
   active: string;
 }
 
 export default function Header({ active }: HeaderProps) {
+  const [onProfileHover, setOnProfileHover] = useState<boolean>(false);
+  const [onArticleHover, setOnArticleHover] = useState<boolean>(false);
+
+  function handleOnProfileHover() {
+    let newState = !onProfileHover;
+    setOnProfileHover(newState);
+  }
+
+  function handleOnArticleHover() {
+    let newState = !onProfileHover;
+    setOnArticleHover(newState);
+  }
+
   return (
     <>
       <header>
@@ -42,12 +55,30 @@ export default function Header({ active }: HeaderProps) {
           </nav>
 
           <div className="headers-side">
-            <div className="slide">a</div>
+            <DayNightMode />
 
-            <Link to="/" className="userProfile">
-              <FontAwesomeIcon icon={faUser} />
+            <div
+              className="userProfile"
+              onMouseEnter={handleOnProfileHover}
+              onMouseLeave={handleOnProfileHover}
+            >
+              <div className="icon">
+                <p>JD</p>
+              </div>
               <p>John Doe</p>
-            </Link>
+
+              {onProfileHover && (
+                <div className="dropDown">
+                  <Link to="/profile" className="link">
+                    <p>Mon profile</p>
+                  </Link>
+                  <Link to="/deconnexion" className="link">
+                    <FontAwesomeIcon icon={faArrowRightFromBracket} className="exit" />
+                    <p>Déconnexion</p>
+                  </Link>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </header>
