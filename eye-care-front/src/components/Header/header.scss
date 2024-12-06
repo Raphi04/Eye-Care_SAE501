@@ -19,7 +19,12 @@ header {
     justify-content: center;
     border-radius: 30px;
     background-color: $blueBlack;
-    box-shadow: 0 0 35px 0 rgb(84, 83, 91);
+    box-shadow: $boxShadowHeader;
+    transition: background-color 0.3s ease-out;
+
+    body.dark & {
+      background-color: $white;
+    }
 
     .logo {
       position: absolute;
@@ -31,31 +36,67 @@ header {
 
       path:nth-child(1) {
         color: $white;
+
+        body.dark & {
+          color: $black;
+        }
       }
 
       path:nth-child(2) {
         color: $blueLight;
+
+        body.dark & {
+          color: $blueStrong;
+        }
       }
       path:nth-child(3) {
         color: $white;
+
+        body.dark & {
+          color: $black;
+        }
       }
       path:nth-child(4) {
         color: $white;
+
+        body.dark & {
+          color: $black;
+        }
       }
       path:nth-child(5) {
         color: $white;
+
+        body.dark & {
+          color: $black;
+        }
       }
       path:nth-child(6) {
         color: $white;
+
+        body.dark & {
+          color: $black;
+        }
       }
       path:nth-child(7) {
         color: $white;
+
+        body.dark & {
+          color: $black;
+        }
       }
       path:nth-child(8) {
         color: $white;
+
+        body.dark & {
+          color: $black;
+        }
       }
       path:nth-child(9) {
         color: $white;
+
+        body.dark & {
+          color: $black;
+        }
       }
     }
 
@@ -73,15 +114,23 @@ header {
         align-items: center;
         padding: 7px 45px;
         border-radius: 30px;
-        transition: all ease-in;
+        transition: background-color 0.3s ease-out;
 
         &.isActive,
         &:hover {
           background-color: $white;
           box-shadow: $boxShadow;
 
+          body.dark & {
+            background-color: $black;
+          }
+
           p {
             color: $blueBlack;
+
+            body.dark & {
+              color: $white;
+            }
 
             &::after {
               transform: scale3d(1, 1, 1);
@@ -95,6 +144,10 @@ header {
           color: $white;
           font-family: Helvetica;
           font-weight: bold;
+
+          body.dark & {
+            color: $black;
+          }
         }
       }
     }
@@ -104,10 +157,26 @@ header {
       right: 40px;
       top: 50%;
       display: flex;
-      justify-content: center;
+      justify-content: space-between;
       align-items: center;
       gap: 50px;
       transform: translateY(-50%);
+
+      &::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: calc(50% - 25px);
+        transform: translateX(-50%);
+        width: 4px;
+        height: 100%;
+        background-color: $white;
+        border-radius: 30px;
+
+        body.dark & {
+          background-color: $blueBlack;
+        }
+      }
 
       .slide {
         height: 35px;
@@ -121,29 +190,146 @@ header {
       }
 
       .userProfile {
-        height: 35px;
+        position: relative;
+        height: 100%;
         display: flex;
         padding: 7px 20px;
         justify-content: center;
         align-items: center;
         gap: 5px;
         border-radius: 30px;
-        background-color: $white;
-        transition: all 0.2s ease-in;
 
         &:hover {
-          background-color: $whiteHover;
+          background-color: $blueBlackHover;
+          border-radius: 20px 20px 0 0;
+
+          body.dark & {
+            background-color: $whiteHover;
+          }
         }
 
         p {
-          color: $blueBlack;
+          color: $white;
           font-family: $fontBold;
           font-size: 1.2rem;
+
+          body.dark & {
+            color: $blueBlack;
+          }
+        }
+
+        .dropDown {
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          transform: translateY(100%);
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+          border-radius: 0 0 15px 15px;
+
+          .link {
+            display: flex;
+            align-items: center;
+            padding: 15px 10px;
+            font-size: 1rem;
+            gap: 7px;
+            color: $white;
+            border-top: 1px solid $white;
+            background-color: $blueBlackHover;
+            transition: background-color 0.3s ease-out;
+
+            body.dark & {
+              background-color: $whiteHover;
+              border-top: 1px solid $blueBlack;
+            }
+
+            &:hover {
+              border-top: 1px solid $blueBlackHover;
+              background-color: $white;
+
+              body.dark & {
+                background-color: $blueBlack;
+                border-top: 1px solid $white;
+              }
+
+              p {
+                color: $blueBlack;
+
+                body.dark & {
+                  color: $white;
+                }
+              }
+
+              &:nth-child(2) {
+                svg,
+                p {
+                  color: red;
+
+                  body.dark & {
+                    color: $white;
+                  }
+                }
+              }
+            }
+
+            &:nth-child(2) {
+              border-radius: 0 0 15px 15px;
+
+              body.dark & {
+                svg,
+                p {
+                  color: $blueBlack;
+                }
+              }
+            }
+
+            p {
+              color: $white;
+              transition: color 0.3s ease-out;
+
+              body.dark & {
+                color: $blueBlack;
+              }
+            }
+
+            .exit {
+              background-color: transparent;
+              color: white;
+
+              body.dark & {
+                color: $blueBlack;
+              }
+            }
+          }
+        }
+
+        .icon {
+          width: 35px;
+          height: 35px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          background-color: $white;
+          border-radius: 100%;
+
+          body.dark & {
+            background-color: $blueBlack;
+          }
+
+          p {
+            color: $blueBlack;
+
+            body.dark & {
+              color: $white;
+            }
+          }
         }
 
         svg {
           font-size: 1.2rem;
           color: $blueBlack;
+          background-color: $white;
         }
       }
     }

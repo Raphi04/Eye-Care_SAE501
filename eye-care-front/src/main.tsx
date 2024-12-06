@@ -1,5 +1,5 @@
 //Dependencies
-import { StrictMode } from "react";
+import { StrictMode, useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
 import { createBrowserRouter, RouterProvider, Navigate } from "react-router-dom";
 
@@ -11,6 +11,8 @@ import Tests from "./pages/Tests/Tests.tsx";
 import Articles from "./pages/Articles/Articles.tsx";
 import Login from "./pages/Login/Login.tsx";
 import Register from "./pages/Register/Register.tsx";
+
+import "./global.scss";
 
 function getToken() {
   return "gzfeiynkz45z";
