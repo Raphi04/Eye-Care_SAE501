@@ -13,17 +13,17 @@ interface HeaderProps {
 
 export default function Header({ active }: HeaderProps) {
   const [onProfileHover, setOnProfileHover] = useState<boolean>(false);
-  const [onArticleHover, setOnArticleHover] = useState<boolean>(false);
+  //const [onArticleHover, setOnArticleHover] = useState<boolean>(false);
 
   function handleOnProfileHover() {
     let newState = !onProfileHover;
     setOnProfileHover(newState);
   }
 
-  function handleOnArticleHover() {
-    let newState = !onProfileHover;
+  /* function handleOnArticleHover() {
+    let newState = !onArticleHover;
     setOnArticleHover(newState);
-  }
+  }*/
 
   return (
     <>
@@ -43,7 +43,7 @@ export default function Header({ active }: HeaderProps) {
             </Link>
 
             <Link
-              to="/articles"
+              to="/articles/myopie"
               className={"linkContainer " + (active == "articles" ? "isActive" : "")}
             >
               <p>Articles</p>
