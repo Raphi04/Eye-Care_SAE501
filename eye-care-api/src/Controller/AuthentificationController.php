@@ -18,10 +18,10 @@ class AuthentificationController extends AbstractController
     {        
         define('DEFAULT_ROLE', 'ROLE_USER');
 
-        $data = json_decode($request->getContent(), true);
-        $email = $data['email'];
-        $username = $data['username'];
-        $password = $data['password'];
+        $requestData = json_decode($request->getContent(), true);
+        $email = $requestData['email'];
+        $username = $requestData['username'];
+        $password = $requestData['password'];
         
         $userByEmail = $entityManager->getRepository(User::class)->findOneBy(['email' => $email]);
         $userByUsername = $entityManager->getRepository(User::class)->findOneBy(['username' => $username]);
@@ -39,20 +39,24 @@ class AuthentificationController extends AbstractController
         $user->setRoles([DEFAULT_ROLE]);
 
         $tokenService->setUserTokenAndExpiration($user, false);
-        $apiToken = $user->getApiToken();
 
         $entityManager->persist($user);
         $entityManager->flush();
 
-        return new JsonResponse($apiToken, Response::HTTP_CREATED);
+        $data[] = [
+            'api_token' => $user->getApiToken(),
+            'username' => $user->getUsername(),
+        ];
+
+        return new JsonResponse($data, Response::HTTP_CREATED);
     }
     
     #[Route('/login', name: 'login', methods: ['GET'])]
     public function login(TokenService $tokenService, Request $request, EntityManagerInterface $entityManager): JsonResponse
     {
-        $data = json_decode($request->getContent(), true);
-        $email = $data['email'];
-        $password = $data['password'];
+        $requestData = json_decode($request->getContent(), true);
+        $email = $requestData['email'];
+        $password = $requestData['password'];
 
         $user = $entityManager->getRepository(User::class)->findOneBy(['email' => $email]);
         if (!$user) {
@@ -65,12 +69,35 @@ class AuthentificationController extends AbstractController
         }
 
         $tokenService->setUserTokenAndExpiration($user, false);
-        $apiToken = $user->getApiToken();
 
         $entityManager->persist($user);
         $entityManager->flush();
 
-        return new JsonResponse($apiToken, Response::HTTP_CREATED);
+        $data[] = [
+            'api_token' => $user->getApiToken(),
+            'username' => $user->getUsername(),
+        ];
+
+        return new JsonResponse($data, Response::HTTP_CREATED);
+    }
+
+    #[Route('/private/logout', name: 'logout', methods: ['POST'])]
+    public function logout(TokenService $tokenService, Request $request, EntityManagerInterface $entityManager): JsonResponse
+    {
+        if(!$request->headers->has('auth-token'))
+        {
+            return new JsonResponse(['message' => 'No ApiToken Provided'], Response::HTTP_NOT_FOUND);
+        }
+        $apiToken = $request->headers->get('auth-token');
+
+        $user = $entityManager->getRepository(User::class)->findOneBy(['apiToken' => $apiToken]);
+        if (!$user) {
+            return new JsonResponse(['message' => 'User not found'], Response::HTTP_NOT_FOUND);
+        }
+        
+        $tokenService->removeToken($user);
+
+        return new JsonResponse("Token Removed", Response::HTTP_CREATED);
     }
 
     // Fonction de test temporaire
