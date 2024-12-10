@@ -4,14 +4,17 @@ namespace App\Service;
 
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class UserService
 {
     private EntityManagerInterface $entityManager;
+    private UserPasswordHasherInterface $passwordHasher;
 
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher)
     {
         $this->entityManager = $entityManager;
+        $this->passwordHasher = $passwordHasher;
     }
 
     public function findUserByPropriety(string $propriety, string $value): ?User
@@ -26,9 +29,11 @@ class UserService
         define('DEFAULT_ROLE', 'ROLE_USER');
 
         $user = new User();
+        $hashedPassword = $this->passwordHasher->hashPassword($user, $password);
+
         $user->setEmail($email);
         $user->setUsername($username);
-        $user->setPassword($password);
+        $user->setPassword($hashedPassword);
         $user->setRoles([DEFAULT_ROLE]);
 
         return $user;
