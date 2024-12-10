@@ -26,7 +26,7 @@ class AuthentificationController extends AbstractController
     }
 
     #[Route('/register', name: 'register', methods: ['POST'])]
-    public function createUser(Request $request): JsonResponse
+    public function register(Request $request): JsonResponse
     {        
         $requestData = json_decode($request->getContent(), true);
         $email = $requestData['email'];
