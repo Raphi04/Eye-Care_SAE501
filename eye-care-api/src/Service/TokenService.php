@@ -14,20 +14,15 @@ class TokenService
         $this->entityManager = $entityManager;
     }
 
-    public function verifyTokenAlreadyUsed(string $token): bool
-    {
-        $userByApiToken = $this->entityManager->getRepository(User::class)->findOneBy(['apiToken' => $token]);
-        if ($userByApiToken) {
-            $randomToken = bin2hex(random_bytes(16));
-            $this->verifyTokenAlreadyUsed($randomToken);
-        }
-        return true;
-    }
-
     public function generateToken(): string
     {
-        $randomToken = bin2hex(random_bytes(16));
-        $this->verifyTokenAlreadyUsed($randomToken);
+        do
+        {
+            $randomToken = bin2hex(random_bytes(16));
+            $userByApiToken = $this->entityManager->getRepository(User::class)->findOneBy(['apiToken' => $randomToken]);
+        }
+        while ($userByApiToken !== null);
+        
         return $randomToken;
     }
 
@@ -37,9 +32,9 @@ class TokenService
 
         $user->setApiToken($randomToken);
         
-        $this->entityManager->persist($user);
         if ($flush)
         {
+            $this->entityManager->persist($user);
             $this->entityManager->flush();
         }
     }
@@ -57,9 +52,9 @@ class TokenService
         $tokenExpiresAt = $this->getDatePlus72Hours();
         $user->setTokenExpiresAt($tokenExpiresAt);
         
-        $this->entityManager->persist($user);
         if ($flush)
         {
+            $this->entityManager->persist($user);
             $this->entityManager->flush();
         }
     }
