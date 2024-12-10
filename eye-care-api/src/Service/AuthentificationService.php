@@ -4,9 +4,16 @@ namespace App\Service;
 
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class AuthentificationService
 {
+    private UserPasswordHasherInterface $passwordHasher;
+
+    public function __construct(UserPasswordHasherInterface $passwordHasher)
+    {
+        $this->passwordHasher = $passwordHasher;
+    }
     public function getUserIdentifiers(User $user): array
     {
         return $data = [
@@ -17,10 +24,6 @@ class AuthentificationService
 
     public function isPasswordCorrect(User $user, string $password): bool
     {
-        $realPassword = $user->getPassword();
-        if ($realPassword !== $password) {
-            return false;
-        }
-        return true;
+        return $this->passwordHasher->isPasswordValid($user, $password);
     }
 }
