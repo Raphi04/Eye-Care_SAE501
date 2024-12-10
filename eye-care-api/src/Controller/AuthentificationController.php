@@ -7,24 +7,34 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\User;
 use App\Service\TokenService;
+use App\Service\UserService;
+use App\Service\AuthentificationService;
 
 class AuthentificationController extends AbstractController
 {
-    #[Route('/register', name: 'register', methods: ['POST'])]
-    public function createUser(TokenService $tokenService, Request $request, EntityManagerInterface $entityManager): JsonResponse
-    {        
-        define('DEFAULT_ROLE', 'ROLE_USER');
+    private AuthentificationService $authentificationService;
+    private TokenService $tokenService;
+    private UserService $userService;
 
+    public function __construct(AuthentificationService $authentificationService, TokenService $tokenService, UserService $userService)
+    {
+        $this->authentificationService = $authentificationService;
+        $this->tokenService = $tokenService;
+        $this->userService = $userService;
+    }
+
+    #[Route('/register', name: 'register', methods: ['POST'])]
+    public function createUser(Request $request): JsonResponse
+    {        
         $requestData = json_decode($request->getContent(), true);
         $email = $requestData['email'];
         $username = $requestData['username'];
         $password = $requestData['password'];
         
-        $userByEmail = $entityManager->getRepository(User::class)->findOneBy(['email' => $email]);
-        $userByUsername = $entityManager->getRepository(User::class)->findOneBy(['username' => $username]);
+        $userByEmail = $this->userService->findUserByPropriety("email", $email);
+        $userByUsername = $this->userService->findUserByPropriety("username", $username);
         if ($userByEmail) {
             return new JsonResponse(['message' => 'Email already exist'], Response::HTTP_NOT_FOUND);
         }
@@ -32,70 +42,55 @@ class AuthentificationController extends AbstractController
             return new JsonResponse(['message' => 'Username already exist'], Response::HTTP_NOT_FOUND);
         }
 
-        $user = new User();
-        $user->setEmail($email);
-        $user->setUsername($username);
-        $user->setPassword($password);
-        $user->setRoles([DEFAULT_ROLE]);
+        $user = $this->userService->createUser($email, $username, $password);
+        $this->tokenService->setUserTokenAndExpiration($user, false);
+        $this->userService->persistAndFlush($user);
 
-        $tokenService->setUserTokenAndExpiration($user, false);
-
-        $entityManager->persist($user);
-        $entityManager->flush();
-
-        $data[] = [
-            'api_token' => $user->getApiToken(),
-            'username' => $user->getUsername(),
-        ];
+        $data = $this->authentificationService->getUserIdentifiers($user);
 
         return new JsonResponse($data, Response::HTTP_CREATED);
     }
     
     #[Route('/login', name: 'login', methods: ['GET'])]
-    public function login(TokenService $tokenService, Request $request, EntityManagerInterface $entityManager): JsonResponse
+    public function login(Request $request): JsonResponse
     {
         $requestData = json_decode($request->getContent(), true);
         $email = $requestData['email'];
         $password = $requestData['password'];
 
-        $user = $entityManager->getRepository(User::class)->findOneBy(['email' => $email]);
+        $user = $this->userService->findUserByPropriety("email", $email);
         if (!$user) {
             return new JsonResponse(['message' => 'User not found'], Response::HTTP_NOT_FOUND);
         }
 
-        $realPassword = $user->getPassword();
-        if ($realPassword !== $password) {
+        $passwordIsCorrect = $this->authentificationService->isPasswordCorrect($user, $password);
+        if (!$passwordIsCorrect) {
             return new JsonResponse(['message' => 'Uncorrect password'],Response::HTTP_NOT_FOUND);
         }
 
-        $tokenService->setUserTokenAndExpiration($user, false);
-
-        $entityManager->persist($user);
-        $entityManager->flush();
-
-        $data[] = [
-            'api_token' => $user->getApiToken(),
-            'username' => $user->getUsername(),
-        ];
+        $this->tokenService->setUserTokenAndExpiration($user, false);
+        $this->userService->persistAndFlush($user);
+        $data = $this->authentificationService->getUserIdentifiers($user);
 
         return new JsonResponse($data, Response::HTTP_CREATED);
     }
 
     #[Route('/private/logout', name: 'logout', methods: ['POST'])]
-    public function logout(TokenService $tokenService, Request $request, EntityManagerInterface $entityManager): JsonResponse
+    public function logout(Request $request): JsonResponse
     {
         if(!$request->headers->has('auth-token'))
         {
             return new JsonResponse(['message' => 'No ApiToken Provided'], Response::HTTP_NOT_FOUND);
         }
-        $apiToken = $request->headers->get('auth-token');
 
-        $user = $entityManager->getRepository(User::class)->findOneBy(['apiToken' => $apiToken]);
+        $apiToken = $request->headers->get('auth-token');
+        $user = $this->userService->findUserByPropriety("apiToken", $apiToken);
+
         if (!$user) {
             return new JsonResponse(['message' => 'User not found'], Response::HTTP_NOT_FOUND);
         }
         
-        $tokenService->removeToken($user);
+        $this->tokenService->removeToken($user);
 
         return new JsonResponse("Token Removed", Response::HTTP_CREATED);
     }
