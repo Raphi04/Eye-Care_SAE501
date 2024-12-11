@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -40,6 +42,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $tokenExpiresAt = null;
+
+    /**
+     * @var Collection<int, UserVisionDisorder>
+     */
+    #[ORM\OneToMany(targetEntity: UserVisionDisorder::class, mappedBy: 'user')]
+    private Collection $userVisionDisorders;
+
+    public function __construct()
+    {
+        $this->userVisionDisorders = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -167,4 +180,34 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     //     return $this;
     // }
+
+    /**
+     * @return Collection<int, UserVisionDisorder>
+     */
+    public function getUserVisionDisorders(): Collection
+    {
+        return $this->userVisionDisorders;
+    }
+
+    public function addUserVisionDisorder(UserVisionDisorder $userVisionDisorder): static
+    {
+        if (!$this->userVisionDisorders->contains($userVisionDisorder)) {
+            $this->userVisionDisorders->add($userVisionDisorder);
+            $userVisionDisorder->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserVisionDisorder(UserVisionDisorder $userVisionDisorder): static
+    {
+        if ($this->userVisionDisorders->removeElement($userVisionDisorder)) {
+            // set the owning side to null (unless already changed)
+            if ($userVisionDisorder->getUser() === $this) {
+                $userVisionDisorder->setUser(null);
+            }
+        }
+
+        return $this;
+    }
 }
