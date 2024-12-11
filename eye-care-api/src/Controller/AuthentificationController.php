@@ -75,7 +75,7 @@ class AuthentificationController extends AbstractController
         return new JsonResponse($data, Response::HTTP_CREATED);
     }
 
-    #[Route('/private/logout', name: 'logout', methods: ['POST'])]
+    #[Route('/profile/logout', name: 'logout', methods: ['POST'])]
     public function logout(Request $request): JsonResponse
     {
         if(!$request->headers->has('auth-token'))
@@ -96,23 +96,16 @@ class AuthentificationController extends AbstractController
     }
 
     // Fonction de test temporaire
-    #[Route('/private/api_token_test', name: 'api_token_test', methods: ['GET'])]
+    #[Route('/profile/api_token_test', name: 'api_token_test', methods: ['GET'])]
     public function apiTokenWorks(): JsonResponse
     {
-        return new JsonResponse("Est authentifié", Response::HTTP_OK);
+        return new JsonResponse("Est authentifié en tant que user", Response::HTTP_OK);
     }
 
-    // // Fonction de test temporaire
-    // #[Route('/admin/test', name: 'admin_role_test', methods: ['GET'])]
-    // public function adminRoleWorks(): JsonResponse
-    // {
-    //     return new JsonResponse("Est admin", Response::HTTP_OK);
-    // }
-
-    // // Fonction de test temporaire
-    // #[Route('/profile/test', name: 'user_role_test', methods: ['GET'])]
-    // public function userRoleWorks(): JsonResponse
-    // {
-    //     return new JsonResponse("Est user", Response::HTTP_OK);
-    // }
+    // Fonction de test temporaire
+    #[Route('/admin/test', name: 'admin_role_test', methods: ['GET'])]
+    public function adminRoleWorks(): JsonResponse
+    {
+        return new JsonResponse("Est admin", Response::HTTP_OK);
+    }
 }
