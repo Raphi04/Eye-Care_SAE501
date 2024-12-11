@@ -36,10 +36,10 @@ class AuthentificationController extends AbstractController
         $userByEmail = $this->userService->findUserByPropriety("email", $email);
         $userByUsername = $this->userService->findUserByPropriety("username", $username);
         if ($userByEmail) {
-            return new JsonResponse(['message' => 'Email already exist'], Response::HTTP_NOT_FOUND);
+            return new JsonResponse(['message' => 'Email already exist'], Response::HTTP_CONFLICT);
         }
         if ($userByUsername) {
-            return new JsonResponse(['message' => 'Username already exist'], Response::HTTP_NOT_FOUND);
+            return new JsonResponse(['message' => 'Username already exist'], Response::HTTP_CONFLICT);
         }
 
         $user = $this->userService->createUser($email, $username, $password);
@@ -65,14 +65,14 @@ class AuthentificationController extends AbstractController
 
         $passwordIsCorrect = $this->authentificationService->isPasswordCorrect($user, $password);
         if (!$passwordIsCorrect) {
-            return new JsonResponse(['message' => 'Uncorrect password'],Response::HTTP_NOT_FOUND);
+            return new JsonResponse(['message' => 'Incorrect password'],Response::HTTP_UNAUTHORIZED);
         }
 
         $this->tokenService->setUserTokenAndExpiration($user, false);
         $this->userService->persistAndFlush($user);
         $data = $this->authentificationService->getUserIdentifiers($user);
 
-        return new JsonResponse($data, Response::HTTP_CREATED);
+        return new JsonResponse($data, Response::HTTP_OK);
     }
 
     #[Route('/profile/logout', name: 'logout', methods: ['POST'])]
@@ -80,7 +80,7 @@ class AuthentificationController extends AbstractController
     {
         if(!$request->headers->has('auth-token'))
         {
-            return new JsonResponse(['message' => 'No ApiToken Provided'], Response::HTTP_NOT_FOUND);
+            return new JsonResponse(['message' => 'No ApiToken Provided'], Response::HTTP_BAD_REQUEST);
         }
 
         $apiToken = $request->headers->get('auth-token');
@@ -92,20 +92,20 @@ class AuthentificationController extends AbstractController
         
         $this->tokenService->removeToken($user);
 
-        return new JsonResponse("Token Removed", Response::HTTP_CREATED);
+        return new JsonResponse("Token Removed", Response::HTTP_OK);
     }
 
     // Fonction de test temporaire
     #[Route('/profile/api_token_test', name: 'api_token_test', methods: ['GET'])]
     public function apiTokenWorks(): JsonResponse
     {
-        return new JsonResponse("Est authentifié en tant que user", Response::HTTP_OK);
+        return new JsonResponse("Is connected as user", Response::HTTP_OK);
     }
 
     // Fonction de test temporaire
     #[Route('/admin/test', name: 'admin_role_test', methods: ['GET'])]
     public function adminRoleWorks(): JsonResponse
     {
-        return new JsonResponse("Est admin", Response::HTTP_OK);
+        return new JsonResponse("Is admin", Response::HTTP_OK);
     }
 }

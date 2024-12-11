@@ -39,7 +39,7 @@ class ApiTokenAuthenticator extends AbstractAuthenticator
     {
         $user = $token->getUser();
         if (!$this->tokenService->isTokenValid($user)) {
-            throw new CustomUserMessageAuthenticationException('Token expired.');
+            return new JsonResponse(['message' => 'ApiToken expired'], Response::HTTP_UNAUTHORIZED);
         }
 
         $this->tokenService->setTokenExpiration($user, true);
