@@ -5,16 +5,8 @@ interface AppProps {
 }
 
 export default function App({ token }: AppProps) {
-  if (token !== "gzfeiynkz45z") {
-    return (
-      <>
-        <Navigate to="/login"></Navigate>
-      </>
-    );
+  if (token !== "") {
+    return <Navigate to="/login" />;
   }
-  return (
-    <>
-      <Outlet />
-    </>
-  );
+  return <Outlet />;
 }
