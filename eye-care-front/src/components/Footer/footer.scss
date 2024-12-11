@@ -1,8 +1,13 @@
-#orga {
+footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.orga {
   display: flex;
   justify-content: space-between;
   text-align: center;
-  height: 100%;
+  width: 100%;
   background-color: $white;
   padding: 2rem 0rem 2rem 0rem;
   body.dark & {
@@ -29,7 +34,7 @@
       color: $white;
     }
   }
-  #cr {
+  .cr {
     font-family: $fontBold;
   }
   a {
@@ -60,11 +65,4 @@
       transform-origin: left;
     }
   }
-}
-hr {
-  text-align: center;
-  margin-top: 2%;
-  border-top: 0.1rem solid $blueLight;
-  width: 80%;
-  align-items: center;
 }

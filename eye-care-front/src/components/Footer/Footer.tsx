@@ -5,8 +5,7 @@ export default function Footer() {
   return (
     <>
       <footer>
-        <hr></hr>
-        <div id="orga">
+        <div className="orga">
           <div>
             <h2>Navigation</h2>
             <p>
@@ -52,7 +51,7 @@ export default function Footer() {
                 Arnaud LE MOIL
               </a>
             </p>
-            <p id="cr">
+            <p className="cr">
               Copyright ©2024 - Tous droits réservés -
               <Link to="/mention-légal"> Mentions légales</Link>
             </p>
