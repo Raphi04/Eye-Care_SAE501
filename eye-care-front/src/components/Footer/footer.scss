@@ -1,4 +1,4 @@
-footer {
+#orga {
   display: flex;
   justify-content: space-between;
   text-align: center;
@@ -13,6 +13,13 @@ footer {
     flex-direction: column;
     gap: 2rem;
     width: 33%;
+    h2 {
+      font-size: 24px;
+      font-family: $fontBold;
+      body.dark & {
+        color: $white;
+      }
+    }
   }
   p {
     color: $blueBlack;
@@ -21,6 +28,9 @@ footer {
     body.dark & {
       color: $white;
     }
+  }
+  #cr {
+    font-family: $fontBold;
   }
   a {
     color: $blueBlack;
@@ -51,15 +61,10 @@ footer {
     }
   }
 }
-div {
-  h2 {
-    font-size: 24px;
-    font-family: $fontBold;
-    body.dark & {
-      color: $white;
-    }
-  }
-}
-#cr {
-  font-family: $fontBold;
+hr {
+  text-align: center;
+  margin-top: 2%;
+  border-top: 0.1rem solid $blueLight;
+  width: 80%;
+  align-items: center;
 }
