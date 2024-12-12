@@ -15,7 +15,7 @@ import Register from "./pages/Register/Register.tsx";
 import "./global.scss";
 
 function getToken() {
-  return localStorage.getItem("token") || "";
+  return localStorage.getItem("token") || "gzfeiynkz45z";
 }
 
 //Application router

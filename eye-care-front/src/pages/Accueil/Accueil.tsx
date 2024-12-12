@@ -10,7 +10,7 @@ export default function Accueil() {
   return (
     <>
       <Header active={"accueil"} />
-      <main>
+      <main className="accueil">
         <h1>BIENVENUE</h1>
         <section className="welcomeContainer">
           <article className="textContainer">
