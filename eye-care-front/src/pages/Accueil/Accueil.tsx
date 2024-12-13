@@ -16,19 +16,21 @@ export default function Accueil() {
           <article className="textContainer">
             <h2>Qu'est ce qu'Eye-Care ?</h2>
             <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nibh elit, tincidunt at
-              sapien id, commodo ornare dolor. Praesent pellentesque et est sit amet congue. Aliquam
-              erat volutpat. Suspendisse molestie porttitor lacus a convallis. Praesent lacinia
-              purus vel lacus pulvinar, ac ultricies neque scelerisque. Sed non imperdiet nisl.
-              Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis
-              egestas. Aenean vehicula augue nec risus rhoncus interdum.
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
+              nibh elit, tincidunt at sapien id, commodo ornare dolor. Praesent
+              pellentesque et est sit amet congue. Aliquam erat volutpat.
+              Suspendisse molestie porttitor lacus a convallis. Praesent lacinia
+              purus vel lacus pulvinar, ac ultricies neque scelerisque. Sed non
+              imperdiet nisl. Pellentesque habitant morbi tristique senectus et
+              netus et malesuada fames ac turpis egestas. Aenean vehicula augue
+              nec risus rhoncus interdum.
             </p>
           </article>
 
           <Link to="/articles">
             <article className="articleContainer">
               <h2>Se renseigner sur la myopie</h2>
-              <img src="./src/assets/myopie.png" />
+              <img src="./src/assets/footer.png" />
             </article>
           </Link>
         </section>
@@ -37,15 +39,18 @@ export default function Accueil() {
           <article className="textContainer">
             <h2>Comment fonctionne un œil</h2>
             <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nibh elit, tincidunt at
-              sapien id, commodo ornare dolor. Praesent pellentesque et est sit amet congue. Aliquam
-              erat volutpat. Suspendisse molestie porttitor lacus a convallis. Praesent lacinia
-              purus vel lacus pulvinar, ac ultricies neque scelerisque. Sed non imperdiet nisl.
-              Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis
-              egestas. Aenean vehicula augue nec risus rhoncus interdum.
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
+              nibh elit, tincidunt at sapien id, commodo ornare dolor. Praesent
+              pellentesque et est sit amet congue. Aliquam erat volutpat.
+              Suspendisse molestie porttitor lacus a convallis. Praesent lacinia
+              purus vel lacus pulvinar, ac ultricies neque scelerisque. Sed non
+              imperdiet nisl. Pellentesque habitant morbi tristique senectus et
+              netus et malesuada fames ac turpis egestas. Aenean vehicula augue
+              nec risus rhoncus interdum.
             </p>
             <Link to="/articles" className="button button-white">
-              VOIR L'ARTICLE <FontAwesomeIcon icon={faArrowRight} className="arrow" />
+              VOIR L'ARTICLE{" "}
+              <FontAwesomeIcon icon={faArrowRight} className="arrow" />
             </Link>
           </article>
           <article className="bigEyes">
@@ -60,15 +65,18 @@ export default function Accueil() {
           <article className="textContainer">
             <h2>Testez votre vue</h2>
             <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nibh elit, tincidunt at
-              sapien id, commodo ornare dolor. Praesent pellentesque et est sit amet congue. Aliquam
-              erat volutpat. Suspendisse molestie porttitor lacus a convallis. Praesent lacinia
-              purus vel lacus pulvinar, ac ultricies neque scelerisque. Sed non imperdiet nisl.
-              Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis
-              egestas. Aenean vehicula augue nec risus rhoncus interdum.
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
+              nibh elit, tincidunt at sapien id, commodo ornare dolor. Praesent
+              pellentesque et est sit amet congue. Aliquam erat volutpat.
+              Suspendisse molestie porttitor lacus a convallis. Praesent lacinia
+              purus vel lacus pulvinar, ac ultricies neque scelerisque. Sed non
+              imperdiet nisl. Pellentesque habitant morbi tristique senectus et
+              netus et malesuada fames ac turpis egestas. Aenean vehicula augue
+              nec risus rhoncus interdum.
             </p>
             <Link to="/tests" className="button button-blue">
-              TESTEZ VOTRE VUE <FontAwesomeIcon icon={faArrowRight} className="arrow" />
+              TESTEZ VOTRE VUE{" "}
+              <FontAwesomeIcon icon={faArrowRight} className="arrow" />
             </Link>
           </article>
         </section>
@@ -102,9 +110,10 @@ export default function Accueil() {
           <article className="discussion1">
             <div>
               <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nibh elit, tincidunt
-                at sapien id, commodo ornare dolor. Praesent pellentesque et est sit amet congue.
-                Aliquam erat volutpat. Suspendisse molestie porttitor lacus a convallis.
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
+                nibh elit, tincidunt at sapien id, commodo ornare dolor.
+                Praesent pellentesque et est sit amet congue. Aliquam erat
+                volutpat. Suspendisse molestie porttitor lacus a convallis.
               </p>
               <div className="username">
                 <p>John Doe</p>
@@ -116,9 +125,10 @@ export default function Accueil() {
           <article className="discussion2">
             <div>
               <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nibh elit, tincidunt
-                at sapien id, commodo ornare dolor. Praesent pellentesque et est sit amet congue.
-                Aliquam erat volutpat. Suspendisse molestie porttitor lacus a convallis.
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
+                nibh elit, tincidunt at sapien id, commodo ornare dolor.
+                Praesent pellentesque et est sit amet congue. Aliquam erat
+                volutpat. Suspendisse molestie porttitor lacus a convallis.
               </p>
               <div className="username">
                 <p>John Doe</p>
@@ -128,7 +138,10 @@ export default function Accueil() {
           </article>
           <Link to="/blog" className="button button-blue end">
             ACCEDER AU BLOG
-            <FontAwesomeIcon icon={faArrowRight} className="arrow"></FontAwesomeIcon>
+            <FontAwesomeIcon
+              icon={faArrowRight}
+              className="arrow"
+            ></FontAwesomeIcon>
           </Link>
         </section>
       </main>
