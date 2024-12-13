@@ -1,5 +1,5 @@
 //Dependencies
-import { StrictMode, useEffect, useState } from "react";
+import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { createBrowserRouter, RouterProvider, Navigate } from "react-router-dom";
 
@@ -11,8 +11,12 @@ import Tests from "./pages/Tests/Tests.tsx";
 import Articles from "./pages/Articles/Articles.tsx";
 import Login from "./pages/Login/Login.tsx";
 import Register from "./pages/Register/Register.tsx";
+import Myopie from "./pages/Articles/Myopie.tsx";
 
 import "./global.scss";
+import Presbytie from "./pages/Articles/Presbytie.tsx";
+import Daltonisme from "./pages/Articles/Daltonisme.tsx";
+import Astigmatisme from "./pages/Articles/Astigmatisme.tsx";
 
 function getToken() {
   return "gzfeiynkz45z";
@@ -43,6 +47,31 @@ const router = createBrowserRouter([
       {
         path: "/articles",
         element: <Articles />,
+        children: [
+          {
+            path: "",
+            element: <Navigate to="myopie" replace />,
+          },
+          {
+            path: "myopie",
+            element: <Myopie />,
+          },
+
+          {
+            path: "presbytie",
+            element: <Presbytie />,
+          },
+
+          {
+            path: "daltonisme",
+            element: <Daltonisme />,
+          },
+
+          {
+            path: "astigmatisme",
+            element: <Astigmatisme />,
+          },
+        ],
       },
       {
         path: "/tests",
