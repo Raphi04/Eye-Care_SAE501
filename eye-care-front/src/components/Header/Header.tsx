@@ -1,12 +1,15 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
+
+import DayNightMode from "../DayNightMode/DayNightMode";
 
 import EyeCareLogo from "../../assets/Eye_care_proposition_finale.svg?react";
 
 import "./header.scss";
-import DayNightMode from "../DayNightMode/DayNightMode";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRightFromBracket } from "@fortawesome/free-solid-svg-icons";
-import { useState } from "react";
+
 interface HeaderProps {
   active: string;
 }

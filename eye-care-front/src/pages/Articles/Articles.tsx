@@ -8,9 +8,9 @@ import ScrollToTop from "../../components/ScrollToTop";
 export default function Articles() {
   return (
     <>
-      <ScrollToTop />
       <Header active="articles" />
       <Outlet />
+      <ScrollToTop />
       <Footer />
     </>
   );

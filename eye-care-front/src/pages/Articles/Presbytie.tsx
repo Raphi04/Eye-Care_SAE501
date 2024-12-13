@@ -6,6 +6,7 @@ import Glasses from "../../assets/glasses.svg?react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import CommentsSection from "../../components/CommentsSection/CommentsSection";
 
 export default function Presbytie() {
   return (
@@ -126,7 +127,9 @@ export default function Presbytie() {
             </Link>
           </article>
         </section>
-      </main>{" "}
+
+        <CommentsSection />
+      </main>
     </>
   );
 }

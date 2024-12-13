@@ -1,0 +1,380 @@
+.commentSection {
+  width: 100%;
+  padding: 65px;
+  margin-top: 5rem;
+  display: flex;
+  flex-direction: column;
+  background-color: $white;
+  box-shadow: $boxShadowLight;
+  transition: background-color 0.3s ease-out;
+
+  body.dark & {
+    background-color: $blueBlack;
+    box-shadow: $boxShadowBlue;
+  }
+
+  .firstCommentSection {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+
+    h2 {
+      font-size: 2rem;
+      font-family: $fontBold;
+      color: $blueBlack;
+      transition: color 0.3s ease-out;
+
+      body.dark & {
+        color: $white;
+      }
+    }
+
+    hr {
+      margin: 1rem 0 2.5rem 0;
+      border-top: 1px solid $blueBlack;
+    }
+
+    .writeCommentContainer {
+      width: 100%;
+      padding: 0 250px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      .writeComment {
+        position: relative;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+
+        .userIcon {
+          position: absolute;
+          top: 0;
+          left: -75px;
+          width: 50px;
+          height: 50px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 100%;
+          background-color: $blueBlack;
+          transition: background-color 0.3s ease-out;
+
+          body.dark & {
+            background-color: $white;
+          }
+
+          p {
+            font-size: 1.5rem;
+            font-family: $fontBold;
+            color: $white;
+
+            body.dark & {
+              color: $blueBlack;
+            }
+          }
+        }
+
+        textarea {
+          position: relative;
+          width: 100%;
+          height: 125px;
+          padding: 15px;
+          font-size: 1.2rem;
+          border: 2px solid $blueBlack;
+          border-radius: 15px;
+          resize: none;
+          transition: background-color 0.3s ease-out, border-color 0.3s ease-out;
+
+          body.dark & {
+            background-color: $blueBlack;
+            color: $white;
+            border-color: $white;
+          }
+        }
+
+        .sendCommentContainer {
+          width: 100%;
+          display: flex;
+          align-items: center;
+
+          .sendComment {
+            cursor: pointer;
+            padding: 10px 45px;
+            font-size: 1.5rem;
+            font-family: $fontBold;
+            color: $white;
+            border: none;
+            border-radius: 15px;
+            background-color: $blueBlack;
+            transition: background-color 0.3s ease-out;
+
+            &:hover {
+              background-color: $blueBlackHover;
+            }
+
+            body.dark & {
+              background-color: $white;
+              color: $blueBlack;
+
+              &:hover {
+                background-color: $whiteHover;
+              }
+            }
+          }
+
+          .sendingInfo {
+            flex: 1;
+            p {
+              font-size: 1.2rem;
+              color: $blueBlack;
+              transition: color 0.3s ease-out;
+
+              &.success {
+                color: $green;
+              }
+
+              &.error {
+                color: $red;
+              }
+
+              body.dark & {
+                color: $white;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .secondCommentSection {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+
+    h2 {
+      font-size: 2rem;
+      font-family: $fontBold;
+      color: $blueBlack;
+      transition: color 0.3s ease-out;
+
+      body.dark & {
+        color: $white;
+      }
+    }
+
+    hr {
+      margin: 1rem 0 2.5rem 0;
+      border-top: 1px solid $blueBlack;
+    }
+
+    .commentsContainer {
+      width: 100%;
+      padding: 0 250px;
+      display: flex;
+      flex-direction: column;
+      gap: 4rem;
+
+      .commentAndReplyContainer {
+        display: flex;
+        flex-direction: column;
+        gap: 2.5rem;
+
+        %commentsStyle {
+          position: relative;
+          display: flex;
+          gap: 1.2rem;
+
+          .userIcon {
+            position: absolute;
+            top: 0;
+            left: -75px;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: $blueBlack;
+            border-radius: 100%;
+            transition: background-color 0.3s ease-out;
+
+            body.dark & {
+              background-color: $white;
+            }
+
+            p {
+              font-size: 1.5rem;
+              font-family: $fontBold;
+              color: $white;
+              transition: color 0.3s ease-out;
+
+              body.dark & {
+                color: $blueBlack;
+              }
+            }
+          }
+
+          .commentInformations {
+            position: relative;
+            width: fit-content;
+            display: flex;
+            flex-direction: column;
+            gap: 0.7rem;
+
+            .commentHeader {
+              width: fit-content;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              gap: 0.8rem;
+
+              p.user {
+                font-size: 1.2rem;
+                color: $blueBlack;
+                font-weight: bold;
+                transition: color 0.3s ease-out;
+
+                body.dark & {
+                  color: $white;
+                }
+              }
+
+              div.userRole {
+                padding: 5px 8px;
+                font-size: 1rem;
+                border-radius: 8px;
+                color: $white;
+
+                &.professionnel {
+                  background-color: $blueStrong;
+                }
+
+                &.admin {
+                  background-color: $darkOrange;
+                }
+
+                svg {
+                  margin-left: 2px;
+                }
+              }
+
+              p.date {
+                font-size: 1rem;
+                color: rgb(146, 146, 146);
+                transition: color 0.3s ease-out;
+
+                body.dark & {
+                  color: rgb(211, 211, 211);
+                }
+              }
+            }
+
+            .commentText {
+              font-size: 1.2rem;
+              color: $blueBlack;
+              text-align: justify;
+              transition: color 0.3s ease-out;
+
+              body.dark & {
+                color: $white;
+              }
+            }
+
+            .showReplies {
+              width: fit-content;
+              cursor: pointer;
+              color: $blueStrong;
+              padding-bottom: 5px;
+              border-bottom: 1px solid $blueStrong;
+              transition: color 0.3s ease-out, border-bottom 0.3s ease-out;
+
+              body.dark & {
+                color: $white;
+                border-bottom: 1px solid $white;
+              }
+
+              svg {
+                margin-right: 8px;
+              }
+            }
+
+            .commentValue {
+              position: absolute;
+              bottom: 0px;
+              right: -175px;
+              width: 150px;
+              display: flex;
+              justify-content: center;
+              align-items: end;
+              gap: 1.5rem;
+
+              > div {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 0.5rem;
+
+                p,
+                svg {
+                  font-size: 1.2rem;
+                  color: $blueBlack;
+                  transition: color 0.3s ease-out;
+
+                  body.dark & {
+                    color: $white;
+                  }
+                }
+
+                svg {
+                  &.green {
+                    color: $green !important;
+                  }
+
+                  &.red {
+                    color: $red !important;
+                  }
+                }
+              }
+            }
+          }
+        }
+
+        .comment {
+          @extend %commentsStyle;
+        }
+
+        .responseContainer {
+          display: flex;
+          flex-direction: column;
+          position: relative;
+          margin-left: 8rem;
+          gap: 2.5rem;
+
+          &::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: calc(-8rem - 25px);
+            transform: translate(-50%, -50%);
+            width: 50px;
+            height: 50px;
+            border-left: 2px solid $blueBlack;
+            border-bottom: 2px solid $blueBlack;
+            border-radius: 0 0 0 10px;
+            transition: border-color 0.3s ease-out;
+
+            body.dark & {
+              border-color: $white;
+            }
+          }
+
+          .comment {
+            @extend %commentsStyle;
+          }
+        }
+      }
+    }
+  }
+}
