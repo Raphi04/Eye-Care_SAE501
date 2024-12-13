@@ -1,29 +1,32 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
+
+import DayNightMode from "../DayNightMode/DayNightMode";
 
 import EyeCareLogo from "../../assets/Eye_care_proposition_finale.svg?react";
 
 import "./header.scss";
-import DayNightMode from "../DayNightMode/DayNightMode";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRightFromBracket } from "@fortawesome/free-solid-svg-icons";
-import { useState } from "react";
+
 interface HeaderProps {
   active: string;
 }
 
 export default function Header({ active }: HeaderProps) {
   const [onProfileHover, setOnProfileHover] = useState<boolean>(false);
-  const [onArticleHover, setOnArticleHover] = useState<boolean>(false);
+  //const [onArticleHover, setOnArticleHover] = useState<boolean>(false);
 
   function handleOnProfileHover() {
     let newState = !onProfileHover;
     setOnProfileHover(newState);
   }
 
-  function handleOnArticleHover() {
-    let newState = !onProfileHover;
+  /* function handleOnArticleHover() {
+    let newState = !onArticleHover;
     setOnArticleHover(newState);
-  }
+  }*/
 
   return (
     <>
@@ -43,7 +46,7 @@ export default function Header({ active }: HeaderProps) {
             </Link>
 
             <Link
-              to="/articles"
+              to="/articles/myopie"
               className={"linkContainer " + (active == "articles" ? "isActive" : "")}
             >
               <p>Articles</p>
