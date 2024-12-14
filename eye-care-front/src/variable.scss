@@ -34,23 +34,26 @@ $fontTextLight: "Helvetica Thin";
 
 @font-face {
 	font-family: "Helvetica Thin";
-	src: url("/font/Korolev-Thin.ttf") format("truetype");
+	src: url("/font/Helvetica-Thin.ttf") format("truetype");
+	font-style: normal;
 }
 
 @font-face {
 	font-family: "Helvetica Regular";
 	font-style: normal;
-	src: url("/font/Korolev-Regular.ttf") format("truetype");
+	src: url("/font/Helvetica-Regular.ttf") format("truetype");
 }
 
 @font-face {
 	font-family: "Helvetica Bold";
-	src: url("/font/Korolev-Bold.ttf") format("truetype");
+	font-style: normal;
+	src: url("/font/Helvetica-Bold.ttf") format("truetype");
 }
 
 @font-face {
 	font-family: "Helvetica Rounded Bold";
-	src: url("/font/Korolev-Thin.ttf") format("truetype");
+	font-style: normal;
+	src: url("/font/Helvetica-Rounded-Bold.otf") format("truetype");
 }
 
 @font-face {

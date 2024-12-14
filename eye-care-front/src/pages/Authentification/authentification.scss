@@ -1,0 +1,114 @@
+main.login {
+	overflow: auto;
+
+	/* Contenu de la page d'authentification */
+
+	.mainContent {
+		&-login {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			padding-top: 25px;
+			overflow: auto;
+			margin-top: 15vh;
+		}
+
+		&-register {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			padding-top: 25px;
+			overflow: auto;
+			margin-top: 6vh;
+		}
+	}
+
+	.bgSwitch {
+		background-color: $blueBlack;
+		display: flex;
+		justify-content: center;
+		background-color: $blueBlack;
+		position: relative;
+		width: fit-content;
+		padding: 10px;
+		border-radius: 30px;
+	}
+
+	h1 {
+		font-size: 5rem;
+		color: $blueBlack;
+		font-family: $fontBolder;
+		transition: color 0.3s ease-out;
+		margin-bottom: 40px;
+	}
+
+	.buttonLogin {
+		margin-top: 30px;
+		margin-bottom: 30px;
+	}
+
+	.topScreen {
+		padding: 15px 20px;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		width: 100%;
+		max-height: 80px;
+		position: absolute;
+		top: 0;
+		left: 0;
+		z-index: 1;
+	}
+
+	.redirection {
+		font-family: $fontTextNormal;
+		position: relative;
+		margin-top: 10px;
+		font-size: 1.1em;
+
+		strong {
+			color: $blueBlack;
+		}
+	}
+
+	/* Champs de saisie */
+
+	.field {
+		display: inline-block;
+		padding: 0.7rem 1rem 0.7rem 1rem;
+		border-radius: 10px;
+		border: 0;
+		margin-bottom: 30px;
+		font-size: 1.2rem;
+
+		&::placeholder {
+			font-family: $fontTextNormal;
+			color: #a6a6a6;
+		}
+	}
+
+	.inputContainer {
+		position: relative;
+		width: 320px;
+		display: flex;
+		align-items: center;
+
+		.inputField {
+			width: 100%;
+			padding: 12px 10px 12px 40px;
+			font-size: 18px;
+			box-sizing: border-box;
+		}
+
+		.inputIcon {
+			top: 24px;
+			position: absolute;
+			left: 12px;
+			transform: translateY(-50%);
+			color: #a6a6a6;
+			pointer-events: none;
+		}
+	}
+}
