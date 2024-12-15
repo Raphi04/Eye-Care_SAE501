@@ -1,0 +1,117 @@
+html,
+body {
+  margin: 0;
+  width: 100%;
+  min-height: 100%;
+}
+
+body {
+  font-family: Helvetica;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #b4cadd;
+  background-image: url("/src/assets/eye-care-text.png");
+  background-attachment: fixed;
+  overflow-y: scroll;
+  color: $blueBlack;
+  transition: background-color 0.3s ease-out, background-image 0.3s ease-out;
+
+  &.dark {
+    background-color: $blueBlack;
+    background-image: url("/src/assets/eye-care-text-black.png");
+
+    .button-white {
+      background-color: $blueBlack;
+      color: $white;
+
+      &:hover {
+        background-color: $blueBlackHover;
+      }
+
+      &::before {
+        content: none;
+      }
+    }
+  }
+
+  * {
+    margin: 0;
+    box-sizing: border-box;
+  }
+
+  a {
+    text-decoration: none;
+
+    &.button {
+      position: relative;
+      width: fit-content;
+      padding: 10px 25px;
+      border-radius: 15px;
+      font-size: 1.8rem;
+      color: $blueBlack;
+      font-family: $fontBolder;
+      overflow: hidden;
+      z-index: 1;
+
+      &-white {
+        background-color: $white;
+        box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5);
+        transition: background-color 0.3s ease-out;
+
+        &:hover {
+          background-color: transparent;
+          color: $white;
+        }
+
+        &::before {
+          content: "";
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          opacity: 0;
+          background: $blueStrongDegrade;
+          box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+          transition: opacity 0.3s ease-out;
+          z-index: -1;
+        }
+
+        &:hover::before {
+          opacity: 1;
+        }
+      }
+
+      &-blue {
+        background: $blueStrongDegrade;
+        box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+        color: $white;
+
+        &::before {
+          content: "";
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: $blueStrongDegradeHover;
+          z-index: -1;
+          opacity: 0;
+          transition: opacity 0.3s ease-out;
+        }
+
+        &:hover::before {
+          opacity: 1;
+        }
+      }
+
+      &.end {
+        align-self: flex-end;
+      }
+
+      .arrow {
+        margin-left: 8px;
+      }
+    }
+  }
+}
