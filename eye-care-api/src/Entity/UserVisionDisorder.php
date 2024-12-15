@@ -17,7 +17,7 @@ class UserVisionDisorder
     private ?user $user = null;
 
     #[ORM\ManyToOne(inversedBy: 'userVisionDisorders')]
-    private ?visionDisorder $visionDisorder = null;
+    private ?VisionDisorder $visionDisorder = null;
 
     #[ORM\Column]
     private ?int $result = null;
@@ -39,12 +39,12 @@ class UserVisionDisorder
         return $this;
     }
 
-    public function getVisionDisorder(): ?visionDisorder
+    public function getVisionDisorder(): ?VisionDisorder
     {
         return $this->visionDisorder;
     }
 
-    public function setVisionDisorder(?visionDisorder $visionDisorder): static
+    public function setVisionDisorder(?VisionDisorder $visionDisorder): static
     {
         $this->visionDisorder = $visionDisorder;
 
