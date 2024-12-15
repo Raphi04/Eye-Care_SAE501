@@ -75,7 +75,7 @@ class AuthentificationController extends AbstractController
         return new JsonResponse($data, Response::HTTP_OK);
     }
 
-    #[Route('/profile/logout', name: 'logout', methods: ['POST'])]
+    #[Route('/user/logout', name: 'logout', methods: ['POST'])]
     public function logout(Request $request): JsonResponse
     {
         if(!$request->headers->has('auth-token'))
@@ -96,7 +96,7 @@ class AuthentificationController extends AbstractController
     }
 
     // Fonction de test temporaire
-    #[Route('/profile/api_token_test', name: 'api_token_test', methods: ['GET'])]
+    #[Route('/user/api_token_test', name: 'api_token_test', methods: ['GET'])]
     public function apiTokenWorks(): JsonResponse
     {
         return new JsonResponse("Is connected as user", Response::HTTP_OK);
