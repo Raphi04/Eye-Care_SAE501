@@ -9,104 +9,41 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\User;
-use App\Repository\UserRepository;
+use App\Service\UserService;
 
 
 class UserController extends AbstractController
 {
-    #[Route('/register', name: 'register', methods: ['POST'])]
-    public function createUser(Request $request, EntityManagerInterface $entityManager): JsonResponse
+    private EntityManagerInterface $entityManager;
+    private UserService $userService;
+
+    public function __construct(EntityManagerInterface $entityManager, UserService $userService)
     {
-        define('DEFAULT_ROLE', 'user');
-        
-        $data = json_decode($request->getContent(), true);
-        $email = $data['email'];
-        $username = $data['username'];
-        $password = $data['password'];
-        
-        // Vérifie que le compte n'existe pas déjà (email)
-        // Changer la réponse en fonction des besoins en front
-        $user = $entityManager->getRepository(User::class)->findOneBy(['email' => $email]);
-        if ($user) {
-            return new JsonResponse(['message' => 'User already exist'], JsonResponse::HTTP_NOT_FOUND
-            );
-        }
-
-        $user = new User();
-        $user->setEmail($email);
-        $user->setUsername($username);
-        $user->setPassword($password);
-        $user->setRole(DEFAULT_ROLE);
-
-        $entityManager->persist($user);
-        $entityManager->flush();
-
-        // Changer la réponse en fonction des besoins en front
-        return new JsonResponse(['status' => 'User created!'], JsonResponse::HTTP_CREATED);
-    }
-    
-    #[Route('/login', name: 'login', methods: ['GET'])]
-    public function login(Request $request, EntityManagerInterface $entityManager): JsonResponse
-    {
-        $data = json_decode($request->getContent(), true);
-        $email = $data['email'];
-        $password = $data['password'];
-
-        $user = $entityManager->getRepository(User::class)->findOneBy(['email' => $email]);
-
-        // Changer la réponse en fonction des besoins en front
-        if (!$user) {
-            return new JsonResponse(['message' => 'User not found'], JsonResponse::HTTP_NOT_FOUND
-            );
-        }
-
-        // Changer la réponse en fonction des besoins en front
-        $realPassword = $user->getPassword();
-        if ($realPassword !== $password) {
-            return new JsonResponse(
-                ['message' => 'Uncorrect password'],
-                JsonResponse::HTTP_NOT_FOUND
-            );
-        }
-
-        // Changer la réponse en fonction des besoins en front
-        return new JsonResponse(['status' => 'Login successfull!'], JsonResponse::HTTP_CREATED
-        );
+        $this->entityManager = $entityManager;
+        $this->userService = $userService;
     }
 
-    #[Route('/user', name: 'get_users', methods: ['GET'])]
-    public function getAllUsers(EntityManagerInterface $entityManager): JsonResponse
-    {
-        $users = $entityManager->getRepository(User::class)->findAll();
+    // #[Route('/user', name: 'get_users', methods: ['GET'])]
+    // public function getAllUsers(): JsonResponse
+    // {
+    //     $users = $this->entityManager->getRepository(User::class)->findAll();
+    //     if (!$users) {
+    //         return new JsonResponse(['message' => 'No users'], Response::HTTP_NOT_FOUND);
+    //     }
 
-        foreach ($users as $user) {
-            $data[] = [
-                'id' => $user->getId(),
-                'email' => $user->getEmail(),
-                'username' => $user->getUsername(),
-                'password' => $user->getPassword(),
-                'role' => $user->getRole()
-            ];
-        }
-        return new JsonResponse($data, JsonResponse::HTTP_OK);
-    }
+    //     $data = $this->userService->usersMapping($users);
+    //     return new JsonResponse($data, Response::HTTP_OK);
+    // }
 
-    #[Route('/user/{id}', name: 'get_user', methods: ['GET'])]
-    public function getUserById(int $id, EntityManagerInterface $entityManager): JsonResponse
-    {
-        $user = $entityManager->getRepository(User::class)->find($id);
-        if (!$user) {
-            return new JsonResponse(['message' => 'User not found'], JsonResponse::HTTP_NOT_FOUND
-            );
-        }
+    // #[Route('/user/{id}', name: 'get_user', methods: ['GET'])]
+    // public function getUserById(int $id): JsonResponse
+    // {
+    //     $user = $this->entityManager->getRepository(User::class)->find($id);
+    //     if (!$user) {
+    //         return new JsonResponse(['message' => 'User not found'], Response::HTTP_NOT_FOUND);
+    //     }
 
-        $data[] = [
-            'id' => $user->getId(),
-            'email' => $user->getEmail(),
-            'username' => $user->getUsername(),
-            'password' => $user->getPassword(),
-            'role' => $user->getRole()
-        ];
-        return new JsonResponse($data, JsonResponse::HTTP_OK);
-    }
+    //     $data = $this->userService->userMapping($user);
+    //     return new JsonResponse($data, Response::HTTP_OK);
+    // }
 }
