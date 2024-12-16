@@ -78,18 +78,9 @@ class AuthentificationController extends AbstractController
     #[Route('/user/logout', name: 'logout', methods: ['POST'])]
     public function logout(Request $request): JsonResponse
     {
-        if(!$request->headers->has('auth-token'))
-        {
-            return new JsonResponse(['message' => 'No ApiToken Provided'], Response::HTTP_BAD_REQUEST);
-        }
-
         $apiToken = $request->headers->get('auth-token');
         $user = $this->userService->findUserByPropriety("apiToken", $apiToken);
 
-        if (!$user) {
-            return new JsonResponse(['message' => 'User not found'], Response::HTTP_NOT_FOUND);
-        }
-        
         $this->tokenService->removeToken($user);
 
         return new JsonResponse("Token Removed", Response::HTTP_OK);
