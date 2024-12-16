@@ -43,17 +43,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $tokenExpiresAt = null;
 
-    /**
-     * @var Collection<int, UserVisionDisorder>
-     */
-    #[ORM\OneToMany(targetEntity: UserVisionDisorder::class, mappedBy: 'user')]
-    private Collection $userVisionDisorders;
-
-    public function __construct()
-    {
-        $this->userVisionDisorders = new ArrayCollection();
-    }
-
     public function getId(): ?int
     {
         return $this->id;
@@ -180,34 +169,4 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     //     return $this;
     // }
-
-    /**
-     * @return Collection<int, UserVisionDisorder>
-     */
-    public function getUserVisionDisorders(): Collection
-    {
-        return $this->userVisionDisorders;
-    }
-
-    public function addUserVisionDisorder(UserVisionDisorder $userVisionDisorder): static
-    {
-        if (!$this->userVisionDisorders->contains($userVisionDisorder)) {
-            $this->userVisionDisorders->add($userVisionDisorder);
-            $userVisionDisorder->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeUserVisionDisorder(UserVisionDisorder $userVisionDisorder): static
-    {
-        if ($this->userVisionDisorders->removeElement($userVisionDisorder)) {
-            // set the owning side to null (unless already changed)
-            if ($userVisionDisorder->getUser() === $this) {
-                $userVisionDisorder->setUser(null);
-            }
-        }
-
-        return $this;
-    }
 }
