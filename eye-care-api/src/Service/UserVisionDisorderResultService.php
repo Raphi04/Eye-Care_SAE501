@@ -42,6 +42,8 @@ class UserVisionDisorderResultService
 
     public function userVisionDisorderResultsMapping($userVisionDisorders): array
     {
+        $mappedData = [];
+
         foreach ($userVisionDisorders as $userVisionDisorder) {
             $mappedData[] = [
                 'vision_disorder' => $userVisionDisorder->getVisionDisorder()->getDisorderName(),
@@ -50,15 +52,6 @@ class UserVisionDisorderResultService
         }
 
         return $mappedData;
-    }
-
-    public function userAndVisionDisorderResultsMapping(User $user, $userVisionDisorders): array
-    {
-        return [
-            'email' => $user->getEmail(),
-            'username' => $user->getUsername(),
-            'vision_disorders' => $this->userVisionDisorderResultsMapping($userVisionDisorders)
-        ];
     }
 
     public function persistAndFlush(UserVisionDisorderResult $userVisionDisorder): void

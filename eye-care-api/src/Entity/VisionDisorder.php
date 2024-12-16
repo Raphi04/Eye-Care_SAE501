@@ -24,9 +24,16 @@ class VisionDisorder
     #[ORM\OneToMany(targetEntity: UserVisionDisorderResult::class, mappedBy: 'vision_disorder', orphanRemoval: true)]
     private Collection $userVisionDisorderResults;
 
+    /**
+     * @var Collection<int, User>
+     */
+    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'user_vision_disorder')]
+    private Collection $users;
+
     public function __construct()
     {
         $this->userVisionDisorderResults = new ArrayCollection();
+        $this->users = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -71,6 +78,33 @@ class VisionDisorder
             if ($userVisionDisorderResult->getVisionDisorder() === $this) {
                 $userVisionDisorderResult->setVisionDisorder(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    public function addUser(User $user): static
+    {
+        if (!$this->users->contains($user)) {
+            $this->users->add($user);
+            $user->addUserVisionDisorder($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(User $user): static
+    {
+        if ($this->users->removeElement($user)) {
+            $user->removeUserVisionDisorder($this);
         }
 
         return $this;

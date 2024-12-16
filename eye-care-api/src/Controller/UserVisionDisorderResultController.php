@@ -58,17 +58,4 @@ class UserVisionDisorderResultController extends AbstractController
         $this->userVisionDisorderResultService->persistAndFlush($userVisionDisorderResult);
         return new JsonResponse(['message' => 'User vision disorder updated'], Response::HTTP_CREATED);
     }
-
-    #[Route('/user/user_vision_disorder_result', name: 'get_user_and_vision_disorder_results', methods: ['GET'])]
-    public function GetUserAndVisionDisorders(Request $request): JsonResponse
-    {
-        $apiToken = $request->headers->get('auth-token');
-        $user = $this->userService->findUserByPropriety("apiToken", $apiToken);
-
-        $userVisionDisorderResults = $user->getUserVisionDisorderResults();
-
-        $data = $this->userVisionDisorderResultService->userAndVisionDisorderResultsMapping($user, $userVisionDisorderResults);
-
-        return new JsonResponse($data, Response::HTTP_CREATED);
-    }
 }

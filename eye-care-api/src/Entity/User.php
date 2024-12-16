@@ -49,9 +49,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: UserVisionDisorderResult::class, mappedBy: 'user', orphanRemoval: true)]
     private Collection $userVisionDisorderResults;
 
+    /**
+     * @var Collection<int, VisionDisorder>
+     */
+    #[ORM\ManyToMany(targetEntity: VisionDisorder::class, inversedBy: 'users')]
+    private Collection $user_vision_disorder;
+
     public function __construct()
     {
         $this->userVisionDisorderResults = new ArrayCollection();
+        $this->user_vision_disorder = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -207,6 +214,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $userVisionDisorderResult->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, VisionDisorder>
+     */
+    public function getUserVisionDisorder(): Collection
+    {
+        return $this->user_vision_disorder;
+    }
+
+    public function addUserVisionDisorder(VisionDisorder $userVisionDisorder): static
+    {
+        if (!$this->user_vision_disorder->contains($userVisionDisorder)) {
+            $this->user_vision_disorder->add($userVisionDisorder);
+        }
+
+        return $this;
+    }
+
+    public function removeUserVisionDisorder(VisionDisorder $userVisionDisorder): static
+    {
+        $this->user_vision_disorder->removeElement($userVisionDisorder);
 
         return $this;
     }
