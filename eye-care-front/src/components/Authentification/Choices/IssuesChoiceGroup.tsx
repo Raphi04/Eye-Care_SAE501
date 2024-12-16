@@ -94,7 +94,7 @@ export default function IssuesChoiceGroup() {
 		},
 		{
 			name: "no-info",
-			value: "J'en ai rien à foutre",
+			value: "Je ne souhaite pas répondre",
 			className: "choice2",
 			exclusive: true,
 		},
