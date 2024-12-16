@@ -18,6 +18,17 @@ class VisionDisorder
     #[ORM\Column(length: 255)]
     private ?string $disorder_name = null;
 
+    /**
+     * @var Collection<int, UserVisionDisorderResult>
+     */
+    #[ORM\OneToMany(targetEntity: UserVisionDisorderResult::class, mappedBy: 'vision_disorder', orphanRemoval: true)]
+    private Collection $userVisionDisorderResults;
+
+    public function __construct()
+    {
+        $this->userVisionDisorderResults = new ArrayCollection();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -31,6 +42,36 @@ class VisionDisorder
     public function setDisorderName(string $disorder_name): static
     {
         $this->disorder_name = $disorder_name;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, UserVisionDisorderResult>
+     */
+    public function getUserVisionDisorderResults(): Collection
+    {
+        return $this->userVisionDisorderResults;
+    }
+
+    public function addUserVisionDisorderResult(UserVisionDisorderResult $userVisionDisorderResult): static
+    {
+        if (!$this->userVisionDisorderResults->contains($userVisionDisorderResult)) {
+            $this->userVisionDisorderResults->add($userVisionDisorderResult);
+            $userVisionDisorderResult->setVisionDisorder($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserVisionDisorderResult(UserVisionDisorderResult $userVisionDisorderResult): static
+    {
+        if ($this->userVisionDisorderResults->removeElement($userVisionDisorderResult)) {
+            // set the owning side to null (unless already changed)
+            if ($userVisionDisorderResult->getVisionDisorder() === $this) {
+                $userVisionDisorderResult->setVisionDisorder(null);
+            }
+        }
 
         return $this;
     }
