@@ -1,10 +1,19 @@
+//Dependancies
 import { Link } from "react-router-dom";
 import Footer from "../../components/Footer/Footer";
 import Header from "../../components/Header/Header";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons/faArrowRight";
 
+//SCSS files
 import "./accueil.scss";
+
+//Assets
+import articleImage from "../../assets/myopie.png";
+import grosYeux from "../../assets/bigEyes.png";
+import testDeVue from "../../assets/testVue.png";
+import male from "../../assets/pere.png";
+import female from "../../assets/femelle.png";
 
 export default function Accueil() {
   return (
@@ -28,7 +37,8 @@ export default function Accueil() {
           <Link to="/articles">
             <article className="articleContainer">
               <h2>Se renseigner sur la myopie</h2>
-              <img src="./src/assets/myopie.png" />
+              <img src="./src/assets/footer.png" />
+              <img src={articleImage} />
             </article>
           </Link>
         </section>
@@ -49,13 +59,13 @@ export default function Accueil() {
             </Link>
           </article>
           <article className="bigEyes">
-            <img src="./src/assets/bigEyes.png"></img>
+            <img src={grosYeux}></img>
           </article>
         </section>
 
         <section className="testDeVue">
           <article className="imgTest">
-            <img src="./src/assets/testVue.png"></img>
+            <img src={testDeVue}></img>
           </article>
           <article className="textContainer">
             <h2>Testez votre vue</h2>
@@ -110,7 +120,7 @@ export default function Accueil() {
                 <p>John Doe</p>
               </div>
             </div>
-            <img src="./src/assets/femelle.png"></img>
+            <img src={female}></img>
           </article>
 
           <article className="discussion2">
@@ -124,7 +134,7 @@ export default function Accueil() {
                 <p>John Doe</p>
               </div>
             </div>
-            <img src="./src/assets/pere.png"></img>
+            <img src={male}></img>
           </article>
           <Link to="/blog" className="button button-blue end">
             ACCEDER AU BLOG

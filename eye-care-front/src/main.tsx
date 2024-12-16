@@ -1,5 +1,5 @@
 //Dependencies
-import { StrictMode, useEffect, useState } from "react";
+import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import {
 	createBrowserRouter,
@@ -13,13 +13,17 @@ import Accueil from "./pages/Accueil/Accueil.tsx";
 import Blog from "./pages/Blog/Blog.tsx";
 import Tests from "./pages/Tests/Tests.tsx";
 import Articles from "./pages/Articles/Articles.tsx";
-import Login from "./pages/Authentification/Login/Login.tsx";
-import Register from "./pages/Authentification/Authentification.tsx";
-
-import "./global.scss";
 import Authentification from "./pages/Authentification/Authentification.tsx";
 import IssuesForm from "./pages/Authentification/Register/IssuesForm/IssuesForm.tsx";
 import RegisterForm from "./pages/Authentification/Register/RegisterForm/RegisterForm.tsx";
+import Login from "./pages/Authentification/Login/Login.tsx";
+import Register from "./pages/Authentification/Register/Register.tsx";
+import Myopie from "./pages/Articles/Myopie.tsx";
+import Presbytie from "./pages/Articles/Presbytie.tsx";
+import Daltonisme from "./pages/Articles/Daltonisme.tsx";
+import Astigmatisme from "./pages/Articles/Astigmatisme.tsx";
+
+import "./global.scss";
 
 function getToken() {
 	return localStorage.getItem("token") || "gzfeiynkz45z";
@@ -66,6 +70,31 @@ const router = createBrowserRouter([
 			{
 				path: "/articles",
 				element: <Articles />,
+				children: [
+					{
+						path: "",
+						element: <Navigate to="myopie" replace />,
+					},
+					{
+						path: "myopie",
+						element: <Myopie />,
+					},
+
+					{
+						path: "presbytie",
+						element: <Presbytie />,
+					},
+
+					{
+						path: "daltonisme",
+						element: <Daltonisme />,
+					},
+
+					{
+						path: "astigmatisme",
+						element: <Astigmatisme />,
+					},
+				],
 			},
 			{
 				path: "/tests",
