@@ -9,6 +9,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
 import Field from "../../../../components/Authentification/Fields/Field";
 import { useState } from "react";
+import axios from "axios";
 
 export default function RegisterForm() {
 	const [isPro, setIsPro] = useState(false);
@@ -17,7 +18,7 @@ export default function RegisterForm() {
 		setIsPro(!isPro);
 	};
 
-	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 
 		const form = e.target as HTMLFormElement;
@@ -27,19 +28,30 @@ export default function RegisterForm() {
 		const email = formData.get("email");
 		const password = formData.get("password");
 		const verifPassword = formData.get("verifPassword");
+		const APIURL = import.meta.env.VITE_API_URL;
+		console.log(APIURL);
+
+		if (password !== verifPassword) {
+			alert("Les mots de passe ne correspondent pas.");
+			return;
+		}
+
+		const payload = {
+			username,
+			email,
+			password,
+		};
+
+		try {
+			console.log(`${APIURL}/register`);
+			const response = await axios.post(`${APIURL}/register`, payload);
+			alert(`Inscription réussie : ${JSON.stringify(response.data)}`);
+		} catch (error) {
+			console.error("Erreur lors de l'inscription :", error);
+			alert("Une erreur s'est produite lors de l'inscription : " + error);
+		}
 
 		form.reset();
-
-		alert(
-			`Username: ${username} Email: ${email} Password: ${password} verifPassword: ${verifPassword}`
-		);
-
-		return {
-			username: username,
-			email: email,
-			password: password,
-			verifPassword: verifPassword,
-		};
 	};
 
 	return (
@@ -129,7 +141,7 @@ export default function RegisterForm() {
 									name="verifPassword"
 									type="password"
 									placeholder="Vérification mot de passe"
-									className="field-last"
+									className="field"
 									img={<FontAwesomeIcon icon={faLock} />}
 								/>
 							</div>
