@@ -8,7 +8,6 @@ import { Link } from "react-router-dom";
 import "../authentification.scss";
 import Field from "../../../components/Authentification/Fields/Field";
 
-// import { Navigate } from "react-router-dom";
 interface LoginProps {
 	token: string;
 }
