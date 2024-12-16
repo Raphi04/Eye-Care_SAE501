@@ -15,7 +15,7 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         api:
-            pattern: ^/private/
+            pattern: ^/(private|admin|user|certified)/
             provider: app_user_provider
             custom_authenticator: App\Security\ApiTokenAuthenticator
             stateless: true
@@ -29,13 +29,18 @@ security:
 
             # https://symfony.com/doc/current/security/impersonating_user.html
             # switch_user: true
-
+    role_hierarchy:
+        ROLE_CERTIFIED: ROLE_USER
+        ROLE_ADMIN: ROLE_CERTIFIED
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        - { path: ^/private, roles: IS_AUTHENTICATED_FULLY }
+        # - { path: ^/private, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/user, roles: ROLE_USER }
+        - { path: ^/certified, roles: ROLE_CERTIFIED }
         - { path: ^/admin, roles: ROLE_ADMIN }
-        - { path: ^/profile, roles: ROLE_USER }
+
+        
 
 when@test:
     security:
