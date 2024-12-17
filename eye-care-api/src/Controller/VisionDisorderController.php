@@ -34,6 +34,5 @@ class VisionDisorderController extends AbstractController
         $this->visionDisorderService->persistAndFlush($visionDisorder);
 
         return new JsonResponse(['message' => 'Vision disorder created'], Response::HTTP_CREATED);
-    }
-    
+    } 
 }
