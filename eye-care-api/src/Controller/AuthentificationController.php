@@ -27,12 +27,12 @@ class AuthentificationController extends AbstractController
 
     #[Route('/register', name: 'register', methods: ['POST'])]
     public function register(Request $request): JsonResponse
-    {        
+    {
         $requestData = json_decode($request->getContent(), true);
         $email = $requestData['email'];
         $username = $requestData['username'];
         $password = $requestData['password'];
-        
+
         $userByEmail = $this->userService->findUserByPropriety("email", $email);
         $userByUsername = $this->userService->findUserByPropriety("username", $username);
         if ($userByEmail) {
@@ -50,7 +50,7 @@ class AuthentificationController extends AbstractController
 
         return new JsonResponse($data, Response::HTTP_CREATED);
     }
-    
+
     #[Route('/login', name: 'login', methods: ['GET'])]
     public function login(Request $request): JsonResponse
     {
@@ -65,7 +65,7 @@ class AuthentificationController extends AbstractController
 
         $passwordIsCorrect = $this->authentificationService->isPasswordCorrect($user, $password);
         if (!$passwordIsCorrect) {
-            return new JsonResponse(['message' => 'Incorrect password'],Response::HTTP_UNAUTHORIZED);
+            return new JsonResponse(['message' => 'Incorrect password'], Response::HTTP_UNAUTHORIZED);
         }
 
         $this->tokenService->setUserTokenAndExpiration($user, false);
@@ -78,8 +78,7 @@ class AuthentificationController extends AbstractController
     #[Route('/user/logout', name: 'logout', methods: ['POST'])]
     public function logout(Request $request): JsonResponse
     {
-        if(!$request->headers->has('auth-token'))
-        {
+        if (!$request->headers->has('auth-token')) {
             return new JsonResponse(['message' => 'No ApiToken Provided'], Response::HTTP_BAD_REQUEST);
         }
 
@@ -89,7 +88,7 @@ class AuthentificationController extends AbstractController
         if (!$user) {
             return new JsonResponse(['message' => 'User not found'], Response::HTTP_NOT_FOUND);
         }
-        
+
         $this->tokenService->removeToken($user);
 
         return new JsonResponse("Token Removed", Response::HTTP_OK);
