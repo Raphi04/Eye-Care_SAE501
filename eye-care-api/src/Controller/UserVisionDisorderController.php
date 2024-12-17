@@ -27,7 +27,7 @@ class UserVisionDisorderController extends AbstractController
     }
 
     #[Route('/user/user_vision_disorder', name: 'add_user_vision_disorder', methods: ['POST'])]
-    public function createOrUpdateVisionDisorder(Request $request): JsonResponse
+    public function createVisionDisorder(Request $request): JsonResponse
     {
         $requestData = json_decode($request->getContent(), true);
         $visionDisorderNames = $requestData['vision_disorders'];
