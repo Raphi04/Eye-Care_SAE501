@@ -26,19 +26,30 @@ class UserController extends AbstractController
         $this->profileService = $profileService;
     }
 
-        #[Route('/user/profile', name: 'get_profile', methods: ['GET'])]
-        public function GetUserProfile(Request $request): JsonResponse
-        {
-            $apiToken = $request->headers->get('auth-token');
-            $user = $this->userService->findUserByPropriety("apiToken", $apiToken);
-    
-            $userVisionDisorderResults = $user->getUserVisionDisorderResults();
-            $userVisionDisorders = $user->getUserVisionDisorder();
-    
-            $data = $this->profileService->profileMapping($user, $userVisionDisorderResults, $userVisionDisorders);
-    
-            return new JsonResponse($data, Response::HTTP_OK);
-        }
+    #[Route('/user/profile', name: 'get_profile', methods: ['GET'])]
+    public function GetUserProfile(Request $request): JsonResponse
+    {
+        $apiToken = $request->headers->get('auth-token');
+        $user = $this->userService->findUserByPropriety("apiToken", $apiToken);
+
+        $userVisionDisorderResults = $user->getUserVisionDisorderResults();
+        $userVisionDisorders = $user->getUserVisionDisorder();
+
+        $data = $this->profileService->profileMapping($user, $userVisionDisorderResults, $userVisionDisorders);
+
+        return new JsonResponse($data, Response::HTTP_OK);
+    }
+
+    #[Route('/user/user_roles', name: 'user_roles', methods: ['GET'])]
+    public function GetRoles(Request $request): JsonResponse
+    {
+        $apiToken = $request->headers->get('auth-token');
+        $user = $this->userService->findUserByPropriety("apiToken", $apiToken);
+
+        $userRoles = $user->getRoles();
+
+        return new JsonResponse($userRoles, Response::HTTP_OK);
+    }
 
     // #[Route('/user', name: 'get_users', methods: ['GET'])]
     // public function getAllUsers(): JsonResponse
