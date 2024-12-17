@@ -51,7 +51,7 @@ class AuthentificationController extends AbstractController
         return new JsonResponse($data, Response::HTTP_CREATED);
     }
     
-    #[Route('/login', name: 'login', methods: ['GET'])]
+    #[Route('/login', name: 'login', methods: ['POST'])]
     public function login(Request $request): JsonResponse
     {
         $requestData = json_decode($request->getContent(), true);
