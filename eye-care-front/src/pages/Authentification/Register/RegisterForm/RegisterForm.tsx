@@ -13,6 +13,7 @@ import axios from "axios";
 
 export default function RegisterForm() {
 	const [isPro, setIsPro] = useState(false);
+	const [globalErrors, setGlobalErrors] = useState<string[]>([]);
 
 	const toggleCheck = () => {
 		setIsPro(!isPro);
@@ -46,9 +47,28 @@ export default function RegisterForm() {
 			console.log(`${APIURL}/register`);
 			const response = await axios.post(`${APIURL}/register`, payload);
 			alert(`Inscription réussie : ${JSON.stringify(response.data)}`);
-		} catch (error) {
-			console.error("Erreur lors de l'inscription :", error);
-			alert("Une erreur s'est produite lors de l'inscription : " + error);
+			setGlobalErrors([]);
+		} catch (error: unknown) {
+			if (axios.isAxiosError(error)) {
+				const status = error.response?.status;
+				const message = error.response?.data?.message;
+
+				if (status === 409) {
+					const errors: string[] = [];
+					if (message.includes("Email")) {
+						errors.push("Cet email est déjà utilisé.");
+					}
+					if (message.includes("Username")) {
+						errors.push("Ce nom d'utilisateur est déjà pris.");
+					}
+					setGlobalErrors(errors);
+				} else {
+					setGlobalErrors([`Une erreur s'est produite : ${message}`]);
+				}
+			} else {
+				console.error("Erreur inattendue :", error);
+				setGlobalErrors(["Une erreur inattendue s'est produite."]);
+			}
 		}
 
 		form.reset();
@@ -92,10 +112,19 @@ export default function RegisterForm() {
 							name="verifPassword"
 							type="password"
 							placeholder="Vérification mot de passe"
-							className="field"
+							className="field-last"
 							img={<FontAwesomeIcon icon={faLock} />}
 						/>
 					</div>
+					{globalErrors.length > 0 && (
+						<div className="error-container">
+							{globalErrors.map((err, index) => (
+								<p key={index} className="error-message">
+									{err}
+								</p>
+							))}
+						</div>
+					)}
 					<button type="submit" className="formButton">
 						<p>S'INSCRIRE</p>
 						<FontAwesomeIcon icon={faArrowRight} className="arrow" />
