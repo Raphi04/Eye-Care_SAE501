@@ -50,12 +50,12 @@ class UserVisionDisorderResultController extends AbstractController
             $userVisionDisorderResult = $this->userVisionDisorderResultService->createUserVisionDisorderResult($user, $visionDisorder, $result);
 
             $this->userVisionDisorderResultService->persistAndFlush($userVisionDisorderResult);
-            return new JsonResponse(['message' => 'User vision disorder result created'], Response::HTTP_OK);
+            return new JsonResponse(['message' => 'User vision disorder result created'], Response::HTTP_CREATED);
         }
 
         $userVisionDisorderResult = $userVisionDisorderResult->setResult($result);
 
         $this->userVisionDisorderResultService->persistAndFlush($userVisionDisorderResult);
-        return new JsonResponse(['message' => 'User vision disorder updated'], Response::HTTP_CREATED);
+        return new JsonResponse(['message' => 'User vision disorder updated'], Response::HTTP_OK);
     }
 }
