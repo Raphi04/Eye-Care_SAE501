@@ -9,6 +9,7 @@ main.login {
 		margin-left: auto;
 		margin-right: auto;
 		margin-bottom: 20px;
+		margin-top: 10px;
 		gap: 10px;
 		position: relative;
 		width: fit-content;
@@ -87,6 +88,24 @@ main.login {
 			padding-top: 25px;
 			overflow: auto;
 			margin-top: 5vh;
+
+			/* Message d'erreur */
+
+			.error-container {
+				margin-bottom: 20px;
+				padding: 10px;
+				background-color: $red;
+				border-radius: 10px;
+				text-align: center;
+			}
+
+			.error-message {
+				font-family: $fontTextBold;
+				font-size: 1.1rem;
+				color: $white;
+				margin: 0;
+				line-height: 1.5;
+			}
 
 			/* Switch Certificat */
 
@@ -237,6 +256,15 @@ main.login {
 		margin-bottom: 30px;
 		font-size: 1.2rem;
 
+		&-last {
+			display: inline-block;
+			padding: 0.7rem 1rem 0.7rem 1rem;
+			border-radius: 10px;
+			border: 0;
+			margin-bottom: 20px;
+			font-size: 1.2rem;
+		}
+
 		&::placeholder {
 			font-family: $fontTextNormal;
 			color: #a6a6a6;
@@ -253,20 +281,6 @@ main.login {
 			&::placeholder {
 				font-family: $fontTextNormal;
 				color: #a6a6a6;
-			}
-
-			&-last {
-				display: inline-block;
-				padding: 0.7rem 1rem 0.7rem 1rem;
-				border-radius: 10px;
-				border: 0;
-				font-size: 1.2rem;
-				margin-bottom: 0;
-
-				&::placeholder {
-					font-family: $fontTextNormal;
-					color: #a6a6a6;
-				}
 			}
 		}
 	}

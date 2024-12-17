@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
 import "../authentification.scss";
 import Field from "../../../components/Authentification/Fields/Field";
+import axios from "axios";
 
 interface LoginProps {
 	token: string;
@@ -21,7 +22,7 @@ export default function Login({ token }: LoginProps) {
 	//   );
 	// }
 
-	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 
 		const form = e.target as HTMLFormElement;
@@ -29,15 +30,17 @@ export default function Login({ token }: LoginProps) {
 
 		const email = formData.get("email");
 		const password = formData.get("password");
+		const APIURL = import.meta.env.VITE_API_URL;
+
+		try {
+			const response = await axios.get(`${APIURL}/login`);
+			alert(`Inscription réussie : ${JSON.stringify(response.data)}`);
+		} catch (error) {
+			console.error("Erreur lors de l'inscription :", error);
+			alert("Une erreur s'est produite lors de l'inscription : " + error);
+		}
 
 		form.reset();
-
-		alert(`Email: ${email} Password: ${password}`);
-
-		return {
-			email: email,
-			password: password,
-		};
 	};
 
 	return (
