@@ -27,7 +27,7 @@ class UserController extends AbstractController
     }
 
         #[Route('/user/profile', name: 'get_profile', methods: ['GET'])]
-        public function GetUserAndVisionDisorders(Request $request): JsonResponse
+        public function GetUserProfile(Request $request): JsonResponse
         {
             $apiToken = $request->headers->get('auth-token');
             $user = $this->userService->findUserByPropriety("apiToken", $apiToken);
@@ -37,7 +37,7 @@ class UserController extends AbstractController
     
             $data = $this->profileService->profileMapping($user, $userVisionDisorderResults, $userVisionDisorders);
     
-            return new JsonResponse($data, Response::HTTP_CREATED);
+            return new JsonResponse($data, Response::HTTP_OK);
         }
 
     // #[Route('/user', name: 'get_users', methods: ['GET'])]
