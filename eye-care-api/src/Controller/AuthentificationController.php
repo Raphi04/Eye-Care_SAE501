@@ -83,20 +83,20 @@ class AuthentificationController extends AbstractController
 
         $this->tokenService->removeToken($user);
 
-        return new JsonResponse("Token Removed", Response::HTTP_OK);
+        return new JsonResponse(['message' => 'Token Removed'], Response::HTTP_OK);
     }
 
     // Fonction de test temporaire
     #[Route('/user/api_token_test', name: 'api_token_test', methods: ['GET'])]
     public function apiTokenWorks(): JsonResponse
     {
-        return new JsonResponse("Is connected as user", Response::HTTP_OK);
+        return new JsonResponse(['message' => 'Is connected as user'], Response::HTTP_OK);
     }
 
     // Fonction de test temporaire
     #[Route('/admin/test', name: 'admin_role_test', methods: ['GET'])]
     public function adminRoleWorks(): JsonResponse
     {
-        return new JsonResponse("Is admin", Response::HTTP_OK);
+        return new JsonResponse(['message' => 'Is admin'], Response::HTTP_OK);
     }
 }
