@@ -23,17 +23,10 @@ export default function IssuesForm() {
 		setGlobalErrors([]);
 
 		try {
-			// Envoyer une requête POST au serveur pour la connexion
-			const response = await axios.post(`${APIURL}/login`, {
+			await axios.post(`${APIURL}/login`, {
 				email,
 				password,
 			});
-
-			// Si la connexion réussit, stocka le token dans le state et le localStorage
-			const token = response.data.api_token;
-			const username = response.data.username;
-			localStorage.setItem("token", token);
-			localStorage.setItem("username", username);
 			navigate("/accueil");
 		} catch (error: unknown) {
 			if (axios.isAxiosError(error)) {
@@ -71,7 +64,11 @@ export default function IssuesForm() {
 					</div>
 				)}
 			</div>
-			<Link to="./accueil" className="button button-blue buttonLogin">
+			<Link
+				onClick={() => handleSubmit}
+				to="./accueil"
+				className="button button-blue buttonLogin"
+			>
 				CONTINUER <FontAwesomeIcon icon={faArrowRight} className="arrow" />
 			</Link>
 		</div>

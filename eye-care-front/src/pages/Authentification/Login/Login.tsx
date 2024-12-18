@@ -24,18 +24,20 @@ export default function Login() {
 		const email = formData.get("email");
 		const password = formData.get("password");
 		const APIURL = import.meta.env.VITE_API_URL;
-
-		// Reset errors before submission
 		setGlobalErrors([]);
 
+		const payload = {
+			email,
+			password,
+		};
+
 		try {
-			// Envoyer une requête POST au serveur pour la connexion
+			// Envoi d'une requête POST au serveur pour la connexion
 			const response = await axios.post(`${APIURL}/login`, {
-				email,
-				password,
+				payload,
 			});
 
-			// Si la connexion réussit, stocka le token dans le state et le localStorage
+			// Si la connexion réussit, stockage du token dans le state et le localStorage
 			const token = response.data.api_token;
 			const username = response.data.username;
 			localStorage.setItem("token", token);
@@ -46,7 +48,7 @@ export default function Login() {
 				const status = error.response?.status;
 				const message = error.response?.data?.message;
 
-				// Traitement les erreurs spécifiques à l'API
+				// Traitement des erreurs spécifiques à l'API
 				if (status === 404) {
 					setGlobalErrors(["L'utilisateur que vous avez fourni n'existe pas."]);
 				} else if (status === 401) {
