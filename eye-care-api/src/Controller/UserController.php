@@ -51,6 +51,23 @@ class UserController extends AbstractController
         return new JsonResponse($userRoles, Response::HTTP_OK);
     }
 
+    #[Route('/user/user', name: 'my_user_update', methods: ['PUT'])]
+    public function updateUser(Request $request): JsonResponse
+    {
+        $requestData = json_decode($request->getContent(), true);
+        $email = $requestData['email'];
+        $username = $requestData['username'];
+        $password = $requestData['password'];
+
+        $apiToken = $request->headers->get('auth-token');
+        $user = $this->userService->findUserByPropriety("apiToken", $apiToken);
+
+        $this->userService->updateUser($user, $email, $username, $password);
+        $this->userService->persistAndFlush($user);
+
+        return new JsonResponse(['message' => 'User updated'], Response::HTTP_OK);
+    }
+
     #[Route('/user/user', name: 'user_delete', methods: ['DELETE'])]
     public function deleteUser(Request $request): JsonResponse
     {
