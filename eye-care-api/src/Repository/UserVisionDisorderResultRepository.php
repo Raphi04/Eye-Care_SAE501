@@ -2,22 +2,22 @@
 
 namespace App\Repository;
 
-use App\Entity\UserVisionDisorder;
+use App\Entity\UserVisionDisorderResult;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<UserVisionDisorder>
+ * @extends ServiceEntityRepository<UserVisionDisorderResult>
  */
-class UserVisionDisorderRepository extends ServiceEntityRepository
+class UserVisionDisorderResultRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, UserVisionDisorder::class);
+        parent::__construct($registry, UserVisionDisorderResult::class);
     }
 
 //    /**
-//     * @return UserVisionDisorder[] Returns an array of UserVisionDisorder objects
+//     * @return UserVisionDisorderResult[] Returns an array of UserVisionDisorderResult objects
 //     */
 //    public function findByExampleField($value): array
 //    {
@@ -31,7 +31,7 @@ class UserVisionDisorderRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?UserVisionDisorder
+//    public function findOneBySomeField($value): ?UserVisionDisorderResult
 //    {
 //        return $this->createQueryBuilder('u')
 //            ->andWhere('u.exampleField = :val')
