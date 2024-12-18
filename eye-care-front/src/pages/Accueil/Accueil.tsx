@@ -37,7 +37,6 @@ export default function Accueil() {
           <Link to="/articles">
             <article className="articleContainer">
               <h2>Se renseigner sur la myopie</h2>
-              <img src="./src/assets/footer.png" />
               <img src={articleImage} />
             </article>
           </Link>

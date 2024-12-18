@@ -18,15 +18,10 @@ import Presbytie from "./pages/Articles/Presbytie.tsx";
 import Daltonisme from "./pages/Articles/Daltonisme.tsx";
 import Astigmatisme from "./pages/Articles/Astigmatisme.tsx";
 
-function getToken() {
-  return "gzfeiynkz45z";
-}
-
-//Application router
 const router = createBrowserRouter([
   {
     path: "/login",
-    element: <Login token={getToken()} />,
+    element: <Login />,
   },
   {
     path: "/register",
@@ -34,7 +29,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/",
-    element: <App token={getToken()} />,
+    element: <App />,
     children: [
       {
         path: "/",
