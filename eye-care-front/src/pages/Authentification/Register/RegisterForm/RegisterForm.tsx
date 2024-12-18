@@ -10,10 +10,12 @@ import { Link } from "react-router-dom";
 import Field from "../../../../components/Authentification/Fields/Field";
 import { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export default function RegisterForm() {
 	const [isPro, setIsPro] = useState(false);
 	const [globalErrors, setGlobalErrors] = useState<string[]>([]);
+	const navigate = useNavigate();
 
 	const toggleCheck = () => {
 		setIsPro(!isPro);
@@ -25,15 +27,24 @@ export default function RegisterForm() {
 		const form = e.target as HTMLFormElement;
 		const formData = new FormData(form);
 
-		const username = formData.get("username");
-		const email = formData.get("email");
-		const password = formData.get("password");
-		const verifPassword = formData.get("verifPassword");
+		const username = formData.get("username")?.toString().trim();
+		const email = formData.get("email")?.toString().trim();
+		const password = formData.get("password")?.toString().trim();
+		const verifPassword = formData.get("verifPassword")?.toString().trim();
 		const APIURL = import.meta.env.VITE_API_URL;
-		console.log(APIURL);
+
+		const errors: string[] = [];
+
+		if (!username || !email || !password || !verifPassword) {
+			errors.push("Tous les champs doivent être remplis.");
+		}
 
 		if (password !== verifPassword) {
-			alert("Les mots de passe ne correspondent pas.");
+			errors.push("Les mots de passe ne correspondent pas.");
+		}
+
+		if (errors.length > 0) {
+			setGlobalErrors(errors);
 			return;
 		}
 
@@ -45,9 +56,9 @@ export default function RegisterForm() {
 
 		try {
 			console.log(`${APIURL}/register`);
-			const response = await axios.post(`${APIURL}/register`, payload);
-			alert(`Inscription réussie : ${JSON.stringify(response.data)}`);
+			await axios.post(`${APIURL}/register`, payload);
 			setGlobalErrors([]);
+			navigate("authentification/register/issues-form");
 		} catch (error: unknown) {
 			if (axios.isAxiosError(error)) {
 				const status = error.response?.status;
@@ -115,16 +126,16 @@ export default function RegisterForm() {
 							className="field-last"
 							img={<FontAwesomeIcon icon={faLock} />}
 						/>
+						{globalErrors.length > 0 && (
+							<div className="error-container">
+								{globalErrors.map((err, index) => (
+									<p key={index} className="error-message">
+										{err}
+									</p>
+								))}
+							</div>
+						)}
 					</div>
-					{globalErrors.length > 0 && (
-						<div className="error-container">
-							{globalErrors.map((err, index) => (
-								<p key={index} className="error-message">
-									{err}
-								</p>
-							))}
-						</div>
-					)}
 					<button type="submit" className="formButton">
 						<p>S'INSCRIRE</p>
 						<FontAwesomeIcon icon={faArrowRight} className="arrow" />
@@ -133,7 +144,7 @@ export default function RegisterForm() {
 			)}
 			{isPro && (
 				<form>
-					<div className="fieldsPro">
+					<div className="fields">
 						<div className="fieldsFlex">
 							<Field
 								name="username"
