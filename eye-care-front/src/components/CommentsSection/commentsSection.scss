@@ -1,9 +1,12 @@
+@import "./comment.scss";
+
 .commentSection {
   width: 100%;
-  padding: 65px;
+  padding: 65px 65px 0 65px;
   margin-top: 5rem;
   display: flex;
   flex-direction: column;
+  align-items: center;
   background-color: $white;
   box-shadow: $boxShadowLight;
   transition: background-color 0.3s ease-out;
@@ -12,6 +15,10 @@
     background-color: $blueBlack;
     box-shadow: $boxShadowBlue;
   }
+
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////   Première partie des commentaires   //////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   .firstCommentSection {
     width: 100%;
@@ -29,7 +36,7 @@
       }
     }
 
-    hr {
+    > hr {
       margin: 1rem 0 2.5rem 0;
       border-top: 1px solid $blueBlack;
     }
@@ -114,6 +121,31 @@
               background-color: $blueBlackHover;
             }
 
+            &:disabled {
+              cursor: auto;
+              background-color: $whiteHover;
+              color: gray;
+
+              &:hover {
+                background-color: $whiteHover;
+                color: gray;
+              }
+
+              body.dark & {
+                &:disabled {
+                  background-color: $whiteHover;
+                  color: gray;
+                }
+
+                background-color: $white;
+                color: $blueBlack;
+
+                &:hover {
+                  background-color: $whiteHover;
+                }
+              }
+            }
+
             body.dark & {
               background-color: $white;
               color: $blueBlack;
@@ -149,6 +181,10 @@
     }
   }
 
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////   Seconde partie des commentaires   ///////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
   .secondCommentSection {
     width: 100%;
     display: flex;
@@ -165,7 +201,7 @@
       }
     }
 
-    hr {
+    > hr {
       margin: 1rem 0 2.5rem 0;
       border-top: 1px solid $blueBlack;
     }
@@ -181,165 +217,6 @@
         display: flex;
         flex-direction: column;
         gap: 2.5rem;
-
-        %commentsStyle {
-          position: relative;
-          display: flex;
-          gap: 1.2rem;
-
-          .userIcon {
-            position: absolute;
-            top: 0;
-            left: -75px;
-            width: 50px;
-            height: 50px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background-color: $blueBlack;
-            border-radius: 100%;
-            transition: background-color 0.3s ease-out;
-
-            body.dark & {
-              background-color: $white;
-            }
-
-            p {
-              font-size: 1.5rem;
-              font-family: $fontBold;
-              color: $white;
-              transition: color 0.3s ease-out;
-
-              body.dark & {
-                color: $blueBlack;
-              }
-            }
-          }
-
-          .commentInformations {
-            position: relative;
-            width: fit-content;
-            display: flex;
-            flex-direction: column;
-            gap: 0.7rem;
-
-            .commentHeader {
-              width: fit-content;
-              display: flex;
-              justify-content: center;
-              align-items: center;
-              gap: 0.8rem;
-
-              p.user {
-                font-size: 1.2rem;
-                color: $blueBlack;
-                font-weight: bold;
-                transition: color 0.3s ease-out;
-
-                body.dark & {
-                  color: $white;
-                }
-              }
-
-              div.userRole {
-                padding: 5px 8px;
-                font-size: 1rem;
-                border-radius: 8px;
-                color: $white;
-
-                &.professionnel {
-                  background-color: $blueStrong;
-                }
-
-                &.admin {
-                  background-color: $darkOrange;
-                }
-
-                svg {
-                  margin-left: 2px;
-                }
-              }
-
-              p.date {
-                font-size: 1rem;
-                color: rgb(146, 146, 146);
-                transition: color 0.3s ease-out;
-
-                body.dark & {
-                  color: rgb(211, 211, 211);
-                }
-              }
-            }
-
-            .commentText {
-              font-size: 1.2rem;
-              color: $blueBlack;
-              text-align: justify;
-              transition: color 0.3s ease-out;
-
-              body.dark & {
-                color: $white;
-              }
-            }
-
-            .showReplies {
-              width: fit-content;
-              cursor: pointer;
-              color: $blueStrong;
-              padding-bottom: 5px;
-              border-bottom: 1px solid $blueStrong;
-              transition: color 0.3s ease-out, border-bottom 0.3s ease-out;
-
-              body.dark & {
-                color: $white;
-                border-bottom: 1px solid $white;
-              }
-
-              svg {
-                margin-right: 8px;
-              }
-            }
-
-            .commentValue {
-              position: absolute;
-              bottom: 0px;
-              right: -175px;
-              width: 150px;
-              display: flex;
-              justify-content: center;
-              align-items: end;
-              gap: 1.5rem;
-
-              > div {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                gap: 0.5rem;
-
-                p,
-                svg {
-                  font-size: 1.2rem;
-                  color: $blueBlack;
-                  transition: color 0.3s ease-out;
-
-                  body.dark & {
-                    color: $white;
-                  }
-                }
-
-                svg {
-                  &.green {
-                    color: $green !important;
-                  }
-
-                  &.red {
-                    color: $red !important;
-                  }
-                }
-              }
-            }
-          }
-        }
 
         .comment {
           @extend %commentsStyle;
@@ -376,5 +253,10 @@
         }
       }
     }
+  }
+
+  > hr {
+    margin-top: 2rem;
+    width: 100%;
   }
 }
