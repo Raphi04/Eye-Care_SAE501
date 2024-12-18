@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 
 import DayNightMode from "../DayNightMode/DayNightMode";
@@ -9,24 +9,56 @@ import "./header.scss";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRightFromBracket } from "@fortawesome/free-solid-svg-icons";
+import { useApiContext } from "../ApiProvider";
 
 interface HeaderProps {
   active: string;
 }
 
 export default function Header({ active }: HeaderProps) {
-  const [onProfileHover, setOnProfileHover] = useState<boolean>(false);
+  //Utilisation de ApiContext pour récuperer les données de l'utilisateur connecté
+  const { connectedUser, loadingState } = useApiContext();
+
+  //Gestion des hovers et des clicks de la barre de navigation
+  const [onProfileClick, setOnProfileClick] = useState<boolean>(false);
+  const profileRef = useRef<HTMLDivElement | null>(null);
   //const [onArticleHover, setOnArticleHover] = useState<boolean>(false);
 
-  function handleOnProfileHover() {
-    let newState = !onProfileHover;
-    setOnProfileHover(newState);
+  function handleOnProfileDisplay() {
+    let newState = !onProfileClick;
+    setOnProfileClick(newState);
   }
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (profileRef.current && !profileRef.current.contains(event.target as Node)) {
+        setOnProfileClick(false);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   /* function handleOnArticleHover() {
     let newState = !onArticleHover;
     setOnArticleHover(newState);
   }*/
+
+  function getInitials() {
+    if (connectedUser.username) {
+      let usernameSplited = connectedUser.username.split(" ");
+
+      let onlyInitials = usernameSplited.map((word: string) => {
+        return word.charAt(0).toUpperCase();
+      });
+
+      return onlyInitials.join("");
+    }
+  }
 
   return (
     <>
@@ -60,28 +92,35 @@ export default function Header({ active }: HeaderProps) {
           <div className="headers-side">
             <DayNightMode />
 
-            <div
-              className="userProfile"
-              onMouseEnter={handleOnProfileHover}
-              onMouseLeave={handleOnProfileHover}
-            >
-              <div className="icon">
-                <p>JD</p>
-              </div>
-              <p>John Doe</p>
+            <div className="separator"></div>
 
-              {onProfileHover && (
-                <div className="dropDown">
-                  <Link to="/profile" className="link">
-                    <p>Mon profile</p>
-                  </Link>
-                  <Link to="/deconnexion" className="link">
-                    <FontAwesomeIcon icon={faArrowRightFromBracket} className="exit" />
-                    <p>Déconnexion</p>
-                  </Link>
+            {loadingState ||
+              (!connectedUser && (
+                <Link to="/login" className="seConnecter">
+                  <p>Se connecter</p>
+                </Link>
+              ))}
+
+            {!loadingState && connectedUser && (
+              <div className="userProfile" onClick={handleOnProfileDisplay}>
+                <div className="icon">
+                  <p>{getInitials()}</p>
                 </div>
-              )}
-            </div>
+                <p className="username">{connectedUser.username}</p>
+
+                {onProfileClick && (
+                  <div className="dropDown" ref={profileRef}>
+                    <Link to="/profile" className="link">
+                      <p>Mon profile</p>
+                    </Link>
+                    <Link to="/deconnexion" className="link">
+                      <FontAwesomeIcon icon={faArrowRightFromBracket} className="exit" />
+                      <p>Déconnexion</p>
+                    </Link>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
         </div>
       </header>

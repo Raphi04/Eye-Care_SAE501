@@ -2,67 +2,83 @@ footer {
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-.orga {
-  display: flex;
-  justify-content: space-between;
-  text-align: center;
-  width: 100%;
-  background-color: $white;
-  padding: 2rem 0rem 2rem 0rem;
-  body.dark & {
-    background-color: $blueBlack;
-  }
-  div {
+
+  .orga {
     display: flex;
-    flex-direction: column;
-    gap: 2rem;
-    width: 33%;
-    h2 {
-      font-size: 24px;
-      font-family: $fontBold;
+    justify-content: space-between;
+    text-align: center;
+    width: 100%;
+    background-color: $white;
+    padding: 2rem 0rem 2rem 0rem;
+    transition: background-color 0.3s ease-out;
+
+    body.dark & {
+      background-color: $blueBlack;
+    }
+
+    div {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      width: 33%;
+
+      h2 {
+        font-size: 24px;
+        font-family: $fontBold;
+        transition: color 0.3s ease-out;
+
+        body.dark & {
+          color: $white;
+        }
+      }
+    }
+
+    p {
+      color: $blueBlack;
+      font-family: $fontLight;
+      font-size: 20px;
+      transition: color 0.3s ease-out;
+
       body.dark & {
         color: $white;
       }
     }
-  }
-  p {
-    color: $blueBlack;
-    font-family: $fontLight;
-    font-size: 20px;
-    body.dark & {
-      color: $white;
-    }
-  }
-  .cr {
-    font-family: $fontBold;
-  }
-  a {
-    color: $blueBlack;
-    position: relative;
-    body.dark & {
-      color: $white;
-    }
-    &::after {
-      content: "";
-      position: absolute;
-      left: 0;
-      bottom: -0.1em;
-      width: 100%;
-      height: 0.1em;
-      background-color: $blueBlack;
-      transform: scaleX(0);
-      transform-origin: right;
-      transition: transform 0.4s;
-      body.dark & {
-        background-color: $white;
-      }
+
+    .cr {
+      font-family: $fontBold;
     }
 
-    &:hover::after,
-    &:focus::after {
-      transform: scaleX(1);
-      transform-origin: left;
+    a {
+      color: $blueBlack;
+      position: relative;
+      transition: color 0.3s ease-out;
+
+      body.dark & {
+        color: $white;
+      }
+
+      &::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: -0.1em;
+        width: 100%;
+        height: 0.1em;
+        background-color: $blueBlack;
+        transform: scaleX(0);
+        transform-origin: right;
+        transition: transform 0.4s;
+
+        body.dark & {
+          background-color: $white;
+        }
+      }
+
+      &:hover::after,
+      &:focus::after {
+        transform: scaleX(1);
+        transform-origin: left;
+      }
     }
   }
 }
