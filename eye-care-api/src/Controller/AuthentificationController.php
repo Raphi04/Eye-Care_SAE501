@@ -51,7 +51,7 @@ class AuthentificationController extends AbstractController
         return new JsonResponse($data, Response::HTTP_CREATED);
     }
 
-    #[Route('/login', name: 'login', methods: ['GET'])]
+    #[Route('/login', name: 'login', methods: ['POST'])]
     public function login(Request $request): JsonResponse
     {
         $requestData = json_decode($request->getContent(), true);
@@ -78,16 +78,8 @@ class AuthentificationController extends AbstractController
     #[Route('/user/logout', name: 'logout', methods: ['POST'])]
     public function logout(Request $request): JsonResponse
     {
-        if (!$request->headers->has('auth-token')) {
-            return new JsonResponse(['message' => 'No ApiToken Provided'], Response::HTTP_BAD_REQUEST);
-        }
-
         $apiToken = $request->headers->get('auth-token');
         $user = $this->userService->findUserByPropriety("apiToken", $apiToken);
-
-        if (!$user) {
-            return new JsonResponse(['message' => 'User not found'], Response::HTTP_NOT_FOUND);
-        }
 
         $this->tokenService->removeToken($user);
 
