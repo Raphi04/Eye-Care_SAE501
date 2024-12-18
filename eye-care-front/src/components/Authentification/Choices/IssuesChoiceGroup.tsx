@@ -27,7 +27,7 @@ function IssuesChoice({
 	);
 }
 
-export default function IssuesChoiceGroup() {
+export default function IssuesChoiceGroup({}) {
 	const [activeIndices, setActiveIndices] = useState<number[]>([]);
 
 	const handleButtonClick = (index: number, exclusive: boolean) => {
