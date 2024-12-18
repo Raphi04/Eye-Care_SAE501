@@ -1,11 +1,7 @@
 //Dependencies
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import {
-	createBrowserRouter,
-	RouterProvider,
-	Navigate,
-} from "react-router-dom";
+import { createBrowserRouter, RouterProvider, Navigate } from "react-router-dom";
 
 //Pages
 import App from "./App.tsx";
@@ -25,92 +21,87 @@ import Astigmatisme from "./pages/Articles/Astigmatisme.tsx";
 
 import "./global.scss";
 
-function getToken() {
-	return localStorage.getItem("token") || "gzfeiynkz45z";
-}
-
-//Application router
 const router = createBrowserRouter([
-	{
-		path: "/authentification",
-		element: <Authentification token={""} />,
-		children: [
-			{
-				path: "login",
-				element: <Login token={getToken()} />,
-			},
-			{
-				path: "register",
-				element: <Register token={getToken()} />,
-				children: [
-					{
-						path: "issues-form",
-						element: <IssuesForm />,
-					},
-					{
-						path: "register-form",
-						element: <RegisterForm />,
-					},
-				],
-			},
-		],
-	},
-	{
-		path: "/",
-		element: <App token={getToken()} />,
-		children: [
-			{
-				path: "/",
-				element: <Accueil />,
-			},
-			{
-				path: "/blog",
-				element: <Blog />,
-			},
-			{
-				path: "/articles",
-				element: <Articles />,
-				children: [
-					{
-						path: "",
-						element: <Navigate to="myopie" replace />,
-					},
-					{
-						path: "myopie",
-						element: <Myopie />,
-					},
+  {
+    path: "/authentification",
+    element: <Authentification />,
+    children: [
+      {
+        path: "login",
+        element: <Login />,
+      },
+      {
+        path: "register",
+        element: <Register />,
+        children: [
+          {
+            path: "issues-form",
+            element: <IssuesForm />,
+          },
+          {
+            path: "register-form",
+            element: <RegisterForm />,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    path: "/",
+    element: <App />,
+    children: [
+      {
+        path: "/",
+        element: <Accueil />,
+      },
+      {
+        path: "/blog",
+        element: <Blog />,
+      },
+      {
+        path: "/articles",
+        element: <Articles />,
+        children: [
+          {
+            path: "",
+            element: <Navigate to="myopie" replace />,
+          },
+          {
+            path: "myopie",
+            element: <Myopie />,
+          },
 
-					{
-						path: "presbytie",
-						element: <Presbytie />,
-					},
+          {
+            path: "presbytie",
+            element: <Presbytie />,
+          },
 
-					{
-						path: "daltonisme",
-						element: <Daltonisme />,
-					},
+          {
+            path: "daltonisme",
+            element: <Daltonisme />,
+          },
 
-					{
-						path: "astigmatisme",
-						element: <Astigmatisme />,
-					},
-				],
-			},
-			{
-				path: "/tests",
-				element: <Tests />,
-			},
-			{
-				path: "*",
-				element: <Navigate to="/" />,
-			},
-		],
-	},
+          {
+            path: "astigmatisme",
+            element: <Astigmatisme />,
+          },
+        ],
+      },
+      {
+        path: "/tests",
+        element: <Tests />,
+      },
+      {
+        path: "*",
+        element: <Navigate to="/" />,
+      },
+    ],
+  },
 ]);
 
 //Use router
 createRoot(document.getElementById("root")!).render(
-	<StrictMode>
-		<RouterProvider router={router} />
-	</StrictMode>
+  <StrictMode>
+    <RouterProvider router={router} />
+  </StrictMode>
 );

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 
 import DayNightMode from "../DayNightMode/DayNightMode";
@@ -9,102 +9,121 @@ import "./header.scss";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRightFromBracket } from "@fortawesome/free-solid-svg-icons";
+import { useApiContext } from "../ApiProvider";
 
 interface HeaderProps {
-	active: string;
+  active: string;
 }
 
 export default function Header({ active }: HeaderProps) {
-	const [onProfileHover, setOnProfileHover] = useState<boolean>(false);
-	//const [onArticleHover, setOnArticleHover] = useState<boolean>(false);
+  //Utilisation de ApiContext pour récuperer les données de l'utilisateur connecté
+  const { connectedUser, loadingState } = useApiContext();
 
-	function handleOnProfileHover() {
-		let newState = !onProfileHover;
-		setOnProfileHover(newState);
-	}
+  //Gestion des hovers et des clicks de la barre de navigation
+  const [onProfileClick, setOnProfileClick] = useState<boolean>(false);
+  const profileRef = useRef<HTMLDivElement | null>(null);
+  //const [onArticleHover, setOnArticleHover] = useState<boolean>(false);
 
-	/* function handleOnArticleHover() {
+  function handleOnProfileDisplay() {
+    let newState = !onProfileClick;
+    setOnProfileClick(newState);
+  }
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (profileRef.current && !profileRef.current.contains(event.target as Node)) {
+        setOnProfileClick(false);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  /* function handleOnArticleHover() {
     let newState = !onArticleHover;
     setOnArticleHover(newState);
   }*/
 
-	return (
-		<>
-			<header>
-				<div className="headerContainer">
-					<Link to="/">
-						<EyeCareLogo className="logo"></EyeCareLogo>
-					</Link>
+  function getInitials() {
+    if (connectedUser.username) {
+      let usernameSplited = connectedUser.username.split(" ");
 
-					<nav>
-						<Link
-							to="/"
-							className={
-								"linkContainer " + (active == "accueil" ? "isActive" : "")
-							}
-						>
-							<p>Accueil</p>
-						</Link>
+      let onlyInitials = usernameSplited.map((word: string) => {
+        return word.charAt(0).toUpperCase();
+      });
 
-						<Link
-							to="/blog"
-							className={
-								"linkContainer " + (active == "blog" ? "isActive" : "")
-							}
-						>
-							<p>Blog</p>
-						</Link>
+      return onlyInitials.join("");
+    }
+  }
 
-						<Link
-							to="/articles/myopie"
-							className={
-								"linkContainer " + (active == "articles" ? "isActive" : "")
-							}
-						>
-							<p>Articles</p>
-						</Link>
+  return (
+    <>
+      <header>
+        <div className="headerContainer">
+          <Link to="/">
+            <EyeCareLogo className="logo"></EyeCareLogo>
+          </Link>
 
-						<Link
-							to="/tests"
-							className={
-								"linkContainer " + (active == "tests" ? "isActive" : "")
-							}
-						>
-							<p>Tests</p>
-						</Link>
-					</nav>
+          <nav>
+            <Link to="/" className={"linkContainer " + (active == "accueil" ? "isActive" : "")}>
+              <p>Accueil</p>
+            </Link>
 
-					<div className="headers-side">
-						<DayNightMode />
+            <Link to="/blog" className={"linkContainer " + (active == "blog" ? "isActive" : "")}>
+              <p>Blog</p>
+            </Link>
 
-						<div
-							className="userProfile"
-							onMouseEnter={handleOnProfileHover}
-							onMouseLeave={handleOnProfileHover}
-						>
-							<div className="icon">
-								<p>JD</p>
-							</div>
-							<p>John Doe</p>
+            <Link
+              to="/articles/myopie"
+              className={"linkContainer " + (active == "articles" ? "isActive" : "")}
+            >
+              <p>Articles</p>
+            </Link>
 
-							{onProfileHover && (
-								<div className="dropDown">
-									<Link to="/profile" className="link">
-										<p>Mon profile</p>
-									</Link>
-									<Link to="./authentification/login" className="link">
-										<FontAwesomeIcon
-											icon={faArrowRightFromBracket}
-											className="exit"
-										/>
-										<p>Déconnexion</p>
-									</Link>
-								</div>
-							)}
-						</div>
-					</div>
-				</div>
-			</header>
-		</>
-	);
+            <Link to="/tests" className={"linkContainer " + (active == "tests" ? "isActive" : "")}>
+              <p>Tests</p>
+            </Link>
+          </nav>
+
+          <div className="headers-side">
+            <DayNightMode />
+
+            <div className="separator"></div>
+
+            {loadingState ||
+              (!connectedUser && (
+                <Link to="/login" className="seConnecter">
+                  <p>Se connecter</p>
+                </Link>
+              ))}
+
+            {!loadingState && connectedUser && (
+              <div className="userProfile" onClick={handleOnProfileDisplay}>
+                <div className="icon">
+                  <p>{getInitials()}</p>
+                </div>
+                <p className="username">{connectedUser.username}</p>
+
+                {onProfileClick && (
+                  <div className="dropDown" ref={profileRef}>
+                    <Link to="/profile" className="link">
+                      <p>Mon profile</p>
+                    </Link>
+                    <Link to="/deconnexion" className="link">
+                      <FontAwesomeIcon icon={faArrowRightFromBracket} className="exit" />
+                      <p>Déconnexion</p>
+                    </Link>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+        </div>
+      </header>
+    </>
+  );
 }

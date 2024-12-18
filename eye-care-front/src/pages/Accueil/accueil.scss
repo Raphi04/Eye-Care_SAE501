@@ -1,340 +1,340 @@
 main.accueil {
-	width: 100%;
-	display: flex;
-	flex-direction: column;
-	margin-top: 20px;
-	padding-top: 25px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+  padding-top: 25px;
 
-	h1 {
-		display: block;
-		margin: 0 0 0 94px;
-		font-size: 9rem;
-		font-family: $fontBolder;
-		color: $blueBlack;
-		transition: color 0.3s ease-out;
+  h1 {
+    display: block;
+    margin: 0 0 0 94px;
+    font-size: 9rem;
+    font-family: $fontBolder;
+    color: $blueBlack;
+    transition: color 0.3s ease-out;
 
-		body.dark & {
-			color: $white;
-		}
-	}
+    body.dark & {
+      color: $white;
+    }
+  }
 
-	.welcomeContainer {
-		width: 100%;
-		margin-top: 3.5rem;
-		padding: 0 100px 0px 100px;
-		display: flex;
-		justify-content: space-between;
-		gap: 75px;
+  .welcomeContainer {
+    width: 100%;
+    margin-top: 3.5rem;
+    padding: 0 100px 0px 100px;
+    display: flex;
+    justify-content: space-between;
+    gap: 75px;
 
-		@media (max-width: 1440px) {
-			flex-direction: column;
-			align-items: center;
-		}
+    @media (max-width: 1440px) {
+      flex-direction: column;
+      align-items: center;
+    }
 
-		.textContainer {
-			display: flex;
-			flex-direction: column;
-			width: 60%;
-			gap: 3rem;
+    .textContainer {
+      display: flex;
+      flex-direction: column;
+      width: 60%;
+      gap: 3rem;
 
-			@media (max-width: 1440px) {
-				width: 100%;
-			}
+      @media (max-width: 1440px) {
+        width: 100%;
+      }
 
-			h2 {
-				font-size: 2.7rem;
-				font-family: $fontBold;
-				color: $blueBlack;
-				transition: color 0.3s ease-out;
+      h2 {
+        font-size: 2.7rem;
+        font-family: $fontBold;
+        color: $blueBlack;
+        transition: color 0.3s ease-out;
 
-				body.dark & {
-					color: $white;
-				}
-			}
+        body.dark & {
+          color: $white;
+        }
+      }
 
-			p {
-				font-size: 1.6rem;
-				text-align: justify;
-				line-height: 2rem;
-				transition: color 0.3s ease-out;
+      p {
+        font-size: 1.6rem;
+        text-align: justify;
+        line-height: 2rem;
+        transition: color 0.3s ease-out;
 
-				body.dark & {
-					color: $white;
-				}
-			}
-		}
+        body.dark & {
+          color: $white;
+        }
+      }
+    }
 
-		.articleContainer {
-			padding: 25px 35px;
-			display: flex;
-			flex-direction: column;
-			align-items: center;
-			gap: 15px;
-			border-radius: 25px;
-			background-color: $blueBlack;
-			box-shadow: $boxShadow;
-			transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    .articleContainer {
+      padding: 25px 35px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 15px;
+      border-radius: 25px;
+      background-color: $blueBlack;
+      box-shadow: $boxShadow;
+      transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 
-			body.dark & {
-				background-color: $blueLight;
-				box-shadow: $boxShadowBlue;
-			}
+      body.dark & {
+        background-color: $blueLight;
+        box-shadow: $boxShadowBlue;
+      }
 
-			&:hover {
-				background-color: $blueStrong;
-			}
+      &:hover {
+        background-color: $blueStrong;
+      }
 
-			@media (max-width: 1440px) {
-				width: fit-content;
-			}
+      @media (max-width: 1440px) {
+        width: fit-content;
+      }
 
-			h2 {
-				font-size: 2.4rem;
-				font-family: $fontBold;
-				color: $white;
+      h2 {
+        font-size: 2.4rem;
+        font-family: $fontBold;
+        color: $white;
 
-				body.dark & {
-					color: $blueBlack;
-				}
-			}
-		}
-	}
+        body.dark & {
+          color: $blueBlack;
+        }
+      }
+    }
+  }
 
-	.fonctionnementOeil {
-		width: 100%;
-		margin-top: 5rem;
-		padding: 65px 165px 65px 165px;
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		background-color: $blueBlack;
-		box-shadow: $boxShadow;
+  .fonctionnementOeil {
+    width: 100%;
+    margin-top: 5rem;
+    padding: 65px 165px 65px 165px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: $blueBlack;
+    box-shadow: $boxShadow;
 
-		body.dark & {
-			background-color: $blueLight;
-			box-shadow: $boxShadowBlue;
-		}
+    body.dark & {
+      background-color: $blueLight;
+      box-shadow: $boxShadowBlue;
+    }
 
-		.textContainer {
-			display: flex;
-			flex-direction: column;
-			width: 70%;
-			gap: 3rem;
+    .textContainer {
+      display: flex;
+      flex-direction: column;
+      width: 70%;
+      gap: 3rem;
 
-			@media (max-width: 1440px) {
-				width: 100%;
-			}
+      @media (max-width: 1440px) {
+        width: 100%;
+      }
 
-			h2 {
-				font-size: 2.7rem;
-				font-family: $fontBold;
-				color: $white;
+      h2 {
+        font-size: 2.7rem;
+        font-family: $fontBold;
+        color: $white;
 
-				body.dark & {
-					color: $blueBlack;
-				}
-			}
+        body.dark & {
+          color: $blueBlack;
+        }
+      }
 
-			p {
-				font-size: 1.6rem;
-				text-align: justify;
-				line-height: 2rem;
-				color: $white;
+      p {
+        font-size: 1.6rem;
+        text-align: justify;
+        line-height: 2rem;
+        color: $white;
 
-				body.dark & {
-					color: $blueBlack;
-				}
-			}
-		}
-	}
+        body.dark & {
+          color: $blueBlack;
+        }
+      }
+    }
+  }
 
-	.testDeVue {
-		width: 100%;
-		margin-top: 5rem;
-		padding: 0 100px 0 100px;
-		display: flex;
-		justify-content: space-between;
+  .testDeVue {
+    width: 100%;
+    margin-top: 5rem;
+    padding: 0 100px 0 100px;
+    display: flex;
+    justify-content: space-between;
 
-		.imgTest {
-			img {
-				box-shadow: $boxShadow;
-			}
-		}
+    .imgTest {
+      img {
+        box-shadow: $boxShadow;
+      }
+    }
 
-		.textContainer {
-			display: flex;
-			flex-direction: column;
-			width: 70%;
-			gap: 3rem;
+    .textContainer {
+      display: flex;
+      flex-direction: column;
+      width: 70%;
+      gap: 3rem;
 
-			@media (max-width: 1440px) {
-				width: 100%;
-			}
+      @media (max-width: 1440px) {
+        width: 100%;
+      }
 
-			h2 {
-				font-size: 2.7rem;
-				font-family: $fontBold;
-				color: $blueBlack;
-				transition: color 0.3s ease-out;
+      h2 {
+        font-size: 2.7rem;
+        font-family: $fontBold;
+        color: $blueBlack;
+        transition: color 0.3s ease-out;
 
-				body.dark & {
-					color: $white;
-				}
-			}
+        body.dark & {
+          color: $white;
+        }
+      }
 
-			p {
-				font-size: 1.6rem;
-				text-align: justify;
-				line-height: 2rem;
-				color: $blueBlack;
-				transition: color 0.3s ease-out;
+      p {
+        font-size: 1.6rem;
+        text-align: justify;
+        line-height: 2rem;
+        color: $blueBlack;
+        transition: color 0.3s ease-out;
 
-				body.dark & {
-					color: $white;
-				}
-			}
+        body.dark & {
+          color: $white;
+        }
+      }
 
-			.button {
-				align-self: flex-end;
-			}
-		}
-	}
+      .button {
+        align-self: flex-end;
+      }
+    }
+  }
 
-	.lesArticles {
-		width: 100%;
-		margin-top: 5rem;
-		padding: 65px 165px 65px 165px;
-		display: flex;
-		flex-direction: column;
-		gap: 3rem;
-		background-color: $blueBlack;
-		box-shadow: $boxShadow;
+  .lesArticles {
+    width: 100%;
+    margin-top: 5rem;
+    padding: 65px 165px 65px 165px;
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+    background-color: $blueBlack;
+    box-shadow: $boxShadow;
 
-		body.dark & {
-			background-color: $blueLight;
-			box-shadow: $boxShadowBlue;
-		}
+    body.dark & {
+      background-color: $blueLight;
+      box-shadow: $boxShadowBlue;
+    }
 
-		h2 {
-			font-size: 2.7rem;
-			font-family: $fontBold;
-			color: $white;
+    h2 {
+      font-size: 2.7rem;
+      font-family: $fontBold;
+      color: $white;
 
-			body.dark & {
-				color: $blueBlack;
-			}
-		}
+      body.dark & {
+        color: $blueBlack;
+      }
+    }
 
-		.allArticlesContainer {
-			width: 100%;
-			display: grid;
-			grid-template-columns: repeat(3, 1fr);
-			grid-template-rows: repeat(2, 1fr);
-			gap: 2rem;
+    .allArticlesContainer {
+      width: 100%;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(2, 1fr);
+      gap: 2rem;
 
-			.article {
-				background-color: $white;
-				display: flex;
-				flex-direction: column;
-				align-items: center;
-				padding: 25px;
-				border-radius: 10px;
-				color: $blueBlack;
-			}
-		}
-	}
+      .article {
+        background-color: $white;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 25px;
+        border-radius: 10px;
+        color: $blueBlack;
+      }
+    }
+  }
 
-	.blogDiscussion {
-		width: 100%;
-		margin-top: 5rem;
-		padding: 0 100px 0 100px;
-		display: flex;
-		flex-direction: column;
-		gap: 3rem;
+  .blogDiscussion {
+    width: 100%;
+    margin: 5rem 0;
+    padding: 0 100px 0 100px;
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
 
-		h2 {
-			font-size: 2.7rem;
-			font-family: $fontBold;
-			transition: color 0.3s ease-out;
+    h2 {
+      font-size: 2.7rem;
+      font-family: $fontBold;
+      transition: color 0.3s ease-out;
 
-			body.dark & {
-				color: $white;
-			}
-		}
+      body.dark & {
+        color: $white;
+      }
+    }
 
-		article {
-			width: 100%;
-			display: flex;
-			gap: 5rem;
+    article {
+      width: 100%;
+      display: flex;
+      gap: 5rem;
 
-			&.discussion2 {
-				flex-direction: row-reverse;
+      &.discussion2 {
+        flex-direction: row-reverse;
 
-				> div {
-					border-radius: 0px 15px 15px 15px;
-					&::after {
-						left: 0;
-						transform: translateX(-99%);
-						border-left: 0px solid transparent;
-						border-right: 75px solid $white;
-					}
+        > div {
+          border-radius: 0px 15px 15px 15px;
+          &::after {
+            left: 0;
+            transform: translateX(-99%);
+            border-left: 0px solid transparent;
+            border-right: 75px solid $white;
+          }
 
-					.username {
-						left: 25px;
-						right: 0;
-						width: fit-content;
-						background-color: $darkMagenta;
-					}
-				}
-			}
+          .username {
+            left: 25px;
+            right: 0;
+            width: fit-content;
+            background-color: $darkMagenta;
+          }
+        }
+      }
 
-			> div {
-				width: 90%;
-				position: relative;
-				display: flex;
-				align-items: center;
-				justify-content: center;
-				padding: 35px;
-				border-radius: 15px 0 15px 15px;
-				background-color: $white;
-				box-shadow: $boxShadowLight;
+      > div {
+        width: 90%;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 35px;
+        border-radius: 15px 0 15px 15px;
+        background-color: $white;
+        box-shadow: $boxShadowLight;
 
-				&::after {
-					content: "";
-					position: absolute;
-					top: 0;
-					right: 0;
-					transform: translateX(99%);
-					border-top: 0px solid transparent;
-					border-bottom: 50px solid transparent;
-					border-left: 75px solid $white;
-				}
+        &::after {
+          content: "";
+          position: absolute;
+          top: 0;
+          right: 0;
+          transform: translateX(99%);
+          border-top: 0px solid transparent;
+          border-bottom: 50px solid transparent;
+          border-left: 75px solid $white;
+        }
 
-				.username {
-					position: absolute;
-					top: 0;
-					right: 25px;
-					width: fit-content;
-					transform: translateY(-50%);
-					padding: 5px 25px;
-					border-radius: 15px;
-					background-color: $green;
-					font-family: $fontBold;
-					color: $white;
-				}
+        .username {
+          position: absolute;
+          top: 0;
+          right: 25px;
+          width: fit-content;
+          transform: translateY(-50%);
+          padding: 5px 25px;
+          border-radius: 15px;
+          background-color: $green;
+          font-family: $fontBold;
+          color: $white;
+        }
 
-				p {
-					font-size: 1.6rem;
-					line-height: 2rem;
-					text-align: justify;
-				}
-			}
+        p {
+          font-size: 1.6rem;
+          line-height: 2rem;
+          text-align: justify;
+        }
+      }
 
-			> img {
-				width: 100px;
-				height: 100px;
-				box-shadow: $boxShadowLight;
-			}
-		}
-	}
+      > img {
+        width: 100px;
+        height: 100px;
+        box-shadow: $boxShadowLight;
+      }
+    }
+  }
 }
