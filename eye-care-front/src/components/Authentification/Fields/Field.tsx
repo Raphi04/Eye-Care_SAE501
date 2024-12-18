@@ -1,4 +1,4 @@
-import "./Field.scss";
+import "./field.scss";
 
 interface FieldProps {
 	name: string;

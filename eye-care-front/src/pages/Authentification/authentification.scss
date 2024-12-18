@@ -16,7 +16,6 @@ main.login {
 		padding: 12px 30px;
 		border-radius: 15px;
 		font-size: 1.5rem;
-		color: $blueBlack;
 		font-family: $fontBolder;
 		overflow: hidden;
 		background: $blueStrongDegrade;
@@ -24,6 +23,7 @@ main.login {
 		color: $white;
 		z-index: 1;
 		border: none;
+		cursor: pointer;
 
 		&::before {
 			content: "";
@@ -76,7 +76,26 @@ main.login {
 				color: $blueBlack;
 				font-family: $fontBolder;
 				transition: color 0.3s ease-out;
-				margin-bottom: 40px;
+				margin-bottom: 15px;
+			}
+
+			/* Message d'erreur login */
+
+			.error-container {
+				width: 320px;
+				padding: 10px;
+				margin-top: 10px;
+				background-color: $red;
+				border-radius: 10px;
+				text-align: center;
+			}
+
+			.error-message {
+				font-family: $fontTextBold;
+				color: $white;
+				font-size: 1rem;
+				margin: 0;
+				line-height: 1.5;
 			}
 		}
 
@@ -85,15 +104,15 @@ main.login {
 			flex-direction: column;
 			align-items: center;
 			justify-content: center;
-			padding-top: 25px;
 			overflow: auto;
 			margin-top: 5vh;
 
-			/* Message d'erreur */
+			/* Message d'erreur register */
 
 			.error-container {
-				margin-bottom: 20px;
+				width: 320px;
 				padding: 10px;
+				margin-top: 10px;
 				background-color: $red;
 				border-radius: 10px;
 				text-align: center;
@@ -101,7 +120,7 @@ main.login {
 
 			.error-message {
 				font-family: $fontTextBold;
-				font-size: 1.1rem;
+				font-size: 1rem;
 				color: $white;
 				margin: 0;
 				line-height: 1.5;
@@ -113,7 +132,7 @@ main.login {
 				display: flex;
 				align-items: center;
 				justify-content: center;
-				margin-bottom: 30px;
+				margin-bottom: 15px;
 				gap: 10px;
 
 				.switchPro {
@@ -188,100 +207,98 @@ main.login {
 
 			/* Champs de saisie pour les pros */
 
-			.fieldsPro {
-				.fieldsFlex {
-					gap: 25px;
-					display: flex !important;
-				}
+			.fieldsFlex {
+				gap: 25px;
+				display: flex !important;
+			}
 
-				.containerFileAndImg {
+			.containerFileAndImg {
+				display: flex;
+				align-items: center;
+				height: 190px;
+				width: 320px;
+				background-color: $white;
+				border-radius: 10px;
+
+				.containerFieldFile {
+					position: relative;
 					display: flex;
-					align-items: center;
-					height: 194px;
-					width: 320px;
-					background-color: $white;
+					flex-direction: column;
+					justify-content: center;
+					align-items: left;
+					width: 210px;
+					height: 100%;
 					border-radius: 10px;
 
-					.containerFieldFile {
+					.fieldFile {
+						margin-top: 10px;
+						margin-left: 30px;
+					}
+
+					.fieldButton {
+						margin-top: 10px;
+						margin-left: 50px;
+					}
+
+					p {
 						position: relative;
-						display: flex;
-						flex-direction: column;
-						justify-content: center;
-						align-items: left;
-						width: 210px;
-						height: 100%;
-						border-radius: 10px;
-
-						.fieldFile {
-							margin-top: 10px;
-							margin-left: 30px;
-						}
-
-						.fieldButton {
-							margin-top: 10px;
-							margin-left: 50px;
-						}
-
-						p {
-							position: relative;
-							width: 100%;
-							font-family: $fontBold;
-							color: #a6a6a6;
-							font-size: 1.3rem;
-						}
-					}
-
-					.fileText {
-						font-family: $fontTextNormal;
+						width: 100%;
+						font-family: $fontBold;
 						color: #a6a6a6;
+						font-size: 1.3rem;
 					}
+				}
 
-					.fileImg {
-						padding: 20px;
-						font-size: 100px;
-						color: #a6a6a6;
-					}
+				.fileText {
+					font-family: $fontTextNormal;
+					color: #a6a6a6;
+				}
+
+				.fileImg {
+					padding: 20px;
+					font-size: 100px;
+					color: #a6a6a6;
 				}
 			}
 		}
 	}
 
 	/* Champs de saisie */
-
-	.field {
+	.fields {
 		display: inline-block;
 		padding: 0.7rem 1rem 0.7rem 1rem;
 		border-radius: 10px;
 		border: 0;
-		margin-bottom: 30px;
+		font-size: 1.2rem;
+	}
+
+	.field {
+		width: 320px;
+		display: inline-block;
+		padding: 0.7rem 1rem 0.7rem 1rem;
+		border-radius: 10px;
+		border: 0;
+		margin-bottom: 25px;
 		font-size: 1.2rem;
 
 		&-last {
+			width: 100%;
 			display: inline-block;
 			padding: 0.7rem 1rem 0.7rem 1rem;
 			border-radius: 10px;
 			border: 0;
-			margin-bottom: 20px;
-			font-size: 1.2rem;
-		}
-
-		&::placeholder {
-			font-family: $fontTextNormal;
-			color: #a6a6a6;
-		}
-
-		.fields {
-			display: inline-block;
-			padding: 0.7rem 1rem 0.7rem 1rem;
-			border-radius: 10px;
-			border: 0;
-			margin-bottom: 30px;
+			margin-bottom: 15px;
 			font-size: 1.2rem;
 
 			&::placeholder {
 				font-family: $fontTextNormal;
 				color: #a6a6a6;
 			}
+		}
+
+		&::placeholder {
+			font-family: $fontTextNormal;
+			color: #a6a6a6;
 		}
 	}
 
@@ -320,6 +337,7 @@ main.login {
 		font-family: $fontTextNormal;
 		position: relative;
 		margin-top: 10px;
+		margin-bottom: 20px;
 		font-size: 1.1em;
 
 		strong {

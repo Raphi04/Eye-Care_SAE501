@@ -1,20 +1,21 @@
-import { Navigate, Outlet } from "react-router-dom";
+import { Outlet } from "react-router-dom";
+// import { Navigate } from "react-router-dom";
 
-interface AppProps {
-  token: string;
-}
+// interface AppProps {
+//   token: string;
+// }
 
-export default function App({ token }: AppProps) {
-  if (token !== "gzfeiynkz45z") {
-    return (
-      <>
-        <Navigate to="/login"></Navigate>
-      </>
-    );
-  }
-  return (
-    <>
-      <Outlet />
-    </>
-  );
+export default function App(/*{ token }: AppProps*/) {
+	// if (token !== "gzfeiynkz45z") {
+	//   return (
+	//     <>
+	//       <Navigate to="/login"></Navigate>
+	//     </>
+	//   );
+	// }
+	return (
+		<>
+			<Outlet />
+		</>
+	);
 }
