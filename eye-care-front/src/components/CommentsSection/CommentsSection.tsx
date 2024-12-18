@@ -1,10 +1,14 @@
+//Utilities
 import { useEffect, useState } from "react";
 
+//Components
 import Comment from "./Comment";
 
+//Stylesheet
 import "./commentsSection.scss";
 
 export default function CommentsSection() {
+  //Variable listant tous les commentaires de l'articles et leurs réponses
   const [comments, setComments] = useState<any>([
     {
       id: 1,
@@ -69,54 +73,71 @@ export default function CommentsSection() {
       ],
     },
   ]);
+
+  //Variable pour la rédaction de commentaire
   const [writedCommentValue, setWritedComment] = useState<string>("");
-  const [writedCommentEmpty, setWritedCommentEmpty] = useState<boolean>();
   const [writedCommentLoadingState, setWritedCommentLoadingState] = useState<boolean>();
   const [writedCommentError, setWritedCommentError] = useState<boolean>();
   const [writedCommentSuccess, setWritedCommentSuccess] = useState<boolean>();
 
-  const [totalComments, setTotalComments] = useState<number>(8);
+  //Le nombre total de commentaire
+  const [totalComments, setTotalComments] = useState<number>(() => {
+    return comments.length;
+  });
 
+  //Quand comments est mis à jour, on met à jour totalComments
   useEffect(() => {
-    console.log("test");
-  }, []);
+    setTotalComments(comments.length);
+  }, [comments]);
 
+  //S'occupe du changement de valeur du textarea pour rédiger un commentaire
   const handleChangeWritedComment = (e: any) => {
     setWritedComment(e.target.value);
   };
 
+  //Envoie du commentaire à l'API
   async function sendCommentToAPI() {
-    if (writedCommentValue == "") {
-      setWritedCommentEmpty(true);
-    } else {
-      setWritedCommentEmpty(false);
-      setWritedCommentLoadingState(true);
-      setWritedCommentSuccess(false);
+    setWritedCommentLoadingState(true);
+    setWritedCommentSuccess(false);
 
-      const requestOptions = {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ comment: writedCommentValue }),
-      };
+    const requestOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ comment: writedCommentValue }),
+    };
 
-      try {
-        const response = await fetch("localhost/comment", requestOptions);
+    try {
+      const response = await fetch("localhost/comment", requestOptions);
 
-        if (!response.ok) {
-          setWritedCommentError(true);
-          throw new Error("Erreur HTTP:" + response.status);
-        }
-
-        setWritedCommentSuccess(true);
-        //
-      } catch (error: any) {
+      if (!response.ok) {
         setWritedCommentError(true);
-        console.log("Erreur lors de l'envoie : " + error.message);
-        //
-      } finally {
-        setWritedCommentLoadingState(false);
+        throw new Error("Erreur HTTP:" + response.status);
       }
+      setWritedCommentSuccess(true);
+      //
+    } catch (error: any) {
+      setWritedCommentError(true);
+      console.log("Erreur lors de l'envoie : " + error.message);
+      //
+    } finally {
+      setWritedCommentLoadingState(false);
     }
+  }
+
+  //Fonction de mise à jour de la variable commentaire local pour améliorer la fluidité côté utilisateur lorsqu'il écrit une réponse
+  //La fonction est passé dans les props du composant <Commentaire />
+  function updateComments(commentId: number, replyObject: any, fromReply: boolean) {
+    const newComments = comments.map((comment: any) => {
+      if (comment.id === commentId) {
+        if (fromReply) {
+          comment.replies = [...comment.replies, replyObject]; //Si la réponse vient elle même d'une réponse
+        } else {
+          comment.replies = [replyObject, ...comment.replies]; //Si la réponse vient d'un commentaire
+        }
+      }
+      return comment;
+    });
+    setComments(newComments);
   }
 
   return (
@@ -140,34 +161,42 @@ export default function CommentsSection() {
                     <p className="success">Votre commentaire à bien été envoyé !</p>
                   )}
 
-                  {writedCommentEmpty && (
-                    <p className="error">
-                      Veuillez remplir le champ commentaire avant de l'envoyer !
-                    </p>
-                  )}
-
                   {writedCommentError && (
                     <p className="error">Erreur lors de l'envoie du commentaire !</p>
                   )}
                 </div>
 
-                <button className="sendComment" onClick={sendCommentToAPI}>
+                <button
+                  className="sendComment"
+                  onClick={sendCommentToAPI}
+                  disabled={writedCommentValue.trim() == ""}
+                >
                   Envoyer
                 </button>
               </div>
             </div>
           </div>
         </article>
+
         <article className="secondCommentSection">
           <h2>{totalComments} Commentaires</h2>
           <hr />
 
           <div className="commentsContainer">
-            {comments.map((comment: any) => {
-              return <Comment key={comment.id} commentData={comment} />;
+            {comments.map((comment: any, index: number) => {
+              return (
+                <Comment
+                  key={index}
+                  commentData={comment}
+                  isReply={false}
+                  parentId={comment.id}
+                  updateComments={updateComments}
+                />
+              );
             })}
           </div>
         </article>
+        <hr />
       </section>
     </>
   );

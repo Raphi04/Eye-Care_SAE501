@@ -1,21 +1,12 @@
 import { Outlet } from "react-router-dom";
-// import { Navigate } from "react-router-dom";
+import ApiProvider from "./components/ApiProvider";
 
-// interface AppProps {
-//   token: string;
-// }
-
-export default function App(/*{ token }: AppProps*/) {
-	// if (token !== "gzfeiynkz45z") {
-	//   return (
-	//     <>
-	//       <Navigate to="/login"></Navigate>
-	//     </>
-	//   );
-	// }
+export default function App() {
 	return (
 		<>
-			<Outlet />
+			<ApiProvider>
+				<Outlet />
+			</ApiProvider>
 		</>
 	);
 }
