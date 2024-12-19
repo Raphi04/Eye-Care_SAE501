@@ -22,6 +22,7 @@ export default function Login() {
 		const formData = new FormData(form);
 
 		const email = formData.get("email");
+		console.log(email);
 		const password = formData.get("password");
 		const APIURL = import.meta.env.VITE_API_URL;
 		setGlobalErrors([]);
@@ -33,9 +34,7 @@ export default function Login() {
 
 		try {
 			// Envoi d'une requête POST au serveur pour la connexion
-			const response = await axios.post(`${APIURL}/login`, {
-				payload,
-			});
+			const response = await axios.post(`${APIURL}/login`, payload);
 
 			// Si la connexion réussit, stockage du token dans le state et le localStorage
 			const token = response.data.api_token;
