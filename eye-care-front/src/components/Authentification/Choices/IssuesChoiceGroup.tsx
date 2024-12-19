@@ -1,4 +1,3 @@
-import { useState } from "react";
 import "./IssuesChoice.scss";
 
 interface IssuesChoiceProps {
@@ -27,9 +26,15 @@ function IssuesChoice({
 	);
 }
 
-export default function IssuesChoiceGroup({}) {
-	const [activeIndices, setActiveIndices] = useState<number[]>([]);
+interface IssuesChoiceGroupProps {
+	activeIndices: number[];
+	setActiveIndices: (indices: number[]) => void;
+}
 
+export default function IssuesChoiceGroup({
+	activeIndices,
+	setActiveIndices,
+}: IssuesChoiceGroupProps) {
 	const handleButtonClick = (index: number, exclusive: boolean) => {
 		if (exclusive) {
 			if (activeIndices.includes(index)) {
@@ -81,7 +86,7 @@ export default function IssuesChoiceGroup({}) {
 			exclusive: false,
 		},
 		{
-			name: "cecité",
+			name: "cecite",
 			value: "Cécité",
 			className: "choice",
 			exclusive: false,

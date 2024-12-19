@@ -56,7 +56,8 @@ export default function RegisterForm() {
 
 		try {
 			console.log(`${APIURL}/register`);
-			await axios.post(`${APIURL}/register`, payload);
+			const reponse = await axios.post(`${APIURL}/register`, payload);
+			console.log("Response data:", reponse.data);
 			setGlobalErrors([]);
 			navigate("/authentification/register/issues-form");
 		} catch (error: unknown) {
