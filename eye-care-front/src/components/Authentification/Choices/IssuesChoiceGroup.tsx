@@ -27,33 +27,14 @@ function IssuesChoice({
 }
 
 interface IssuesChoiceGroupProps {
-	activeIndices: number[];
-	setActiveIndices: (indices: number[]) => void;
+	selectedNames: string[]; // Noms des options sélectionnées
+	setSelectedNames: (names: string[]) => void; // Fonction pour mettre à jour les noms de maladies
 }
 
 export default function IssuesChoiceGroup({
-	activeIndices,
-	setActiveIndices,
+	selectedNames,
+	setSelectedNames,
 }: IssuesChoiceGroupProps) {
-	const handleButtonClick = (index: number, exclusive: boolean) => {
-		if (exclusive) {
-			if (activeIndices.includes(index)) {
-				setActiveIndices([]);
-			} else {
-				setActiveIndices([index]);
-			}
-		} else {
-			if (activeIndices.includes(index)) {
-				setActiveIndices(activeIndices.filter((i) => i !== index));
-			} else {
-				setActiveIndices([
-					...activeIndices.filter((i) => !options[i].exclusive),
-					index,
-				]);
-			}
-		}
-	};
-
 	const options = [
 		{
 			name: "myopie",
@@ -105,16 +86,42 @@ export default function IssuesChoiceGroup({
 		},
 	];
 
+	// Logique de clic pour gérer les noms des options sélectionnées
+	const handleButtonClick = (clickedName: string, exclusive: boolean) => {
+		// Désélectionner toutes les options si l'option cliquée est exclusive
+		if (exclusive) {
+			if (selectedNames.includes(clickedName)) {
+				setSelectedNames([]);
+			} else {
+				setSelectedNames([clickedName]);
+			}
+		} else {
+			// Désélectionner toutes les options si l'option cliquée est exclusive
+			if (selectedNames.includes(clickedName)) {
+				setSelectedNames(selectedNames.filter((name) => name !== clickedName));
+			} else {
+				setSelectedNames([
+					...selectedNames.filter(
+						(name) =>
+							options.find((option) => option.name === name)?.exclusive ===
+							false
+					),
+					clickedName,
+				]);
+			}
+		}
+	};
+
 	return (
 		<div className="issues-choice-group">
-			{options.map((option, index) => (
+			{options.map((option) => (
 				<IssuesChoice
-					key={index}
+					key={option.name}
 					name={option.name}
 					value={option.value}
 					className={option.className}
-					isActive={activeIndices.includes(index)}
-					onClick={() => handleButtonClick(index, option.exclusive)}
+					isActive={selectedNames.includes(option.name)}
+					onClick={() => handleButtonClick(option.name, option.exclusive)}
 				/>
 			))}
 		</div>
