@@ -1,121 +1,125 @@
 html,
 body {
-	margin: 0;
-	width: 100%;
-	min-height: 100%;
-	overflow: auto;
+  margin: 0;
+  width: 100%;
+  min-height: 100vh;
+  overflow: auto;
 }
 
 body {
-	font-family: $fontTextNormal;
-	font-weight: normal;
-	font-style: normal;
-	background-color: #b4cadd;
-	background-image: url("/src/assets/eye-care-text.png");
-	background-attachment: fixed;
-	background-size: 125%;
-	overflow-y: auto;
-	color: $blueBlack;
-	transition: background-color 0.3s ease-out, background-image 0.3s ease-out;
+  font-family: $fontTextNormal;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #b4cadd;
+  background-image: url("/src/assets/eye-care-text.png");
+  background-attachment: fixed;
+  background-size: 125%;
+  overflow-y: auto;
+  color: $blueBlack;
+  transition: background-color 0.3s ease-out, background-image 0.3s ease-out;
 
-	&.dark {
-		background-color: $blueBlack;
-		background-image: url("/src/assets/eye-care-text-black.png");
+  #root {
+    min-height: 100vh;
+  }
 
-		.button-white {
-			background-color: $blueBlack;
-			color: $white;
+  &.dark {
+    background-color: $blueBlack;
+    background-image: url("/src/assets/eye-care-text-black.png");
 
-			&:hover {
-				background-color: $blueBlackHover;
-			}
+    .button-white {
+      background-color: $blueBlack;
+      color: $white;
 
-			&::before {
-				content: none;
-			}
-		}
-	}
+      &:hover {
+        background-color: $blueBlackHover;
+      }
 
-	* {
-		margin: 0;
-		box-sizing: border-box;
-	}
+      &::before {
+        content: none;
+      }
+    }
+  }
 
-	a {
-		text-decoration: none;
+  * {
+    margin: 0;
+    box-sizing: border-box;
+  }
 
-		&.button {
-			position: relative;
-			width: fit-content;
-			padding: 12px 30px;
-			border-radius: 15px;
-			font-size: 1.5rem;
-			color: $blueBlack;
-			font-family: $fontBolder;
-			overflow: hidden;
-			z-index: 1;
+  a {
+    text-decoration: none;
 
-			&-white {
-				background-color: $white;
-				box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5);
-				transition: background-color 0.3s ease-out;
+    &.button {
+      position: relative;
+      width: fit-content;
+      padding: 12px 30px;
+      border-radius: 15px;
+      font-size: 1.5rem;
+      color: $blueBlack;
+      font-family: $fontBolder;
+      overflow: hidden;
+      z-index: 1;
 
-				&:hover {
-					background-color: transparent;
-					color: $white;
-				}
+      &-white {
+        background-color: $white;
+        box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5);
+        transition: background-color 0.3s ease-out;
 
-				&::before {
-					content: "";
-					position: absolute;
-					top: 0;
-					left: 0;
-					width: 100%;
-					height: 100%;
-					opacity: 0;
-					background: $blueStrongDegrade;
-					box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
-					transform-origin: left;
-					transition: opacity 0.3s ease-out;
-					z-index: -1;
-				}
+        &:hover {
+          background-color: transparent;
+          color: $white;
+        }
 
-				&:hover::before {
-					opacity: 1;
-				}
-			}
+        &::before {
+          content: "";
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          opacity: 0;
+          background: $blueStrongDegrade;
+          box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+          transform-origin: left;
+          transition: opacity 0.3s ease-out;
+          z-index: -1;
+        }
 
-			&-blue {
-				background: $blueStrongDegrade;
-				box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
-				color: $white;
+        &:hover::before {
+          opacity: 1;
+        }
+      }
 
-				&::before {
-					content: "";
-					position: absolute;
-					top: 0;
-					left: 0;
-					width: 100%;
-					height: 100%;
-					background: $blueStrongDegradeHover;
-					z-index: -1;
-					opacity: 0;
-					transform-origin: left;
-					transition: opacity 0.3s ease-out;
-				}
+      &-blue {
+        background: $blueStrongDegrade;
+        box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+        color: $white;
 
-				&:hover::before {
-					opacity: 1;
-				}
-			}
+        &::before {
+          content: "";
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: $blueStrongDegradeHover;
+          z-index: -1;
+          opacity: 0;
+          transform-origin: left;
+          transition: opacity 0.3s ease-out;
+        }
 
-			&.end {
-				align-self: flex-end;
-			}
+        &:hover::before {
+          opacity: 1;
+        }
+      }
 
-			.arrow {
-				margin-left: 8px;
-			}
-		}
-	}
+      &.end {
+        align-self: flex-end;
+      }
+
+      .arrow {
+        margin-left: 8px;
+      }
+    }
+  }
 }
