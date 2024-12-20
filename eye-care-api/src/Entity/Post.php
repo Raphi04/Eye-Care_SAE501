@@ -33,6 +33,9 @@ class Post
     #[ORM\JoinColumn(nullable: false)]
     private ?user $user = null;
 
+    #[ORM\ManyToOne(inversedBy: 'posts')]
+    private ?category $category = null;
+
     public function __construct()
     {
         $this->responses = new ArrayCollection();
@@ -104,6 +107,18 @@ class Post
     public function setUser(?user $user): static
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getCategory(): ?category
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?category $category): static
+    {
+        $this->category = $category;
 
         return $this;
     }
