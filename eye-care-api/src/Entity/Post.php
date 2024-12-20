@@ -29,6 +29,10 @@ class Post
     #[ORM\JoinColumn(onDelete: 'CASCADE', nullable: true)]
     private ?Post $post_parent = null;
 
+    #[ORM\ManyToOne(inversedBy: 'posts')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?user $user = null;
+
     public function __construct()
     {
         $this->responses = new ArrayCollection();
@@ -88,6 +92,18 @@ class Post
     public function setPostParent(?Post $post_parent): static
     {
         $this->post_parent = $post_parent;
+
+        return $this;
+    }
+
+    public function getUser(): ?user
+    {
+        return $this->user;
+    }
+
+    public function setUser(?user $user): static
+    {
+        $this->user = $user;
 
         return $this;
     }
