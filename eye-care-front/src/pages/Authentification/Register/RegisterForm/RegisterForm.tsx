@@ -15,6 +15,8 @@ import { useNavigate } from "react-router-dom";
 export default function RegisterForm() {
 	const [isPro, setIsPro] = useState(false);
 	const [globalErrors, setGlobalErrors] = useState<string[]>([]);
+	const [showPassword, setShowPassword] = useState(false);
+	const [showPasswordVerif, setShowPasswordVerif] = useState(false);
 	const navigate = useNavigate();
 
 	const toggleCheck = () => {
@@ -122,6 +124,9 @@ export default function RegisterForm() {
 							placeholder="Mot de passe"
 							className="field"
 							img={<FontAwesomeIcon icon={faLock} />}
+							password
+							show={showPassword}
+							onToggleShow={() => setShowPassword(!showPassword)}
 						/>
 						<Field
 							name="verifPassword"
@@ -129,6 +134,9 @@ export default function RegisterForm() {
 							placeholder="Vérification mot de passe"
 							className="field-last"
 							img={<FontAwesomeIcon icon={faLock} />}
+							password
+							show={showPasswordVerif}
+							onToggleShow={() => setShowPasswordVerif(!showPasswordVerif)}
 						/>
 						{globalErrors.length > 0 && (
 							<div className="error-container">
@@ -193,8 +201,8 @@ export default function RegisterForm() {
 								<FontAwesomeIcon className="fileImg" icon={faFile} />
 								<div className="containerFieldFile">
 									<p>Déposer un certificat</p>
-									<div className="fieldFile">
-										<Field name="file" type="file" className="field" noImg />
+									<div className="customFileButton">
+										<Field name="file" type="file" className="field" />
 									</div>
 								</div>
 							</div>
