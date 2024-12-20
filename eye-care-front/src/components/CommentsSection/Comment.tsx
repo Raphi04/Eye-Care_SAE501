@@ -13,6 +13,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { faThumbsUp as faThumbsUpBorder } from "@fortawesome/free-regular-svg-icons";
 import { faThumbsDown as faThumbsDownBorder } from "@fortawesome/free-regular-svg-icons";
+import { useApiContext } from "../ApiProvider";
 
 //Typing de commentData
 interface CommentData {
@@ -38,10 +39,8 @@ interface CommentProps {
 
 export default function Comment({ commentData, parentId, isReply, updateComments }: CommentProps) {
   //ConnectedUser
-  const [connectedUser, setConnectedUser] = useState<any>({
-    username: "Raphi",
-    role: "ROLE_USER",
-  });
+  const { connectedUser, loadingState } = useApiContext();
+
   const [connectedUsernameInitials, setConnectedUsernameInitials] = useState<string>();
 
   //Variables des commentaires
@@ -69,23 +68,19 @@ export default function Comment({ commentData, parentId, isReply, updateComments
   const [replyLoading, setReplyLoading] = useState<boolean>(false);
 
   useEffect(() => {
-    // Récupération de la première lettre de chaque mots dans username
-    getInitials(commentData, setUsernameInitials);
-    getInitials(connectedUser, setConnectedUsernameInitials);
-
     //Récupération de l'intervale de temps entre le post et maintenant
     getDifferenceTime();
   }, []);
 
-  function getInitials(variable: any, setVariable: any) {
-    if (variable.username) {
+  function getInitials(variable: any) {
+    if (variable) {
       let usernameSplited = variable.username.split(" ");
 
       let onlyInitials = usernameSplited.map((word: string) => {
         return word.charAt(0).toUpperCase();
       });
 
-      setVariable(onlyInitials.join(""));
+      return onlyInitials.join("");
     }
   }
 
@@ -243,7 +238,7 @@ export default function Comment({ commentData, parentId, isReply, updateComments
       <div className="commentAndReplyContainer">
         <div className="comment">
           <div className="userIcon">
-            <p>{usernameInitials}</p>
+            <p>{getInitials(commentData)}</p>
           </div>
 
           <div className="commentInformations">
@@ -273,12 +268,19 @@ export default function Comment({ commentData, parentId, isReply, updateComments
 
             <div className="actions">
               <div className="mainActions">
-                <p
-                  className={`response ${isReplying ? "isReplying" : ""}`}
-                  onClick={handleChangeIsReplying}
-                >
-                  Répondre
-                </p>
+                {loadingState && (
+                  <p className="response loading">
+                    <FontAwesomeIcon icon={faSpinner} spin /> Chargement...
+                  </p>
+                )}
+                {!loadingState && connectedUser && (
+                  <p
+                    className={`response ${isReplying ? "isReplying" : ""}`}
+                    onClick={handleChangeIsReplying}
+                  >
+                    Répondre
+                  </p>
+                )}
 
                 <div className="commentValue" onClick={handleChangeIsLiked}>
                   <FontAwesomeIcon
@@ -300,7 +302,7 @@ export default function Comment({ commentData, parentId, isReply, updateComments
               {isReplying && (
                 <div className="comment responding">
                   <div className="userIcon">
-                    <p>{connectedUsernameInitials}</p>
+                    <p>{getInitials(connectedUser)}</p>
                   </div>
 
                   <div className="commentInformations">

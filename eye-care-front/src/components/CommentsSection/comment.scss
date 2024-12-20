@@ -220,6 +220,7 @@
         display: flex;
         align-items: center;
         gap: 0.2rem;
+        margin-left: -1rem;
 
         .response {
           cursor: pointer;
@@ -230,6 +231,13 @@
 
           body.dark & {
             color: $white;
+          }
+
+          &.loading {
+            cursor: auto;
+            &:hover {
+              background-color: transparent;
+            }
           }
 
           &.isReplying {
