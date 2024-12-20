@@ -273,6 +273,9 @@ header {
           width: 100%;
           display: flex;
           flex-direction: column;
+          border-radius: 15px;
+          overflow: hidden;
+          box-shadow: $boxShadowLight;
 
           .link {
             display: flex;
@@ -283,7 +286,6 @@ header {
             gap: 7px;
             color: $blueBlack;
             background-color: $white;
-            border-radius: 15px 15px 0 0;
             transition: background-color 0.3s ease-out;
 
             body.dark & {
@@ -300,7 +302,6 @@ header {
 
             &:nth-child(2) {
               border-top: 1px solid $blueBlack;
-              border-radius: 0 0 15px 15px;
 
               p,
               svg {

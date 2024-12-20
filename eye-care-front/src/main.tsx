@@ -14,6 +14,7 @@ import IssuesForm from "./pages/Authentification/Register/IssuesForm/IssuesForm.
 import RegisterForm from "./pages/Authentification/Register/RegisterForm/RegisterForm.tsx";
 import Login from "./pages/Authentification/Login/Login.tsx";
 import Register from "./pages/Authentification/Register/Register.tsx";
+import LogOut from "./pages/Authentification/logOut.tsx";
 import Myopie from "./pages/Articles/Myopie.tsx";
 import Presbytie from "./pages/Articles/Presbytie.tsx";
 import Daltonisme from "./pages/Articles/Daltonisme.tsx";
@@ -43,6 +44,10 @@ const router = createBrowserRouter([
             element: <RegisterForm />,
           },
         ],
+      },
+      {
+        path: "logOut",
+        element: <LogOut />,
       },
     ],
   },

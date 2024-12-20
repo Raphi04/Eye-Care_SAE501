@@ -6,8 +6,15 @@ import Comment from "./Comment";
 
 //Stylesheet
 import "./commentsSection.scss";
+import { useApiContext } from "../ApiProvider";
+import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 
 export default function CommentsSection() {
+  //Variable de l'utilisateur actuellement connecté
+  const { connectedUser, loadingState } = useApiContext();
+
   //Variable listant tous les commentaires de l'articles et leurs réponses
   const [comments, setComments] = useState<any>([
     {
@@ -114,6 +121,20 @@ export default function CommentsSection() {
         throw new Error("Erreur HTTP:" + response.status);
       }
       setWritedCommentSuccess(true);
+
+      //Ajout du commentaire dans comments pour plus de fluidité
+      let currentDate = new Date();
+      currentDate.setSeconds(currentDate.getSeconds() - 1);
+      let newComment = {
+        id: new Date().getTime(),
+        username: connectedUser.username,
+        role: connectedUser.role,
+        text: writedCommentValue,
+        like: 0,
+        dislike: 0,
+        dateTime: currentDate,
+      };
+      setComments([newComment, ...comments]);
       //
     } catch (error: any) {
       setWritedCommentError(true);
@@ -121,6 +142,18 @@ export default function CommentsSection() {
       //
     } finally {
       setWritedCommentLoadingState(false);
+    }
+  }
+
+  function getConnectedUserInitials() {
+    if (connectedUser.username) {
+      let usernameSplited = connectedUser.username.split(" ");
+
+      let onlyInitials = usernameSplited.map((word: string) => {
+        return word.charAt(0).toUpperCase();
+      });
+
+      return onlyInitials.join("");
     }
   }
 
@@ -147,35 +180,51 @@ export default function CommentsSection() {
           <h2>Publier un commentaire</h2>
           <hr />
 
-          <div className="writeCommentContainer">
-            <div className="writeComment">
-              <div className="userIcon">
-                <p>JD</p>
-              </div>
-              <textarea onChange={handleChangeWritedComment}></textarea>
-              <div className="sendCommentContainer">
-                <div className="sendingInfo">
-                  {writedCommentLoadingState && <p>Envoie du commentaire en cours...</p>}
+          {loadingState && (
+            <div className="writeCommentContainer">
+              <p>
+                <FontAwesomeIcon icon={faSpinner} spin /> Chargement...
+              </p>
+            </div>
+          )}
+          {!loadingState && !connectedUser && (
+            <p className="notConnected">
+              Pour publier un commentaire, il est nécessaire de vous{" "}
+              <Link to={"/authentification/login"}>connecter</Link>.
+            </p>
+          )}
 
-                  {writedCommentSuccess && (
-                    <p className="success">Votre commentaire à bien été envoyé !</p>
-                  )}
-
-                  {writedCommentError && (
-                    <p className="error">Erreur lors de l'envoie du commentaire !</p>
-                  )}
+          {!loadingState && connectedUser && (
+            <div className="writeCommentContainer">
+              <div className="writeComment">
+                <div className="userIcon">
+                  <p>{getConnectedUserInitials()}</p>
                 </div>
+                <textarea onChange={handleChangeWritedComment}></textarea>
+                <div className="sendCommentContainer">
+                  <div className="sendingInfo">
+                    {writedCommentLoadingState && <p>Envoie du commentaire en cours...</p>}
 
-                <button
-                  className="sendComment"
-                  onClick={sendCommentToAPI}
-                  disabled={writedCommentValue.trim() == ""}
-                >
-                  Envoyer
-                </button>
+                    {writedCommentSuccess && (
+                      <p className="success">Votre commentaire à bien été envoyé !</p>
+                    )}
+
+                    {writedCommentError && (
+                      <p className="error">Erreur lors de l'envoie du commentaire !</p>
+                    )}
+                  </div>
+
+                  <button
+                    className="sendComment"
+                    onClick={sendCommentToAPI}
+                    disabled={writedCommentValue.trim() == ""}
+                  >
+                    Envoyer
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
+          )}
         </article>
 
         <article className="secondCommentSection">
