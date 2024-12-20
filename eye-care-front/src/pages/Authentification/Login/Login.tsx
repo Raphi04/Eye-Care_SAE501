@@ -13,6 +13,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function Login() {
 	const [globalErrors, setGlobalErrors] = useState<string[]>([]);
+	const [showPassword, setShowPassword] = useState(false);
 	const navigate = useNavigate();
 
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -82,6 +83,9 @@ export default function Login() {
 						placeholder="Mot de passe"
 						className="field-last"
 						img={<FontAwesomeIcon icon={faLock} />}
+						password
+						show={showPassword}
+						onToggleShow={() => setShowPassword(!showPassword)}
 					/>
 					{/* Message d'erreur global */}
 					{globalErrors.length > 0 && (

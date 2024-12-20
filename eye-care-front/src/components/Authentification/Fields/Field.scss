@@ -19,6 +19,15 @@
 		color: #a6a6a6;
 		pointer-events: none;
 	}
+
+	.showPassword {
+		position: absolute;
+		right: 16px;
+		top: 23px;
+		transform: translateY(-50%);
+		color: #a6a6a6;
+		cursor: pointer;
+	}
 }
 
 .inputContainerWithoutImg {
