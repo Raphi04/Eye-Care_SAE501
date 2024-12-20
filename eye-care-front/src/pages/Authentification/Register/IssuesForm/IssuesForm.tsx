@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import IssuesChoiceGroup from "../../../../components/Authentification/Choices/IssuesChoiceGroup";
@@ -7,73 +6,60 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 export default function IssuesForm() {
-	const [globalErrors, setGlobalErrors] = useState<string[]>([]);
+	{
+		/*Déclaration des variables d'état}*/
+	}
+	const [selectedNames, setSelectedNames] = useState<string[]>([]);
 	const navigate = useNavigate();
-	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-		e.preventDefault();
 
-		const form = e.target as HTMLFormElement;
-		const formData = new FormData(form);
-
-		const email = formData.get("email");
-		const password = formData.get("password");
+	// Fonction de soumission du formulaire
+	const handleSubmit = async () => {
 		const APIURL = import.meta.env.VITE_API_URL;
 
-		// Reset errors before submission
-		setGlobalErrors([]);
+		const token = localStorage.getItem("token"); // Récupération du token
+		console.log(token);
 
-		try {
-			// Envoyer une requête POST au serveur pour la connexion
-			const response = await axios.post(`${APIURL}/login`, {
-				email,
-				password,
-			});
-
-			// Si la connexion réussit, stocka le token dans le state et le localStorage
-			const token = response.data.api_token;
-			const username = response.data.username;
-			localStorage.setItem("token", token);
-			localStorage.setItem("username", username);
-			navigate("/accueil");
-		} catch (error: unknown) {
-			if (axios.isAxiosError(error)) {
-				const status = error.response?.status;
-				const message = error.response?.data?.message;
-
-				// Traitement les erreurs spécifiques à l'API
-				if (status === 404) {
-					setGlobalErrors(["L'utilisateur que vous avez fourni n'existe pas."]);
-				} else if (status === 401) {
-					setGlobalErrors(["Mot de passe incorrect."]);
-				} else {
-					setGlobalErrors([`Erreur de connexion : ${message || "Inconnue"}`]);
-				}
-			} else {
-				console.error("Erreur inattendue :", error);
-				setGlobalErrors(["Une erreur inattendue s'est produite."]);
-			}
+		if (!token) {
+			console.error("Aucun token trouvé. L'utilisateur n'est pas authentifié.");
+			return;
 		}
 
-		form.reset();
+		const payload = {
+			vision_disorders: selectedNames,
+		};
+		{
+			/*Envoi du token dans les headers de la requête}*/
+		}
+		try {
+			const response = await axios.post(
+				`${APIURL}/user/user_vision_disorder`,
+				payload,
+				{
+					headers: {
+						"auth-token": token,
+					},
+				}
+			);
+			console.log("Réponse de l'API :", response.data);
+			navigate("/accueil");
+		} catch (error: unknown) {
+			console.error("Erreur inattendue :", error);
+		}
 	};
+
 	return (
 		<div className="mainContent-register">
 			<h1 className="questionTitle">Avez vous des problèmes de vue ?</h1>
 			<div className="choices">
-				<IssuesChoiceGroup />
-				{globalErrors.length > 0 && (
-					<div className="error-container">
-						{globalErrors.map((err, index) => (
-							<p key={index} className="error-message">
-								{err}
-							</p>
-						))}
-					</div>
-				)}
+				{/*Composant pour afficher les options de maladie}*/}
+				<IssuesChoiceGroup
+					selectedNames={selectedNames}
+					setSelectedNames={setSelectedNames}
+				/>
 			</div>
-			<Link to="./accueil" className="button button-blue buttonLogin">
+			<button onClick={handleSubmit} className="formButton">
 				CONTINUER <FontAwesomeIcon icon={faArrowRight} className="arrow" />
-			</Link>
+			</button>
 		</div>
 	);
 }
