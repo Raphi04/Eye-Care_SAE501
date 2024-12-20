@@ -54,25 +54,30 @@ class AuthentificationController extends AbstractController
     #[Route('/login', name: 'login', methods: ['POST'])]
     public function login(Request $request): JsonResponse
     {
-        $requestData = json_decode($request->getContent(), true);
-        $email = $requestData['email'];
-        $password = $requestData['password'];
+        try {
+            $requestData = json_decode($request->getContent(), true);
+            $email = $requestData['email'];
+            $password = $requestData['password'];
 
-        $user = $this->userService->findUserByPropriety("email", $email);
-        if (!$user) {
-            return new JsonResponse(['message' => 'User not found'], Response::HTTP_NOT_FOUND);
+            $user = $this->userService->findUserByPropriety("email", $email);
+            if (!$user) {
+                return new JsonResponse(['message' => 'User not found'], Response::HTTP_NOT_FOUND);
+            }
+
+            $passwordIsCorrect = $this->authentificationService->isPasswordCorrect($user, $password);
+            if (!$passwordIsCorrect) {
+                return new JsonResponse(['message' => 'Incorrect password'], Response::HTTP_UNAUTHORIZED);
+            }
+
+            $this->tokenService->setUserTokenAndExpiration($user, false);
+            $this->userService->persistAndFlush($user);
+            $data = $this->authentificationService->getUserIdentifiers($user);
+
+            return new JsonResponse($data, Response::HTTP_OK);
+        } catch (\Exception $e) {
+            error_log($e->getMessage());
+            return new JsonResponse(['message' => $e->getMessage()], $e->getCode() ?: Response::HTTP_INTERNAL_SERVER_ERROR);
         }
-
-        $passwordIsCorrect = $this->authentificationService->isPasswordCorrect($user, $password);
-        if (!$passwordIsCorrect) {
-            return new JsonResponse(['message' => 'Incorrect password'], Response::HTTP_UNAUTHORIZED);
-        }
-
-        $this->tokenService->setUserTokenAndExpiration($user, false);
-        $this->userService->persistAndFlush($user);
-        $data = $this->authentificationService->getUserIdentifiers($user);
-
-        return new JsonResponse($data, Response::HTTP_OK);
     }
 
     #[Route('/user/logout', name: 'logout', methods: ['POST'])]

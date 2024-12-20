@@ -56,7 +56,11 @@ export default function RegisterForm() {
 
 		try {
 			console.log(`${APIURL}/register`);
-			await axios.post(`${APIURL}/register`, payload);
+			const response = await axios.post(`${APIURL}/register`, payload);
+			const token = response.data.api_token;
+			const username = response.data.username;
+			localStorage.setItem("token", token);
+			localStorage.setItem("username", username);
 			setGlobalErrors([]);
 			navigate("/authentification/register/issues-form");
 		} catch (error: unknown) {
