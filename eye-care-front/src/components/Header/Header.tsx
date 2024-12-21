@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 
 import DayNightMode from "../DayNightMode/DayNightMode";
@@ -84,7 +84,10 @@ export default function Header({ active }: HeaderProps) {
               <p>Articles</p>
             </Link>
 
-            <Link to="/tests" className={"linkContainer " + (active == "tests" ? "isActive" : "")}>
+            <Link
+              to="/tests/acuite"
+              className={"linkContainer " + (active == "tests" ? "isActive" : "")}
+            >
               <p>Tests</p>
             </Link>
           </nav>
