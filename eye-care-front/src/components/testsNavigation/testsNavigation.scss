@@ -1,0 +1,56 @@
+.testNavigation {
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  padding: 10px 25px;
+  gap: 1rem;
+  background-color: $white;
+  box-shadow: $boxShadowLight;
+  transition: background-color 0.3s ease-out;
+
+  body.dark & {
+    background-color: $blueBlack;
+  }
+
+  .linkContainer {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+
+    .link {
+      padding: 10px 25px;
+      border-radius: 30px;
+      font-size: 1.4rem;
+      font-family: $fontTextBold;
+      background-color: transparent;
+      color: $blueBlack;
+      transition: background-color 0.3s ease-out;
+
+      body.dark & {
+        color: $white;
+      }
+
+      &:hover {
+        background-color: $blueBlack;
+        color: white;
+
+        body.dark & {
+          background-color: $white;
+          color: $blueBlack;
+        }
+      }
+
+      &.active {
+        background-color: $blueBlack;
+        color: white;
+
+        body.dark & {
+          background-color: $white;
+          color: $blueBlack;
+        }
+      }
+    }
+  }
+}
