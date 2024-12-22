@@ -8,14 +8,22 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
 import Field from "../../../../components/Authentification/Fields/Field";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 export default function RegisterForm() {
+	const navigate = useNavigate();
+	useEffect(() => {
+		const token = localStorage.getItem("token");
+		if (token) {
+			navigate("/accueil");
+		}
+	}, [navigate]);
 	const [isPro, setIsPro] = useState(false);
 	const [globalErrors, setGlobalErrors] = useState<string[]>([]);
-	const navigate = useNavigate();
+	const [showPassword, setShowPassword] = useState(false);
+	const [showPasswordVerif, setShowPasswordVerif] = useState(false);
 
 	const toggleCheck = () => {
 		setIsPro(!isPro);
@@ -122,6 +130,9 @@ export default function RegisterForm() {
 							placeholder="Mot de passe"
 							className="field"
 							img={<FontAwesomeIcon icon={faLock} />}
+							password
+							show={showPassword}
+							onToggleShow={() => setShowPassword(!showPassword)}
 						/>
 						<Field
 							name="verifPassword"
@@ -129,6 +140,9 @@ export default function RegisterForm() {
 							placeholder="Vérification mot de passe"
 							className="field-last"
 							img={<FontAwesomeIcon icon={faLock} />}
+							password
+							show={showPasswordVerif}
+							onToggleShow={() => setShowPasswordVerif(!showPasswordVerif)}
 						/>
 						{globalErrors.length > 0 && (
 							<div className="error-container">
@@ -180,6 +194,8 @@ export default function RegisterForm() {
 									placeholder="Mot de passe"
 									className="field"
 									img={<FontAwesomeIcon icon={faLock} />}
+									show={showPassword}
+									onToggleShow={() => setShowPassword(!showPassword)}
 								/>
 								<Field
 									name="verifPassword"
@@ -187,14 +203,22 @@ export default function RegisterForm() {
 									placeholder="Vérification mot de passe"
 									className="field"
 									img={<FontAwesomeIcon icon={faLock} />}
+									show={showPassword}
+									onToggleShow={() => setShowPassword(!showPassword)}
 								/>
 							</div>
 							<div className="containerFileAndImg">
 								<FontAwesomeIcon className="fileImg" icon={faFile} />
 								<div className="containerFieldFile">
 									<p>Déposer un certificat</p>
-									<div className="fieldFile">
-										<Field name="file" type="file" className="field" noImg />
+									<div className="customFileButton">
+										<input
+											id="fileInput"
+											name="file"
+											type="file"
+											className="fileInput"
+										/>
+										<label htmlFor="fileInput">Parcourir</label>
 									</div>
 								</div>
 							</div>
