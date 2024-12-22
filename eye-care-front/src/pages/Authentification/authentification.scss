@@ -61,274 +61,229 @@ main.login {
 		&:hover::before {
 			opacity: 1;
 		}
+	}
 
-		/* Contenu de la page d'authentification */
+	/* Contenu de la page d'authentification */
 
-		.mainContent {
-			&-login {
-				display: flex;
-				flex-direction: column;
-				align-items: center;
-				justify-content: center;
-				flex: 1;
+	.mainContent {
+		&-login {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			flex: 1;
 
-				h1 {
-					font-size: 5rem;
-					color: $blueBlack;
-					font-family: $fontBolder;
-					transition: color 0.3s ease-out;
-					margin-bottom: 15px;
-				}
-
-				/* Message d'erreur login */
-
-				.error-container {
-					width: 320px;
-					padding: 10px;
-					margin-top: 10px;
-					background-color: $red;
-					border-radius: 10px;
-					text-align: center;
-				}
-
-				.error-message {
-					font-family: $fontTextBold;
-					color: $white;
-					font-size: 1rem;
-					margin: 0;
-					line-height: 1.5;
-				}
+			h1 {
+				font-size: 5rem;
+				color: $blueBlack;
+				font-family: $fontBolder;
+				transition: color 0.3s ease-out;
+				margin-bottom: 15px;
 			}
 
-			&-register {
-				flex: 1;
-				display: flex;
-				flex-direction: column;
-				align-items: center;
-				justify-content: center;
-				overflow: auto;
+			/* Message d'erreur login */
 
-				/* Message d'erreur register */
-
-				.error-container {
-					width: 320px;
-					padding: 10px;
-					margin-top: 10px;
-					background-color: $red;
-					border-radius: 10px;
-					text-align: center;
-				}
-
-				.error-message {
-					font-family: $fontTextBold;
-					font-size: 1rem;
-					color: $white;
-					margin: 0;
-					line-height: 1.5;
-				}
-
-				/* Switch Certificat */
-
-				.switchContainer {
-					display: flex;
-					align-items: center;
-					justify-content: center;
-					margin-bottom: 15px;
-					gap: 10px;
-
-					.switchPro {
-						position: relative;
-						display: inline-block;
-						width: 60px;
-						height: 34px;
-
-						input {
-							opacity: 0;
-							width: 0;
-							height: 0;
-						}
-
-						.slider {
-							position: absolute;
-							cursor: pointer;
-							top: 0;
-							left: 0;
-							right: 0;
-							bottom: 0;
-							background-color: #a6a6a6;
-							-webkit-transition: 0.4s;
-							transition: 0.4s;
-						}
-
-						.slider:before {
-							position: absolute;
-							content: "";
-							height: 26px;
-							width: 26px;
-							left: 4px;
-							bottom: 4px;
-							background-color: white;
-							-webkit-transition: 0.4s;
-							transition: 0.4s;
-						}
-
-						input:checked + .slider {
-							background-color: $blueStrong;
-						}
-
-						input:checked + .slider:before {
-							-webkit-transform: translateX(26px);
-							-ms-transform: translateX(26px);
-							transform: translateX(26px);
-						}
-
-						.slider.round {
-							border-radius: 34px;
-						}
-
-						.slider.round:before {
-							border-radius: 50%;
-						}
-					}
-
-					.switchProText {
-						font-family: $fontTextBold;
-						color: $blueBlack;
-						font-size: 1.2rem;
-					}
-				}
-
-				h1 {
-					font-size: 5rem;
-					color: $blueBlack;
-					font-family: $fontBolder;
-					transition: color 0.3s ease-out;
-					margin-bottom: 20px;
-				}
-
-				/* Champs de saisie pour les pros */
-
-				.fieldsFlex {
-					gap: 25px;
-					display: flex !important;
-				}
-
-				.containerFileAndImg {
-					display: flex;
-					align-items: center;
-					height: 190px;
-					width: 320px;
-					background-color: $white;
-					border-radius: 10px;
-
-					.containerFieldFile {
-						position: relative;
-						display: flex;
-						flex-direction: column;
-						justify-content: center;
-						align-items: left;
-						width: 210px;
-						height: 100%;
-						border-radius: 10px;
-
-						.fieldFile {
-							margin-top: 10px;
-							margin-left: 30px;
-						}
-
-						.fieldButton {
-							margin-top: 10px;
-							margin-left: 50px;
-						}
-
-						p {
-							position: relative;
-							width: 100%;
-							font-family: $fontBold;
-							color: #a6a6a6;
-							font-size: 1.3rem;
-						}
-					}
-
-					.fileText {
-						font-family: $fontTextNormal;
-						color: #a6a6a6;
-					}
-
-					.fileImg {
-						padding: 20px;
-						font-size: 100px;
-						color: #a6a6a6;
-					}
-				}
+			.error-container {
+				width: 320px;
+				padding: 10px;
+				margin-top: 10px;
+				background-color: $red;
+				border-radius: 10px;
+				text-align: center;
 			}
 
-			&-logOut {
-				display: flex;
-				flex-direction: column;
-				align-items: center;
-				justify-content: center;
-				flex: 1;
-
-				p {
-					font-size: 2.5rem;
-				}
+			.error-message {
+				font-family: $fontTextBold;
+				color: $white;
+				font-size: 1rem;
+				margin: 0;
+				line-height: 1.5;
 			}
 		}
 
-		/* Champs de saisie */
-		.fields {
-			display: inline-block;
-			padding: 0.7rem 1rem 0.7rem 1rem;
-			border-radius: 10px;
-			border: 0;
-			font-size: 1.2rem;
+		&-register {
+			flex: 1;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			overflow: auto;
+
+			/* Message d'erreur register */
+
+			.error-container {
+				width: 320px;
+				padding: 10px;
+				margin-top: 10px;
+				background-color: $red;
+				border-radius: 10px;
+				text-align: center;
+			}
+
+			.error-message {
+				font-family: $fontTextBold;
+				font-size: 1rem;
+				color: $white;
+				margin: 0;
+				line-height: 1.5;
+			}
+
+			/* Switch Certificat */
+
+			.switchContainer {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				margin-bottom: 15px;
+				gap: 10px;
+
+				.switchPro {
+					position: relative;
+					display: inline-block;
+					width: 60px;
+					height: 34px;
+
+					input {
+						opacity: 0;
+						width: 0;
+						height: 0;
+					}
+
+					.slider {
+						position: absolute;
+						cursor: pointer;
+						top: 0;
+						left: 0;
+						right: 0;
+						bottom: 0;
+						background-color: #a6a6a6;
+						-webkit-transition: 0.4s;
+						transition: 0.4s;
+					}
+
+					.slider:before {
+						position: absolute;
+						content: "";
+						height: 26px;
+						width: 26px;
+						left: 4px;
+						bottom: 4px;
+						background-color: white;
+						-webkit-transition: 0.4s;
+						transition: 0.4s;
+					}
+
+					input:checked + .slider {
+						background-color: $blueStrong;
+					}
+
+					input:checked + .slider:before {
+						-webkit-transform: translateX(26px);
+						-ms-transform: translateX(26px);
+						transform: translateX(26px);
+					}
+
+					.slider.round {
+						border-radius: 34px;
+					}
+
+					.slider.round:before {
+						border-radius: 50%;
+					}
+				}
+
+				.switchProText {
+					font-family: $fontTextBold;
+					color: $blueBlack;
+					font-size: 1.2rem;
+				}
+			}
+
+			h1 {
+				font-size: 5rem;
+				color: $blueBlack;
+				font-family: $fontBolder;
+				transition: color 0.3s ease-out;
+				margin-bottom: 20px;
+			}
+
 			/* Champs de saisie pour les pros */
 
 			.fieldsFlex {
 				gap: 25px;
 				display: flex !important;
+			}
 
-				.containerFileAndImg {
+			.containerFileAndImg {
+				display: flex;
+				align-items: center;
+				height: 190px;
+				width: 320px;
+				background-color: $white;
+				border-radius: 10px;
+
+				.containerFieldFile {
+					position: relative;
 					display: flex;
-					align-items: center;
-					height: 190px;
-					width: 320px;
-					background-color: $white;
+					flex-direction: column;
+					justify-content: center;
+					align-items: left;
+					width: 210px;
+					height: 100%;
 					border-radius: 10px;
 
-					.containerFieldFile {
+					.fieldFile {
+						margin-top: 10px;
+						margin-left: 30px;
+					}
+
+					.fieldButton {
+						margin-top: 10px;
+						margin-left: 50px;
+					}
+
+					p {
 						position: relative;
-						display: flex;
-						flex-direction: column;
-						justify-content: center;
-						align-items: left;
-						width: 210px;
-						height: 100%;
-						border-radius: 10px;
-
-						p {
-							position: relative;
-							width: 100%;
-							font-family: $fontBold;
-							color: #a6a6a6;
-							font-size: 1.3rem;
-						}
-					}
-
-					.fileText {
-						font-family: $fontTextNormal;
+						width: 100%;
+						font-family: $fontBold;
 						color: #a6a6a6;
+						font-size: 1.3rem;
 					}
+				}
 
-					.fileImg {
-						padding: 20px;
-						font-size: 100px;
-						color: #a6a6a6;
-					}
+				.fileText {
+					font-family: $fontTextNormal;
+					color: #a6a6a6;
+				}
+
+				.fileImg {
+					padding: 20px;
+					font-size: 100px;
+					color: #a6a6a6;
 				}
 			}
 		}
+
+		&-logOut {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			flex: 1;
+
+			p {
+				font-size: 2.5rem;
+			}
+		}
+	}
+
+	/* Champs de saisie */
+	.fields {
+		display: inline-block;
+		padding: 0.7rem 1rem 0.7rem 1rem;
+		border-radius: 10px;
+		border: 0;
+		font-size: 1.2rem;
 	}
 
 	.field {
