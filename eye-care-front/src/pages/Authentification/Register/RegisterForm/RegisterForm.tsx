@@ -8,16 +8,22 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
 import Field from "../../../../components/Authentification/Fields/Field";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 export default function RegisterForm() {
+	const navigate = useNavigate();
+	useEffect(() => {
+		const token = localStorage.getItem("token");
+		if (token) {
+			navigate("/accueil");
+		}
+	}, [navigate]);
 	const [isPro, setIsPro] = useState(false);
 	const [globalErrors, setGlobalErrors] = useState<string[]>([]);
 	const [showPassword, setShowPassword] = useState(false);
 	const [showPasswordVerif, setShowPasswordVerif] = useState(false);
-	const navigate = useNavigate();
 
 	const toggleCheck = () => {
 		setIsPro(!isPro);
@@ -188,6 +194,8 @@ export default function RegisterForm() {
 									placeholder="Mot de passe"
 									className="field"
 									img={<FontAwesomeIcon icon={faLock} />}
+									show={showPassword}
+									onToggleShow={() => setShowPassword(!showPassword)}
 								/>
 								<Field
 									name="verifPassword"
@@ -195,6 +203,8 @@ export default function RegisterForm() {
 									placeholder="Vérification mot de passe"
 									className="field"
 									img={<FontAwesomeIcon icon={faLock} />}
+									show={showPassword}
+									onToggleShow={() => setShowPassword(!showPassword)}
 								/>
 							</div>
 							<div className="containerFileAndImg">
@@ -202,7 +212,13 @@ export default function RegisterForm() {
 								<div className="containerFieldFile">
 									<p>Déposer un certificat</p>
 									<div className="customFileButton">
-										<Field name="file" type="file" className="field" />
+										<input
+											id="fileInput"
+											name="file"
+											type="file"
+											className="fileInput"
+										/>
+										<label htmlFor="fileInput">Parcourir</label>
 									</div>
 								</div>
 							</div>

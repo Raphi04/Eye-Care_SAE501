@@ -8,17 +8,22 @@ import { Link } from "react-router-dom";
 import "../authentification.scss";
 import Field from "../../../components/Authentification/Fields/Field";
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function Login() {
+	const navigate = useNavigate();
+	useEffect(() => {
+		const token = localStorage.getItem("token");
+		if (token) {
+			navigate("/accueil");
+		}
+	}, [navigate]);
 	const [globalErrors, setGlobalErrors] = useState<string[]>([]);
 	const [showPassword, setShowPassword] = useState(false);
-	const navigate = useNavigate();
 
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-
 		const form = e.target as HTMLFormElement;
 		const formData = new FormData(form);
 
