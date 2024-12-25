@@ -368,4 +368,50 @@ header {
       }
     }
   }
+  .linkArticles {
+    position: relative;
+    cursor: pointer;
+
+    .dropDownArticle {
+      position: absolute;
+      bottom: -8px;
+      left: 0;
+      transform: translateY(100%);
+      min-width: fit-content;
+      width: 100%;
+      border-radius: 15px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-shadow: $boxShadowLight;
+      body.dark & {
+        box-shadow: $boxShadowBlue;
+      }
+
+      .linkMenu {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 15px 10px;
+        font-size: 1rem;
+        gap: 7px;
+        color: $blueBlack;
+        background-color: $white;
+        transition: background-color 0.3s ease-out;
+
+        body.dark & {
+          background-color: $blueBlack;
+          color: $white;
+        }
+
+        &:hover {
+          background-color: $whiteHover;
+
+          body.dark & {
+            background-color: $blueBlackHover;
+          }
+        }
+      }
+    }
+  }
 }
