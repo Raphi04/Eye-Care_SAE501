@@ -13,11 +13,13 @@ import { useApiContext } from "../ApiProvider";
 
 interface HeaderProps {
   active: string;
+  active: string;
 }
 
 export default function Header({ active }: HeaderProps) {
   //Utilisation de ApiContext pour récuperer les données de l'utilisateur connecté
   const { connectedUser, loadingState } = useApiContext();
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   //Gestion des hovers et des clicks de la barre de navigation
   const [onProfileClick, setOnProfileClick] = useState<boolean>(false);
@@ -28,21 +30,34 @@ export default function Header({ active }: HeaderProps) {
     let newState = !onProfileClick;
     setOnProfileClick(newState);
   }
+  function handleOnArticleDisplay() {
+    let newState = !isDropdownOpen;
+    setIsDropdownOpen(newState);
+  }
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
-      if (profileRef.current && !profileRef.current.contains(event.target as Node)) {
+      if (
+        profileRef.current &&
+        !profileRef.current.contains(event.target as Node)
+      ) {
         setOnProfileClick(false);
       }
     }
 
+    document.addEventListener("mousedown", handleClickOutside);
     document.addEventListener("mousedown", handleClickOutside);
 
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
+  /* function handleOnArticleHover() {
   /* function handleOnArticleHover() {
     let newState = !onArticleHover;
     setOnArticleHover(newState);
@@ -51,7 +66,13 @@ export default function Header({ active }: HeaderProps) {
   function getInitials() {
     if (connectedUser.username) {
       let usernameSplited = connectedUser.username.split(" ");
+  function getInitials() {
+    if (connectedUser.username) {
+      let usernameSplited = connectedUser.username.split(" ");
 
+      let onlyInitials = usernameSplited.map((word: string) => {
+        return word.charAt(0).toUpperCase();
+      });
       let onlyInitials = usernameSplited.map((word: string) => {
         return word.charAt(0).toUpperCase();
       });
@@ -59,7 +80,17 @@ export default function Header({ active }: HeaderProps) {
       return onlyInitials.join("");
     }
   }
+      return onlyInitials.join("");
+    }
+  }
 
+  return (
+    <>
+      <header>
+        <div className="headerContainer">
+          <Link to="/">
+            <EyeCareLogo className="logo"></EyeCareLogo>
+          </Link>
   return (
     <>
       <header>
@@ -77,12 +108,38 @@ export default function Header({ active }: HeaderProps) {
               <p>Blog</p>
             </Link>
 
-            <Link
-              to="/articles/myopie"
-              className={"linkContainer " + (active == "articles" ? "isActive" : "")}
+            <div
+              className={
+                "linkContainer linkArticles " +
+                (active == "articles" ? "isActive" : "") +
+                (isDropdownOpen ? "isActive" : "")
+              }
+              onClick={handleOnArticleDisplay}
             >
               <p>Articles</p>
-            </Link>
+              {isDropdownOpen && (
+                <div className="dropDownArticle">
+                  <Link to="/articles/myopie" className="linkMenu">
+                    Myopie
+                  </Link>
+                  <Link to="/articles/presbytie" className="linkMenu">
+                    Presbytie
+                  </Link>
+                  <Link to="/articles/astigmatisme" className="linkMenu">
+                    Astigmatisme
+                  </Link>
+                  <Link to="/articles/dmla" className="linkMenu">
+                    DMLA
+                  </Link>
+                  <Link to="/articles/daltonisme" className="linkMenu">
+                    Daltonisme
+                  </Link>
+                  <Link to="/articles/hypermetropie" className="linkMenu">
+                    Hypermétropie
+                  </Link>
+                </div>
+              )}
+            </div>
 
             <Link to="/tests" className={"linkContainer " + (active == "tests" ? "isActive" : "")}>
               <p>Tests</p>
@@ -91,7 +148,10 @@ export default function Header({ active }: HeaderProps) {
 
           <div className="headers-side">
             <DayNightMode />
+          <div className="headers-side">
+            <DayNightMode />
 
+            <div className="separator"></div>
             <div className="separator"></div>
 
             {loadingState && (
@@ -108,6 +168,12 @@ export default function Header({ active }: HeaderProps) {
               </Link>
             )}
 
+            {!loadingState && connectedUser && (
+              <div className="userProfile" onClick={handleOnProfileDisplay}>
+                <div className="icon">
+                  <p>{getInitials()}</p>
+                </div>
+                <p className="username">{connectedUser.username}</p>
             {!loadingState && connectedUser && (
               <div className="userProfile" onClick={handleOnProfileDisplay}>
                 <div className="icon">
