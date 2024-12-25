@@ -1,7 +1,11 @@
 //Dependencies
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import { createBrowserRouter, RouterProvider, Navigate } from "react-router-dom";
+import {
+  createBrowserRouter,
+  RouterProvider,
+  Navigate,
+} from "react-router-dom";
 
 //Pages
 import App from "./App.tsx";
@@ -18,8 +22,10 @@ import Myopie from "./pages/Articles/Myopie.tsx";
 import Presbytie from "./pages/Articles/Presbytie.tsx";
 import Daltonisme from "./pages/Articles/Daltonisme.tsx";
 import Astigmatisme from "./pages/Articles/Astigmatisme.tsx";
+import Dmla from "./pages/Articles/Dmla.tsx";
 
 import "./global.scss";
+import Hypermetropie from "./pages/Articles/Hypermetropie.tsx";
 
 const router = createBrowserRouter([
   {
@@ -84,6 +90,14 @@ const router = createBrowserRouter([
           {
             path: "astigmatisme",
             element: <Astigmatisme />,
+          },
+          {
+            path: "dmla",
+            element: <Dmla />,
+          },
+          {
+            path: "hypermetropie",
+            element: <Hypermetropie />,
           },
         ],
       },
