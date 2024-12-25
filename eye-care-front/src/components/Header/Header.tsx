@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 
 import DayNightMode from "../DayNightMode/DayNightMode";
@@ -8,11 +8,13 @@ import EyeCareLogo from "../../assets/Eye_care_proposition_finale.svg?react";
 import "./header.scss";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowRightFromBracket, faSpinner } from "@fortawesome/free-solid-svg-icons";
+import {
+  faArrowRightFromBracket,
+  faSpinner,
+} from "@fortawesome/free-solid-svg-icons";
 import { useApiContext } from "../ApiProvider";
 
 interface HeaderProps {
-  active: string;
   active: string;
 }
 
@@ -46,18 +48,12 @@ export default function Header({ active }: HeaderProps) {
     }
 
     document.addEventListener("mousedown", handleClickOutside);
-    document.addEventListener("mousedown", handleClickOutside);
 
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
 
-  /* function handleOnArticleHover() {
   /* function handleOnArticleHover() {
     let newState = !onArticleHover;
     setOnArticleHover(newState);
@@ -66,13 +62,7 @@ export default function Header({ active }: HeaderProps) {
   function getInitials() {
     if (connectedUser.username) {
       let usernameSplited = connectedUser.username.split(" ");
-  function getInitials() {
-    if (connectedUser.username) {
-      let usernameSplited = connectedUser.username.split(" ");
 
-      let onlyInitials = usernameSplited.map((word: string) => {
-        return word.charAt(0).toUpperCase();
-      });
       let onlyInitials = usernameSplited.map((word: string) => {
         return word.charAt(0).toUpperCase();
       });
@@ -80,17 +70,7 @@ export default function Header({ active }: HeaderProps) {
       return onlyInitials.join("");
     }
   }
-      return onlyInitials.join("");
-    }
-  }
 
-  return (
-    <>
-      <header>
-        <div className="headerContainer">
-          <Link to="/">
-            <EyeCareLogo className="logo"></EyeCareLogo>
-          </Link>
   return (
     <>
       <header>
@@ -100,11 +80,21 @@ export default function Header({ active }: HeaderProps) {
           </Link>
 
           <nav>
-            <Link to="/" className={"linkContainer " + (active == "accueil" ? "isActive" : "")}>
+            <Link
+              to="/"
+              className={
+                "linkContainer " + (active == "accueil" ? "isActive" : "")
+              }
+            >
               <p>Accueil</p>
             </Link>
 
-            <Link to="/blog" className={"linkContainer " + (active == "blog" ? "isActive" : "")}>
+            <Link
+              to="/blog"
+              className={
+                "linkContainer " + (active == "blog" ? "isActive" : "")
+              }
+            >
               <p>Blog</p>
             </Link>
 
@@ -141,17 +131,18 @@ export default function Header({ active }: HeaderProps) {
               )}
             </div>
 
-            <Link to="/tests" className={"linkContainer " + (active == "tests" ? "isActive" : "")}>
+            <Link
+              to="/tests"
+              className={
+                "linkContainer " + (active == "tests" ? "isActive" : "")
+              }
+            >
               <p>Tests</p>
             </Link>
           </nav>
 
           <div className="headers-side">
             <DayNightMode />
-          <div className="headers-side">
-            <DayNightMode />
-
-            <div className="separator"></div>
             <div className="separator"></div>
 
             {loadingState && (
@@ -174,12 +165,6 @@ export default function Header({ active }: HeaderProps) {
                   <p>{getInitials()}</p>
                 </div>
                 <p className="username">{connectedUser.username}</p>
-            {!loadingState && connectedUser && (
-              <div className="userProfile" onClick={handleOnProfileDisplay}>
-                <div className="icon">
-                  <p>{getInitials()}</p>
-                </div>
-                <p className="username">{connectedUser.username}</p>
 
                 {onProfileClick && (
                   <div className="dropDown" ref={profileRef}>
@@ -187,7 +172,10 @@ export default function Header({ active }: HeaderProps) {
                       <p>Mon profile</p>
                     </Link>
                     <Link to="/authentification/logOut" className="link">
-                      <FontAwesomeIcon icon={faArrowRightFromBracket} className="exit" />
+                      <FontAwesomeIcon
+                        icon={faArrowRightFromBracket}
+                        className="exit"
+                      />
                       <p>Déconnexion</p>
                     </Link>
                   </div>
