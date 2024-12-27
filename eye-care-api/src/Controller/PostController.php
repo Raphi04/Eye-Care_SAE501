@@ -36,12 +36,19 @@ class PostController extends AbstractController
         $apiToken = $request->headers->get('auth-token');
         $user = $this->userService->findUserByPropriety("apiToken", $apiToken);
 
-        $category = $this->categoryService->findCategoryByPropriety("subject", $subject);
-        if (!$category) {
-            return new JsonResponse(['message' => 'Category not found'], Response::HTTP_NOT_FOUND);
+        $category = null;
+        if (!$postParentId) {
+            if (!$subject) {
+                return new JsonResponse(['message' => 'Subject is required for posts without parent'], Response::HTTP_BAD_REQUEST);
+            }
+    
+            $category = $this->categoryService->findCategoryByPropriety("subject", $subject);
+            if (!$category) {
+                return new JsonResponse(['message' => 'Category not found'], Response::HTTP_NOT_FOUND);
+            }
         }
 
-        $postParent = $this->postService->getValideParent($postParentId, $category);
+        $postParent = $this->postService->getValideParent($postParentId);
         if ($postParentId && !$postParent)
         {
             return new JsonResponse(['message' => 'PostParent not found or invalid'], Response::HTTP_NOT_FOUND);
