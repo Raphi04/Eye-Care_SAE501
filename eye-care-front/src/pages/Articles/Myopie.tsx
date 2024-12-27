@@ -154,7 +154,7 @@ export default function Myopie() {
           </article>
         </section>
 
-        <CommentsSection />
+        <CommentsSection subject="myopie" />
       </main>{" "}
     </>
   );

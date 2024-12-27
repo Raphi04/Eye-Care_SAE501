@@ -27,7 +27,6 @@ import Tests from "./pages/Tests/Tests.tsx";
 import Acuite from "./pages/Tests/Acuite.tsx";
 import Ishihara from "./pages/Tests/Ishihara.tsx";
 import Dmla from "./pages/Tests/Dmla.tsx";
-import DaltonismeTest from "./pages/Tests/DaltonismeTest.tsx";
 
 //LE SCSS GLOBAL
 import "./global.scss";
@@ -121,10 +120,6 @@ const router = createBrowserRouter([
           {
             path: "dmla",
             element: <Dmla />,
-          },
-          {
-            path: "daltonisme",
-            element: <DaltonismeTest />,
           },
         ],
       },

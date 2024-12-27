@@ -18,22 +18,16 @@ export default function TestsNavigation() {
             <p>Test d'acuité visuel</p>
           </Link>
         </div>
-        <div className="linkContainer">
-          <Link to="ishihara" className={`link ${currentArticle == "ishihara" ? "active" : ""}`}>
-            <p>Test d'Ishihara</p>
-          </Link>
-        </div>
+
         <div className="linkContainer">
           <Link to="dmla" className={`link ${currentArticle == "dmla" ? "active" : ""}`}>
             <p>Test de DMLA</p>
           </Link>
         </div>
+
         <div className="linkContainer">
-          <Link
-            to="daltonisme"
-            className={`link ${currentArticle == "daltonisme" ? "active" : ""}`}
-          >
-            <p>Test de Daltonisme</p>
+          <Link to="ishihara" className={`link ${currentArticle == "ishihara" ? "active" : ""}`}>
+            <p>Test d'Ishihara</p>
           </Link>
         </div>
       </div>

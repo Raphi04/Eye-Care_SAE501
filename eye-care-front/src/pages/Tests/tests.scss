@@ -12,6 +12,10 @@ main.tests {
     box-shadow: $boxShadowLight;
     background-color: rgba(255, 255, 255, 0.4);
 
+    body.dark & {
+      background-color: rgba(94, 94, 94, 0.4);
+    }
+
     &:after {
       content: "";
       position: absolute;
@@ -21,6 +25,10 @@ main.tests {
       min-height: 50px;
       box-shadow: 0 0 30px 40px rgba(235, 235, 235, 0.4);
       z-index: 1;
+
+      body.dark & {
+        box-shadow: 0 0 30px 40px rgba(67, 67, 67, 0.5);
+      }
     }
 
     .testArticleContainer {
@@ -30,11 +38,8 @@ main.tests {
       display: flex;
       flex-direction: column;
       gap: 3rem;
-      overflow: auto;
-
-      body.dark & {
-        background-color: rgba(255, 255, 255, 0.2);
-      }
+      overflow-y: auto;
+      overflow-x: hidden;
 
       .textContainer {
         display: flex;
@@ -52,14 +57,56 @@ main.tests {
           }
         }
 
-        p {
-          font-size: 1.2rem;
+        p,
+        li {
+          font-size: 1.5rem;
           text-align: justify;
           color: $blueBlack;
           transition: color 0.3s ease-out;
 
           body.dark & {
             color: $white;
+          }
+        }
+
+        .evenMoreTextContainer {
+          display: flex;
+          padding: 0 4rem;
+          justify-content: space-between;
+          align-items: center;
+          gap: 1rem;
+
+          > div {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+
+            h3 {
+              font-family: $fontBolder;
+              font-size: 2rem;
+              color: $blueBlack;
+              transition: color 0.3s ease-out;
+
+              body.dark & {
+                color: $white;
+              }
+            }
+
+            ol {
+              display: flex;
+              flex-direction: column;
+              gap: 0.4rem;
+
+              ul {
+                display: flex;
+                flex-direction: column;
+                gap: 0.2rem;
+              }
+            }
+          }
+
+          img {
+            width: 375px;
           }
         }
       }
@@ -73,21 +120,36 @@ main.tests {
 
         button {
           cursor: pointer;
-          padding: 15px 45px;
+          padding: 15px 75px;
           border: none;
           border-radius: 10px;
           font-size: 1.5rem;
+          font-family: $fontTextBold;
           background-color: $blueBlack;
           color: $white;
           transition: background-color 0.3s ease-out;
 
+          body.dark & {
+            background-color: $white;
+            color: $blueBlack;
+          }
+
           &:hover {
             background-color: $blueBlackHover;
+
+            body.dark & {
+              background-color: $whiteHover;
+            }
           }
         }
 
         p {
           font-size: 1.2rem;
+          transition: color 0.3s ease-out;
+
+          body.dark & {
+            color: $white;
+          }
         }
       }
     }

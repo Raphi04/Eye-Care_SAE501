@@ -11,7 +11,11 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 
-export default function CommentsSection() {
+interface CommentSectionProps {
+  subject: string;
+}
+
+export default function CommentsSection({ subject }: CommentSectionProps) {
   //Variable de l'utilisateur actuellement connecté
   const { connectedUser, loadingState } = useApiContext();
 
@@ -110,7 +114,10 @@ export default function CommentsSection() {
     const requestOptions = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ comment: writedCommentValue }),
+      body: JSON.stringify({
+        comment: writedCommentValue,
+        subject: subject,
+      }),
     };
 
     try {
@@ -239,6 +246,7 @@ export default function CommentsSection() {
                   commentData={comment}
                   isReply={false}
                   parentId={comment.id}
+                  subject={subject}
                   updateComments={updateComments}
                 />
               );
