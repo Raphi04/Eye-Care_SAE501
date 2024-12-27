@@ -41,7 +41,13 @@ class PostController extends AbstractController
             return new JsonResponse(['message' => 'Category not found'], Response::HTTP_NOT_FOUND);
         }
 
-        $post = $this->postService->createPost($user, $category, $text, $postParentId);
+        $postParent = $this->postService->getValideParent($postParentId, $category);
+        if ($postParentId && !$postParent)
+        {
+            return new JsonResponse(['message' => 'PostParent not found or invalid'], Response::HTTP_NOT_FOUND);
+        }
+
+        $post = $this->postService->createPost($user, $category, $text, $postParent);
         $this->postService->persistAndFlush($post);
 
         return new JsonResponse(['message' => 'Post created'], Response::HTTP_CREATED);

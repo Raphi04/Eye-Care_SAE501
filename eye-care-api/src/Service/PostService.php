@@ -30,31 +30,35 @@ class PostService
         return $post;
     }
 
-    public function createPost(User $user, Category $category, string $text, ?int $postParentId): Post
+    public function createPost(User $user, Category $category, string $text, ?Post $postParent): Post
     {
         $post = new Post();
 
         $post->setUser($user);
         $post->setCategory($category);
         $post->setText($text);
-
+        
         $this->addCreatedAt($post);
         
-        if($postParentId){
-            $post = $this->addPostParent($post, $postParentId);
+        if($postParent){
+            $post->setPostParent($postParent);
         }
 
         return $post;
     }
 
-    public function addPostParent(Post $post, int $postParentId): ?Post
+    public function getValideParent(?int $postParentId, Category $category): ?Post
     {
-        $postParent = $this->findPostById($postParentId);
-        if($postParent && !$postParent->getPostParent()){
-            $post->setPostParent($postParent);
+        if(!$postParentId){
+            return null;
         }
 
-        return $post;
+        $postParent = $this->findPostById($postParentId);
+        if (!$postParent || $postParent->getPostParent() || $postParent->getCategory() !== $category) {
+            return null;
+        }
+        
+        return $postParent;
     }
 
     public function addCreatedAt(Post $post): Post
