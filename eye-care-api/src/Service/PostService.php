@@ -38,7 +38,7 @@ class PostService
         return $post;
     }
 
-    public function createPost(User $user, Category $category, string $text, ?Post $postParent): Post
+    public function createPost(User $user, ?Category $category, string $text, ?Post $postParent): Post
     {
         $post = new Post();
 
@@ -55,14 +55,14 @@ class PostService
         return $post;
     }
 
-    public function getValideParent(?int $postParentId, Category $category): ?Post
+    public function getValideParent(?int $postParentId): ?Post
     {
         if(!$postParentId){
             return null;
         }
 
         $postParent = $this->findPostById($postParentId);
-        if (!$postParent || $postParent->getPostParent() || $postParent->getCategory() !== $category) {
+        if (!$postParent || $postParent->getPostParent()) {
             return null;
         }
 
