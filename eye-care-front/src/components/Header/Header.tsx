@@ -65,7 +65,7 @@ export default function Header({ active }: HeaderProps) {
       <header>
         <div className="headerContainer">
           <Link to="/">
-            <EyeCareLogo className="logo"></EyeCareLogo>
+            <EyeCareLogo className="logo" />
           </Link>
 
           <nav>

@@ -127,7 +127,7 @@ export default function Astigmatisme() {
             </Link>
           </article>
         </section>
-      </main>{" "}
+      </main>
     </>
   );
 }
