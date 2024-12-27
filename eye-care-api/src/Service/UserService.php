@@ -76,7 +76,7 @@ class UserService
             'email' => $user->getEmail(),
             'username' => $user->getUsername(),
             'password' => $user->getPassword(),
-            'role' => $user->getRoles(),
+            'roles' => $user->getRoles(),
         ];
     }
 
