@@ -111,6 +111,11 @@ class PostService
                 'responses' => $responses
             ];
         }
+
+        usort($data, function($a, $b) {
+            return $b['like'] - $a['like'];
+        });
+
         return $data;
     }
 
