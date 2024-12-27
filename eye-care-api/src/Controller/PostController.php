@@ -66,6 +66,7 @@ class PostController extends AbstractController
         $requestData = json_decode($request->getContent(), true);
         $subject = $requestData['subject'];
 
+        $user = null;
         if($request->headers->has('auth-token'))
         {
             $apiToken = $request->headers->get('auth-token');
@@ -75,7 +76,7 @@ class PostController extends AbstractController
         $category = $this->categoryService->findCategoryByPropriety("subject", $subject);
         $posts = $this->postService->findPostsByCategory($category->getId());
 
-        $data = $this->postService->postsMapping($posts);
+        $data = $this->postService->postsMapping($posts, $user);
 
         return new JsonResponse($data, Response::HTTP_OK);
     }
