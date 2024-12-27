@@ -51,5 +51,25 @@ class PostController extends AbstractController
         $this->postService->persistAndFlush($post);
 
         return new JsonResponse(['message' => 'Post created'], Response::HTTP_CREATED);
-    } 
+    }
+
+    #[Route('/post', name: 'get_post_by_category', methods: ['GET'])]
+    public function getPostByCategory(Request $request): JsonResponse
+    {
+        $requestData = json_decode($request->getContent(), true);
+        $subject = $requestData['subject'];
+
+        if($request->headers->has('auth-token'))
+        {
+            $apiToken = $request->headers->get('auth-token');
+            $user = $this->userService->findUserByPropriety("apiToken", $apiToken);
+        }
+
+        $category = $this->categoryService->findCategoryByPropriety("subject", $subject);
+        $posts = $this->postService->findPostsByCategory($category->getId());
+
+        $data = $this->postService->postsMapping($posts);
+
+        return new JsonResponse($data, Response::HTTP_OK);
+    }
 }
