@@ -37,6 +37,9 @@ class PostService
         $post->setUser($user);
         $post->setCategory($category);
         $post->setText($text);
+
+        $this->addCreatedAt($post);
+        
         if($postParentId){
             $post = $this->addPostParent($post, $postParentId);
         }
@@ -51,6 +54,14 @@ class PostService
             $post->setPostParent($postParent);
         }
 
+        return $post;
+    }
+
+    public function addCreatedAt(Post $post): Post
+    {
+        $currentDate = new \DateTimeImmutable();
+
+        $post->setCreatedAt($currentDate);
         return $post;
     }
 
