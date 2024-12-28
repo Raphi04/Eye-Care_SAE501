@@ -90,6 +90,7 @@
             font-size: 1.5rem;
             font-family: $fontBold;
             color: $white;
+            transition: color 0.3s ease-out;
 
             body.dark & {
               color: $blueBlack;
@@ -220,17 +221,27 @@
       border-top: 1px solid $blueBlack;
     }
 
+    > p {
+      font-size: 1.2rem;
+      color: $blueBlack;
+      transition: color 0.3s ease-out;
+
+      body.dark & {
+        color: $white;
+      }
+    }
+
     .commentsContainer {
       width: 100%;
       padding: 0 250px;
       display: flex;
       flex-direction: column;
-      gap: 4rem;
+      gap: 2.5rem;
 
       .commentAndReplyContainer {
         display: flex;
         flex-direction: column;
-        gap: 2.5rem;
+        gap: 2rem;
 
         .comment {
           @extend %commentsStyle;
@@ -241,7 +252,7 @@
           flex-direction: column;
           position: relative;
           margin-left: 8rem;
-          gap: 2.5rem;
+          gap: 2rem;
 
           &::before {
             content: "";
