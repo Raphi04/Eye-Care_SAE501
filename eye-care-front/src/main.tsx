@@ -7,24 +7,33 @@ import {
   Navigate,
 } from "react-router-dom";
 
-//Pages
-import App from "./App.tsx";
-import Accueil from "./pages/Accueil/Accueil.tsx";
-import Blog from "./pages/Blog/Blog.tsx";
-import Tests from "./pages/Tests/Tests.tsx";
-import Articles from "./pages/Articles/Articles.tsx";
+//AUTHENTIFICATION
 import Authentification from "./pages/Authentification/Authentification.tsx";
+import Register from "./pages/Authentification/Register/Register.tsx";
+import Login from "./pages/Authentification/Login/Login.tsx";
+import LogOut from "./pages/Authentification/logOut.tsx";
 import IssuesForm from "./pages/Authentification/Register/IssuesForm/IssuesForm.tsx";
 import RegisterForm from "./pages/Authentification/Register/RegisterForm/RegisterForm.tsx";
-import Login from "./pages/Authentification/Login/Login.tsx";
-import Register from "./pages/Authentification/Register/Register.tsx";
-import LogOut from "./pages/Authentification/logOut.tsx";
+
+//MAIN CONTENT
+import App from "./App.tsx";
+import Accueil from "./pages/Accueil/Accueil.tsx";
+
+import Blog from "./pages/Blog/Blog.tsx";
+
+import Articles from "./pages/Articles/Articles.tsx";
 import Myopie from "./pages/Articles/Myopie.tsx";
 import Presbytie from "./pages/Articles/Presbytie.tsx";
 import Daltonisme from "./pages/Articles/Daltonisme.tsx";
 import Astigmatisme from "./pages/Articles/Astigmatisme.tsx";
 import Dmla from "./pages/Articles/Dmla.tsx";
 
+import Tests from "./pages/Tests/Tests.tsx";
+import Acuite from "./pages/Tests/Acuite.tsx";
+import Ishihara from "./pages/Tests/Ishihara.tsx";
+import Dmla from "./pages/Tests/Dmla.tsx";
+
+//LE SCSS GLOBAL
 import "./global.scss";
 import Hypermetropie from "./pages/Articles/Hypermetropie.tsx";
 
@@ -109,6 +118,24 @@ const router = createBrowserRouter([
       {
         path: "/tests",
         element: <Tests />,
+        children: [
+          {
+            path: "",
+            element: <Navigate to="acuite" replace />,
+          },
+          {
+            path: "acuite",
+            element: <Acuite />,
+          },
+          {
+            path: "ishihara",
+            element: <Ishihara />,
+          },
+          {
+            path: "dmla",
+            element: <Dmla />,
+          },
+        ],
       },
       {
         path: "*",
