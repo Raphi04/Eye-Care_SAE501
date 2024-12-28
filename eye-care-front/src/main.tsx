@@ -1,11 +1,7 @@
 //Dependencies
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import {
-  createBrowserRouter,
-  RouterProvider,
-  Navigate,
-} from "react-router-dom";
+import { createBrowserRouter, RouterProvider, Navigate } from "react-router-dom";
 
 //AUTHENTIFICATION
 import Authentification from "./pages/Authentification/Authentification.tsx";
@@ -31,7 +27,7 @@ import Dmla from "./pages/Articles/Dmla.tsx";
 import Tests from "./pages/Tests/Tests.tsx";
 import Acuite from "./pages/Tests/Acuite.tsx";
 import Ishihara from "./pages/Tests/Ishihara.tsx";
-import Dmla from "./pages/Tests/Dmla.tsx";
+import DmlaTest from "./pages/Tests/Dmla.tsx";
 
 //LE SCSS GLOBAL
 import "./global.scss";
@@ -133,7 +129,7 @@ const router = createBrowserRouter([
           },
           {
             path: "dmla",
-            element: <Dmla />,
+            element: <DmlaTest />,
           },
         ],
       },

@@ -18,72 +18,11 @@ interface CommentSectionProps {
 export default function CommentsSection({ subject }: CommentSectionProps) {
   //Variable de l'utilisateur actuellement connecté
   const { connectedUser, loadingState } = useApiContext();
+  const token = localStorage.getItem("token") || "";
 
   //Variable listant tous les commentaires de l'articles et leurs réponses
-  const [comments, setComments] = useState<any>([
-    {
-      id: 1,
-      username: "Timothé Gogole",
-      role: "ROLE_USER",
-      text: "Bon, il est pas terrible votre site. Je trouve pas ce que je veux, y a rien qui va. Je cherche la partie “Alopécie” depuis 2 heures mais y a rien à faire. Moi pas content >:(",
-      like: "600",
-      dislike: "200",
-      dateTime: "2024-12-11 12:09:44",
-      replies: [
-        {
-          id: 2,
-          username: "Andras Arato",
-          role: "ROLE_CERTIFIED",
-          text: "C’est normal Thimothé, tu te trouves sur un site qui parle d’ophtalmologie. Peu de chance que tu trouves ce que tu cherches... Mais puisque visiblement, il te reste autant de neurones que tu n’as de cheveux sur la tête, je te conseille le site “aledjesuischauve.com”, cela devrait t’aider à régler tes problèmes mentaux.",
-          like: "600",
-          dislike: "200",
-          dateTime: "2024-12-11 12:09:44",
-          replies: [],
-        },
-      ],
-    },
-    {
-      id: 3,
-      username: "Jérémie Parent",
-      role: "ROLE_ADMIN",
-      text: "Merci professeur Arato !",
-      like: "6000",
-      dislike: "0",
-      dateTime: "1945-12-11 12:09:44",
-      replies: [],
-    },
-    {
-      id: "4",
-      username: "Medhi Camant",
-      role: "ROLE_USER",
-      text: "Mais, vous aite pas janti, il as juste demander ou été la partie “Allo Pessi ?”. ",
-      like: "600",
-      dislike: "200",
-      dateTime: "2022-12-11 12:09:44",
-      replies: [
-        {
-          id: "5",
-          username: "Lionel Pessi",
-          role: "ROLE_USER",
-          text: "Oui on m'a appelé ?",
-          like: "52",
-          dislike: "51",
-          dateTime: "2022-11-11 12:09:44",
-          replies: [],
-        },
-        {
-          id: "6",
-          username: "RonalGOAT",
-          role: "ROLE_USER",
-          text: "SUUUUUUUUUUUUUUUUUUUUUUUUUUUUU",
-          like: "7",
-          dislike: "0",
-          dateTime: "2023-12-11 12:09:44",
-          replies: [],
-        },
-      ],
-    },
-  ]);
+  const [comments, setComments] = useState<any>([]);
+  const [commentsLoadingState, setCommentsLoadingState] = useState<boolean>(false);
 
   //Variable pour la rédaction de commentaire
   const [writedCommentValue, setWritedComment] = useState<string>("");
@@ -95,6 +34,69 @@ export default function CommentsSection({ subject }: CommentSectionProps) {
   const [totalComments, setTotalComments] = useState<number>(() => {
     return comments.length;
   });
+
+  //GET allComments
+  useEffect(() => {
+    const getAllComments = async () => {
+      try {
+        setCommentsLoadingState(true);
+
+        const requestOptions = {
+          method: "POST",
+          headers: { "Content-Type": "application/json", "auth-token": token },
+          body: JSON.stringify({ subject: subject }),
+        };
+
+        const response = await fetch("http://localhost:8000/post", requestOptions);
+
+        if (!response.ok) {
+          throw new Error(`Erreur HTTP : ${response.status}`);
+        }
+
+        const allComments = await response.json();
+        const allCommentsSorted = allComments.sort((a: any, b: any) => {
+          if (!connectedUser) {
+            const scoreA = a.like - a.dislike;
+            const scoreB = b.like - b.dislike;
+            console.log(scoreB - scoreA);
+            return scoreB - scoreA;
+          } else {
+            let isAUser;
+            let isBUser;
+
+            if (a.username == connectedUser.username) {
+              isAUser = true;
+            }
+
+            if (b.username == connectedUser.username) {
+              isBUser = true;
+            }
+
+            if (isAUser && !isBUser) {
+              return -1; // A venir avant B
+              //
+            } else if (!isAUser && isBUser) {
+              return 1; // B vient avant A
+              //
+            } else {
+              const scoreA = a.like - a.dislike;
+              const scoreB = b.like - b.dislike;
+              return scoreB - scoreA;
+            }
+          }
+        });
+
+        setComments(allCommentsSorted);
+        //
+      } catch (error: any) {
+        console.log("Erreur lors de l'envoie : " + error);
+        //
+      } finally {
+        setCommentsLoadingState(false);
+      }
+    };
+    getAllComments();
+  }, []);
 
   //Quand comments est mis à jour, on met à jour totalComments
   useEffect(() => {
@@ -113,20 +115,22 @@ export default function CommentsSection({ subject }: CommentSectionProps) {
 
     const requestOptions = {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json", "auth-token": token },
       body: JSON.stringify({
-        comment: writedCommentValue,
         subject: subject,
+        post_parent_id: null,
+        text: writedCommentValue,
       }),
     };
 
     try {
-      const response = await fetch("localhost/comment", requestOptions);
+      const response = await fetch("http://localhost:8000/user/post", requestOptions);
 
       if (!response.ok) {
         setWritedCommentError(true);
         throw new Error("Erreur HTTP:" + response.status);
       }
+      setWritedComment("");
       setWritedCommentSuccess(true);
 
       //Ajout du commentaire dans comments pour plus de fluidité
@@ -135,13 +139,19 @@ export default function CommentsSection({ subject }: CommentSectionProps) {
       let newComment = {
         id: new Date().getTime(),
         username: connectedUser.username,
-        role: connectedUser.role,
+        user_roles: [connectedUser.user_roles[0]],
         text: writedCommentValue,
         like: 0,
+        is_liked: false,
         dislike: 0,
-        dateTime: currentDate,
+        is_disliked: false,
+        created_at: currentDate,
+        responses: [],
       };
-      setComments([newComment, ...comments]);
+
+      const newAllComments = [newComment, ...comments];
+      setComments(newAllComments);
+      console.log(newAllComments);
       //
     } catch (error: any) {
       setWritedCommentError(true);
@@ -170,9 +180,9 @@ export default function CommentsSection({ subject }: CommentSectionProps) {
     const newComments = comments.map((comment: any) => {
       if (comment.id === commentId) {
         if (fromReply) {
-          comment.replies = [...comment.replies, replyObject]; //Si la réponse vient elle même d'une réponse
+          comment.responses = [...comment.responses, replyObject]; //Si la réponse vient elle même d'une réponse
         } else {
-          comment.replies = [replyObject, ...comment.replies]; //Si la réponse vient d'un commentaire
+          comment.responses = [replyObject, ...comment.responses]; //Si la réponse vient d'un commentaire
         }
       }
       return comment;
@@ -207,7 +217,10 @@ export default function CommentsSection({ subject }: CommentSectionProps) {
                 <div className="userIcon">
                   <p>{getConnectedUserInitials()}</p>
                 </div>
-                <textarea onChange={handleChangeWritedComment}></textarea>
+                <textarea
+                  onChange={handleChangeWritedComment}
+                  value={writedCommentValue}
+                ></textarea>
                 <div className="sendCommentContainer">
                   <div className="sendingInfo">
                     {writedCommentLoadingState && <p>Envoie du commentaire en cours...</p>}
@@ -235,23 +248,34 @@ export default function CommentsSection({ subject }: CommentSectionProps) {
         </article>
 
         <article className="secondCommentSection">
-          <h2>{totalComments} Commentaires</h2>
-          <hr />
+          {totalComments > 1 && <h2>{totalComments} Commentaires</h2>}
+          {totalComments <= 1 && <h2>{totalComments} Commentaire</h2>}
 
-          <div className="commentsContainer">
-            {comments.map((comment: any, index: number) => {
-              return (
-                <Comment
-                  key={index}
-                  commentData={comment}
-                  isReply={false}
-                  parentId={comment.id}
-                  subject={subject}
-                  updateComments={updateComments}
-                />
-              );
-            })}
-          </div>
+          <hr />
+          {commentsLoadingState && (
+            <p>
+              <FontAwesomeIcon icon={faSpinner} spin /> Chargement...
+            </p>
+          )}
+          {!commentsLoadingState && (
+            <div className="commentsContainer">
+              {comments.map((comment: any, index: number) => {
+                return (
+                  <Comment
+                    key={index}
+                    commentData={comment}
+                    isReply={false}
+                    parentId={comment.id}
+                    subject={subject}
+                    updateComments={updateComments}
+                  />
+                );
+              })}
+            </div>
+          )}
+          {!commentsLoadingState && comments.length == 0 && (
+            <p>Aucun commentaire n'a été écrit pour cette article.</p>
+          )}
         </article>
         <hr />
       </section>
