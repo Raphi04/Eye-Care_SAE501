@@ -8,10 +8,7 @@ import EyeCareLogo from "../../assets/Eye_care_proposition_finale.svg?react";
 import "./header.scss";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faArrowRightFromBracket,
-  faSpinner,
-} from "@fortawesome/free-solid-svg-icons";
+import { faArrowRightFromBracket, faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { useApiContext } from "../ApiProvider";
 
 interface HeaderProps {
@@ -39,10 +36,7 @@ export default function Header({ active }: HeaderProps) {
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
-      if (
-        profileRef.current &&
-        !profileRef.current.contains(event.target as Node)
-      ) {
+      if (profileRef.current && !profileRef.current.contains(event.target as Node)) {
         setOnProfileClick(false);
       }
     }
@@ -76,25 +70,15 @@ export default function Header({ active }: HeaderProps) {
       <header>
         <div className="headerContainer">
           <Link to="/">
-            <EyeCareLogo className="logo"></EyeCareLogo>
+            <EyeCareLogo className="logo" />
           </Link>
 
           <nav>
-            <Link
-              to="/"
-              className={
-                "linkContainer " + (active == "accueil" ? "isActive" : "")
-              }
-            >
+            <Link to="/" className={"linkContainer " + (active == "accueil" ? "isActive" : "")}>
               <p>Accueil</p>
             </Link>
 
-            <Link
-              to="/blog"
-              className={
-                "linkContainer " + (active == "blog" ? "isActive" : "")
-              }
-            >
+            <Link to="/blog" className={"linkContainer " + (active == "blog" ? "isActive" : "")}>
               <p>Blog</p>
             </Link>
 
@@ -132,10 +116,8 @@ export default function Header({ active }: HeaderProps) {
             </div>
 
             <Link
-              to="/tests"
-              className={
-                "linkContainer " + (active == "tests" ? "isActive" : "")
-              }
+              to="/tests/acuite"
+              className={"linkContainer " + (active == "tests" ? "isActive" : "")}
             >
               <p>Tests</p>
             </Link>
@@ -172,10 +154,7 @@ export default function Header({ active }: HeaderProps) {
                       <p>Mon profile</p>
                     </Link>
                     <Link to="/authentification/logOut" className="link">
-                      <FontAwesomeIcon
-                        icon={faArrowRightFromBracket}
-                        className="exit"
-                      />
+                      <FontAwesomeIcon icon={faArrowRightFromBracket} className="exit" />
                       <p>Déconnexion</p>
                     </Link>
                   </div>

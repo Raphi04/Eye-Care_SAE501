@@ -33,18 +33,22 @@ interface CommentData {
 interface CommentProps {
   commentData: CommentData;
   parentId: number;
+  subject: string;
   isReply: boolean;
   updateComments: (commentId: number, replyObject: any, fromReply: boolean) => void; //Fonction venant du parent pour mettre à jour les commentaires
 }
 
-export default function Comment({ commentData, parentId, isReply, updateComments }: CommentProps) {
+export default function Comment({
+  commentData,
+  parentId,
+  subject,
+  isReply,
+  updateComments,
+}: CommentProps) {
   //ConnectedUser
   const { connectedUser, loadingState } = useApiContext();
 
-  const [connectedUsernameInitials, setConnectedUsernameInitials] = useState<string>();
-
   //Variables des commentaires
-  const [usernameInitials, setUsernameInitials] = useState<string>();
   const [publishedAgo, setPublishedAgo] = useState<string>();
   const [isLiked, setIsLiked] = useState<boolean>(() => {
     return commentData.isLiked || false;
@@ -194,6 +198,7 @@ export default function Comment({ commentData, parentId, isReply, updateComments
       id: new Date().getTime(),
       username: connectedUser.username,
       role: connectedUser.role,
+      subject: subject,
       text: replyText,
       like: 0,
       dislike: 0,
@@ -399,6 +404,7 @@ export default function Comment({ commentData, parentId, isReply, updateComments
                   key={index}
                   commentData={reply}
                   parentId={parentId}
+                  subject={subject}
                   isReply={true}
                   updateComments={updateComments}
                 />
