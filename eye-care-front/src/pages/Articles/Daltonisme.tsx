@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import ModelViewer from "../../components/ModelViewer";
 
-import Model from "../../assets/3D_Model/portal_cube.glb";
+import Model from "../../assets/3D_Model/Phoropter_final2.glb";
 import White from "../../assets/3D_Model/white.png";
 import Glasses from "../../assets/glasses.svg?react";
 
@@ -29,7 +29,6 @@ export default function Daltonisme() {
               src={Model}
               alt="OIIA"
               loading="eager"
-              skyboxImage={White}
               environmentImage="neutral"
               cameraControls
               interaction-prompt="none"
