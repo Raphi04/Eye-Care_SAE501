@@ -57,7 +57,7 @@ class PostController extends AbstractController
         $post = $this->postService->createPost($user, $category, $text, $postParent);
         $this->postService->persistAndFlush($post);
 
-        $data = ['user_id' => $user->getId()];
+        $data = ['id' => $post->getId()];
 
         return new JsonResponse($data, Response::HTTP_CREATED);
     }
