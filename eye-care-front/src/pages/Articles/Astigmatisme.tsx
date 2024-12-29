@@ -140,7 +140,7 @@ export default function Astigmatisme() {
             </Link>
           </article>
         </section>
-        <CommentsSection />
+        <CommentsSection subject="astigmatisme" />
       </main>
     </>
   );

@@ -1,12 +1,57 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AcuitePop from "./popUps/AcuitePop";
+import { useApiContext } from "../../components/ApiProvider";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 
 export default function Acuite() {
-  const [acuiteScore, setAcuiteScore] = useState<any>(() => {
-    return localStorage.getItem("acuiteScore") || "";
-  });
+  //Connected User
+  const { connectedUser, loadingState } = useApiContext();
+  const token = localStorage.getItem("token") || "";
 
+  const [acuiteScore, setAcuiteScore] = useState<string>("");
+  const [getScoreLoadingState, setGetScoreLoadingState] = useState<boolean>(false);
   const [testIsStarted, setTestIsStarted] = useState<Boolean>(false);
+
+  async function getAcuiteScore() {
+    setGetScoreLoadingState(true);
+    if (connectedUser && !loadingState) {
+      const requestOptions = {
+        method: "GET",
+        headers: { "Content-Type": "application/json", "auth-token": token },
+      };
+
+      try {
+        const response = await fetch("http://localhost:8000/user/profile", requestOptions);
+
+        if (!response.ok) {
+          throw new Error(`Erreur HTTP : ${response.status}`);
+        }
+        const result = await response.json();
+        const currentAcuiteScore = result.vision_disorder_result.map((disorder: any) => {
+          if (disorder.vision_disorder == "myopie") {
+            return disorder.result;
+          }
+        });
+
+        setAcuiteScore(currentAcuiteScore);
+        //
+      } catch (error: any) {
+        console.log("Erreur lors de la récupération : " + error.message);
+      } finally {
+        setGetScoreLoadingState(false);
+      }
+    }
+  }
+
+  useEffect(() => {
+    getAcuiteScore();
+    if (!connectedUser && !loadingState) {
+      setGetScoreLoadingState(false);
+      const currentAcuiteScore = localStorage.getItem("acuiteScore") || "";
+      setAcuiteScore(currentAcuiteScore);
+    }
+  }, [connectedUser, loadingState]);
 
   function handleChangeTestIsStarted() {
     const scrollBarWidth = window.innerWidth - document.documentElement.clientWidth;
@@ -19,6 +64,10 @@ export default function Acuite() {
       document.body.style.paddingRight = "";
     }
     setTestIsStarted(newState);
+  }
+
+  function handleChangeAcuiteScore(newScore: string) {
+    setAcuiteScore(newScore);
   }
 
   return (
@@ -49,7 +98,19 @@ export default function Acuite() {
 
       <div className="startTest">
         <button onClick={handleChangeTestIsStarted}>LANCER LE TEST</button>
-        <p>Score actuel : {acuiteScore ? acuiteScore + "/50" : "-"}</p>
+        {getScoreLoadingState && (
+          <p>
+            <FontAwesomeIcon icon={faSpinner} spin /> Chargement en cours ...
+          </p>
+        )}
+
+        {!loadingState && !connectedUser && (
+          <p>Votre score actuel : {acuiteScore.length ? acuiteScore + "/50" : "-"}</p>
+        )}
+
+        {!loadingState && connectedUser && !getScoreLoadingState && (
+          <p>Votre score actuel : {acuiteScore.length ? acuiteScore + "/50" : "-"}</p>
+        )}
       </div>
 
       <div className="textContainer">
@@ -75,7 +136,9 @@ export default function Acuite() {
           vehicula augue nec risus rhoncus interdum.
         </p>
       </div>
-      {testIsStarted && <AcuitePop closePopUp={handleChangeTestIsStarted} />}
+      {testIsStarted && (
+        <AcuitePop closePopUp={handleChangeTestIsStarted} upDateScore={handleChangeAcuiteScore} />
+      )}
     </>
   );
 }

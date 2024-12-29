@@ -57,15 +57,14 @@ class PostController extends AbstractController
         $post = $this->postService->createPost($user, $category, $text, $postParent);
         $this->postService->persistAndFlush($post);
 
-        return new JsonResponse(['message' => 'Post created'], Response::HTTP_CREATED);
+        $data = ['user_id' => $user->getId()];
+
+        return new JsonResponse($data, Response::HTTP_CREATED);
     }
 
-    #[Route('/post', name: 'get_post_by_category', methods: ['GET'])]
-    public function getPostByCategory(Request $request): JsonResponse
+    #[Route('/post/{subject}', name: 'get_post_by_category', methods: ['GET'])]
+    public function getPostByCategory(Request $request, string $subject): JsonResponse
     {
-        $requestData = json_decode($request->getContent(), true);
-        $subject = $requestData['subject'];
-
         $user = null;
         if($request->headers->has('auth-token'))
         {
