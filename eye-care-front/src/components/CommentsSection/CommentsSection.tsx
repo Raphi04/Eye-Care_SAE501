@@ -20,7 +20,7 @@ export default function CommentsSection({ subject }: CommentSectionProps) {
   const { connectedUser, loadingState } = useApiContext();
   const token = localStorage.getItem("token") || "";
 
-  //Variable listant tous les commentaires de l'articles et leurs réponses
+  //Variable listant tous les commentaires de l'article et leurs réponses
   const [comments, setComments] = useState<any>([]);
   const [commentsLoadingState, setCommentsLoadingState] = useState<boolean>(false);
 
@@ -53,12 +53,9 @@ export default function CommentsSection({ subject }: CommentSectionProps) {
         }
 
         const allComments = await response.json();
+        //On tri par le score de like - dislike
         const allCommentsSorted = allComments.sort((a: any, b: any) => {
-          if (!connectedUser) {
-            const scoreA = a.like - a.dislike;
-            const scoreB = b.like - b.dislike;
-            return scoreB - scoreA;
-          } else {
+          if (connectedUser && !loadingState && !commentsLoadingState) {
             let isAUser;
             let isBUser;
 
@@ -71,7 +68,7 @@ export default function CommentsSection({ subject }: CommentSectionProps) {
             }
 
             if (isAUser && !isBUser) {
-              return -1; // A venir avant B
+              return -1; // A vient avant B
               //
             } else if (!isAUser && isBUser) {
               return 1; // B vient avant A
@@ -81,9 +78,12 @@ export default function CommentsSection({ subject }: CommentSectionProps) {
               const scoreB = b.like - b.dislike;
               return scoreB - scoreA;
             }
+          } else {
+            const scoreA = a.like - a.dislike;
+            const scoreB = b.like - b.dislike;
+            return scoreB - scoreA;
           }
         });
-
         setComments(allCommentsSorted);
         //
       } catch (error: any) {
@@ -95,6 +95,37 @@ export default function CommentsSection({ subject }: CommentSectionProps) {
     };
     getAllComments();
   }, []);
+
+  //Si l'utilisateur est connecté on met ses posts en haut
+  useEffect(() => {
+    if (connectedUser && !loadingState && !commentsLoadingState) {
+      const allCommentsSorted = [...comments].sort((a: any, b: any) => {
+        let isAUser;
+        let isBUser;
+
+        if (a.user_id == connectedUser.id) {
+          isAUser = true;
+        }
+
+        if (b.user_id == connectedUser.id) {
+          isBUser = true;
+        }
+
+        if (isAUser && !isBUser) {
+          return -1; // A vient avant B
+          //
+        } else if (!isAUser && isBUser) {
+          return 1; // B vient avant A
+          //
+        } else {
+          const scoreA = a.like - a.dislike;
+          const scoreB = b.like - b.dislike;
+          return scoreB - scoreA;
+        }
+      });
+      setComments([...allCommentsSorted]);
+    }
+  }, [connectedUser]);
 
   //Quand comments est mis à jour, on met à jour totalComments
   useEffect(() => {
@@ -130,9 +161,7 @@ export default function CommentsSection({ subject }: CommentSectionProps) {
       }
 
       const result = await response.json();
-      console.log("ici");
       console.log(result);
-
       setWritedComment("");
       setWritedCommentSuccess(true);
 
@@ -157,7 +186,6 @@ export default function CommentsSection({ subject }: CommentSectionProps) {
       //
     } catch (error: any) {
       setWritedCommentError(true);
-      console.log("Erreur lors de l'envoie : " + error.message);
       //
     } finally {
       setWritedCommentLoadingState(false);
@@ -265,7 +293,7 @@ export default function CommentsSection({ subject }: CommentSectionProps) {
               {comments.map((comment: any, index: number) => {
                 return (
                   <Comment
-                    key={index}
+                    key={comment.id}
                     commentData={comment}
                     isReply={false}
                     parentId={comment.id}
