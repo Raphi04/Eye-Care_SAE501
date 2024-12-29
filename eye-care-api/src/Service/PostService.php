@@ -87,6 +87,7 @@ class PostService
                 $responses[] = [
                     'id' => $response->getId(),
                     'username' => $response->getUser()->getUsername(),
+                    'user_id' => $response->getUser()->getId(),
                     'user_roles' => $response->getUser()->getRoles(),
                     'text' => $response->getText(),
                     'created_at' => $response->getCreatedAt()->setTimezone(new \DateTimeZone('Europe/Paris'))->format('Y-m-d H:i:s'),
@@ -101,6 +102,7 @@ class PostService
             $data[] = [
                 'id' => $post->getId(),
                 'username' => $post->getUser()->getUsername(),
+                'user_id' => $post->getUser()->getId(),
                 'user_roles' => $post->getUser()->getRoles(),
                 'text' => $post->getText(),
                 'created_at' => $post->getCreatedAt()->setTimezone(new \DateTimeZone('Europe/Paris'))->format('Y-m-d H:i:s'),

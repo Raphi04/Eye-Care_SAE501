@@ -59,4 +59,10 @@ class VoteService
         $this->entityManager->persist($vote);
         $this->entityManager->flush();
     }
+
+    public function delete(Vote $vote): void
+    {
+        $this->entityManager->remove($vote);
+        $this->entityManager->flush();
+    }
 }

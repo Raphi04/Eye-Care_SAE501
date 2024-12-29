@@ -57,4 +57,22 @@ class VoteController extends AbstractController
         $this->voteService->persistAndFlush($vote);
         return new JsonResponse(['message' => 'Vote value updated'], Response::HTTP_OK);
     }
+
+    #[Route('/user/vote/{post_id}', name: 'delete_vote', methods: ['DELETE'])]
+    public function deleteVote(Request $request, int $post_id): JsonResponse
+    {
+        $apiToken = $request->headers->get('auth-token');
+        $user = $this->userService->findUserByPropriety("apiToken", $apiToken);
+        $userId = $user->getId();
+
+        $vote = $this->voteService->findVoteByProprieties("user", $userId, "post", $post_id);
+        if(!$vote)
+        {
+            return new JsonResponse(['message' => 'Vote not found'], Response::HTTP_NOT_FOUND);
+        }
+
+        $this->voteService->delete($vote);
+
+        return new JsonResponse(['message' => 'Vote deleted'], Response::HTTP_OK);
+    }
 }
