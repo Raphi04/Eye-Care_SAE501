@@ -21,7 +21,7 @@ import Accueil from "./pages/Accueil/Accueil.tsx";
 
 import Blog from "./pages/Blog/Blog.tsx";
 
-import Profile from "./pages/Profile/profile.tsx";
+import Profile from "./pages/Profile/Profile.tsx";
 
 import Articles from "./pages/Articles/Articles.tsx";
 import Myopie from "./pages/Articles/Myopie.tsx";
