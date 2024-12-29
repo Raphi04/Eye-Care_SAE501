@@ -32,7 +32,7 @@ import Astigmatisme from "./pages/Articles/Astigmatisme.tsx";
 import Tests from "./pages/Tests/Tests.tsx";
 import Acuite from "./pages/Tests/Acuite.tsx";
 import Ishihara from "./pages/Tests/Ishihara.tsx";
-import Dmla from "./pages/Articles/Dmla.tsx";
+import DmlaTest from "./pages/Articles/Dmla.tsx";
 
 //LE SCSS GLOBAL
 import "./global.scss";
@@ -137,10 +137,6 @@ const router = createBrowserRouter([
 						element: <Dmla />,
 					},
 				],
-			},
-			{
-				path: "/profil",
-				element: <Profile />,
 			},
 			{
 				path: "*",

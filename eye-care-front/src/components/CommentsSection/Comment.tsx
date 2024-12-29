@@ -17,16 +17,16 @@ import { useApiContext } from "../ApiProvider";
 
 //Typing de commentData
 interface CommentData {
-	id: number;
-	username: string;
-	role: string;
-	text: string;
-	like: number;
-	isLiked?: boolean;
-	dislike: number;
-	isDisliked?: boolean;
-	dateTime: Date;
-	replies?: CommentData[];
+  id: number;
+  username: string;
+  user_roles: string[];
+  text: string;
+  like: number;
+  is_liked?: boolean;
+  dislike: number;
+  is_disliked?: boolean;
+  created_at: Date;
+  responses?: CommentData[];
 }
 
 //Définition des props de <Comments />
@@ -49,8 +49,9 @@ export default function Comment({
 	isReply,
 	updateComments,
 }: CommentProps) {
-	//ConnectedUser
-	const { connectedUser, loadingState } = useApiContext();
+  //ConnectedUser
+  const { connectedUser, loadingState } = useApiContext();
+  const token = localStorage.getItem("token") || "";
 
 	//Variables des commentaires
 	const [publishedAgo, setPublishedAgo] = useState<string>();
@@ -60,6 +61,10 @@ export default function Comment({
 	const [isDisliked, setIsDisliked] = useState<boolean>(() => {
 		return commentData.isDisliked || false;
 	});
+  //Variables des commentaires
+  const [publishedAgo, setPublishedAgo] = useState<string>();
+  const [isLiked, setIsLiked] = useState<boolean>(commentData.is_liked || false);
+  const [isDisliked, setIsDisliked] = useState<boolean>(commentData.is_disliked || false);
 
 	//Variable des réponses
 	const [replyText, setReplyText] = useState<string>(() => {
@@ -96,6 +101,10 @@ export default function Comment({
 		const now = new Date();
 		const commentPublishedTime = new Date(commentData.dateTime);
 		const differenceEnMs = now.getTime() - commentPublishedTime.getTime();
+  function getDifferenceTime() {
+    const now = new Date();
+    const commentPublishedTime = new Date(commentData.created_at);
+    const differenceEnMs = now.getTime() - commentPublishedTime.getTime();
 
 		const differenceSecondes = Math.round(differenceEnMs / 1000);
 		const differenceMinutes = Math.round(differenceSecondes / 60);
@@ -167,16 +176,49 @@ export default function Comment({
 		}
 	}
 
-	function handleChangeIsLiked() {
-		const newIsLikes = !isLiked;
-		setIsLiked(newIsLikes);
+  async function handleChangeIsLiked() {
+    const newLikedState = !commentData.is_liked;
 
-		if (newIsLikes == true) {
-			commentData.like++;
-		} else {
-			commentData.like--;
-		}
-	}
+    if (newLikedState) {
+      console.log(commentData);
+      //Update en local
+      if (commentData.is_disliked) {
+        setIsDisliked(false);
+        commentData.is_disliked = false;
+        commentData.dislike--;
+      }
+      setIsLiked(true);
+      commentData.is_liked = true;
+      commentData.like++;
+
+      //Envoie à l'API
+      try {
+        const body = {
+          post_id: commentData.id,
+          vote_value: true,
+        };
+
+        const requestOptions = {
+          method: "POST",
+          headers: { "Content-Type": "application/json", "auth-token": token },
+          body: JSON.stringify(body),
+        };
+
+        const response = await fetch("http://localhost:8000/user/vote", requestOptions);
+
+        if (!response.ok) {
+          throw new Error("Erreur HTTP : " + response.status);
+        }
+      } catch (error: any) {
+        console.log("Erreur lors de l'envoie : " + error.message);
+      }
+    } else {
+      //Update en local
+      setIsLiked(false);
+      commentData.is_liked = false;
+      commentData.like--;
+    }
+  }
 
 	function handleChangeIsDisliked() {
 		const newIsDisliked = !isDisliked;
@@ -188,35 +230,89 @@ export default function Comment({
 			commentData.dislike--;
 		}
 	}
+  async function handleChangeIsDisliked() {
+    const newDisLikedState = !commentData.is_disliked;
+    if (newDisLikedState) {
+      //Update en local
+      if (commentData.is_liked) {
+        setIsLiked(false);
+        commentData.is_liked = false;
+        commentData.like--;
+      }
+      setIsDisliked(true);
+      commentData.is_disliked = true;
+      commentData.dislike++;
 
-	async function sendResponse() {
-		setReplyError(false);
-		setReplyLoading(true);
-		let newErrorState = false;
-		//Permet de mettre le temps de publication du commentaire à 1 seconde au lieu de 0
-		//Impossible de mettre directement un nombre, il faut que ce soit une valeur de type Date
-		const currentDate = new Date();
-		currentDate.setSeconds(currentDate.getSeconds() - 1);
+      //Envoie à l'API
+      try {
+        const body = {
+          post_id: commentData.id,
+          vote_value: false,
+        };
 
-		const reply = {
-			id: new Date().getTime(),
-			username: connectedUser.username,
-			role: connectedUser.role,
-			subject: subject,
-			text: replyText,
-			like: 0,
-			dislike: 0,
-			dateTime: currentDate,
-		};
+        const requestOptions = {
+          method: "POST",
+          headers: { "Content-Type": "application/json", "auth-token": token },
+          body: JSON.stringify(body),
+        };
+
+        const response = await fetch("http://localhost:8000/user/vote", requestOptions);
+
+        if (!response.ok) {
+          throw new Error("Erreur HTTP : " + response.status);
+        }
+      } catch (error: any) {
+        console.log("Erreur lors de l'envoie : " + error.message);
+      }
+    } else {
+      setIsDisliked(false);
+      commentData.is_disliked = false;
+      commentData.dislike--;
+    }
+  }
+
+  async function sendResponse() {
+    setReplyError(false);
+    setReplyLoading(true);
+    let newErrorState = false;
+
+    //Permet de mettre le temps de publication du commentaire à 1 seconde au lieu de 0
+    //Impossible de mettre directement un nombre, il faut que ce soit une valeur de type Date
+    let currentDate = new Date();
+    currentDate.setSeconds(currentDate.getSeconds() - 1);
+
+    const replyLocal = {
+      id: new Date().getTime(),
+      username: connectedUser.username,
+      user_roles: connectedUser.user_roles[0],
+      subject: subject,
+      text: replyText,
+      like: 0,
+      dislike: 0,
+      created_at: currentDate,
+    };
+
+    const replyAPI = {
+      subject: subject,
+      post_parent_id: parentId,
+      text: replyText,
+    };
 
 		const requestOptions = {
 			method: "POST",
 			headers: { "Content-Type": "application/json" },
 			body: JSON.stringify(reply),
 		};
+    const requestOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "auth-token": token },
+      body: JSON.stringify(replyAPI),
+    };
 
 		try {
 			const response = await fetch("localhost/comment", requestOptions);
+    try {
+      const response = await fetch("http://localhost:8000/user/post", requestOptions);
 
 			if (!response.ok) {
 				newErrorState = true;
@@ -234,6 +330,22 @@ export default function Comment({
 			if (!newErrorState) {
 				//Mise à jour de la variable du parent pour plus de fluidité et éviter de refaire un appel à l'API
 				updateComments(parentId, reply, isReply);
+      if (!response.ok) {
+        newErrorState = true;
+        setReplyError(newErrorState);
+        throw new Error("Erreur HTTP:" + response.status);
+      }
+      //
+    } catch (error: any) {
+      newErrorState = true;
+      setReplyError(newErrorState);
+      console.log("Erreur lors de l'envoie : " + error.message);
+      //
+    } finally {
+      setReplyLoading(false);
+      if (!newErrorState) {
+        //Mise à jour de la variable du parent pour plus de fluidité et éviter de refaire un appel à l'API
+        updateComments(parentId, replyLocal, isReply);
 
 				setReplyText("");
 				setIsReplying(false);
@@ -261,6 +373,13 @@ export default function Comment({
 									</p>
 								</div>
 							)}
+              {commentData.user_roles[0] == "ROLE_CERTIFIED" && (
+                <div className={"userRole professionnel"}>
+                  <p>
+                    Professionnel <FontAwesomeIcon icon={faCheck} />
+                  </p>
+                </div>
+              )}
 
 							{commentData.role == "ROLE_ADMIN" && (
 								<div className={"userRole admin"}>
@@ -269,6 +388,13 @@ export default function Comment({
 									</p>
 								</div>
 							)}
+              {commentData.user_roles[0] == "ROLE_ADMIN" && (
+                <div className={"userRole admin"}>
+                  <p>
+                    Administrateur <FontAwesomeIcon icon={faCheck} />
+                  </p>
+                </div>
+              )}
 
 							<p className="date">Il y a {publishedAgo}</p>
 						</div>
@@ -290,6 +416,24 @@ export default function Comment({
 										Répondre
 									</p>
 								)}
+            <div className="actions">
+              <div className="mainActions">
+                {loadingState && (
+                  <p className="response loading">
+                    <FontAwesomeIcon icon={faSpinner} spin /> Chargement...
+                  </p>
+                )}
+
+                {!loadingState &&
+                  connectedUser &&
+                  !(connectedUser.user_roles[0] == "ROLE_USER") && (
+                    <p
+                      className={`response ${isReplying ? "isReplying" : ""}`}
+                      onClick={handleChangeIsReplying}
+                    >
+                      Répondre
+                    </p>
+                  )}
 
 								<div className="commentValue" onClick={handleChangeIsLiked}>
 									<FontAwesomeIcon
@@ -298,6 +442,16 @@ export default function Comment({
 									/>
 									<p>{commentData.like}</p>
 								</div>
+                <div
+                  className={`commentValue ${!connectedUser ? "noHover" : ""}`}
+                  onClick={handleChangeIsLiked}
+                >
+                  <FontAwesomeIcon
+                    icon={commentData.is_liked ? faThumbsUp : faThumbsUpBorder}
+                    className={commentData.is_liked ? "green" : ""}
+                  />
+                  <p>{commentData.like}</p>
+                </div>
 
 								<div className="commentValue" onClick={handleChangeIsDisliked}>
 									<FontAwesomeIcon
@@ -307,6 +461,17 @@ export default function Comment({
 									<p>{commentData.dislike}</p>
 								</div>
 							</div>
+                <div
+                  className={`commentValue ${!connectedUser ? "noHover" : ""}`}
+                  onClick={handleChangeIsDisliked}
+                >
+                  <FontAwesomeIcon
+                    icon={commentData.is_disliked ? faThumbsDown : faThumbsDownBorder}
+                    className={commentData.is_disliked ? "red" : ""}
+                  />
+                  <p>{commentData.dislike}</p>
+                </div>
+              </div>
 
 							{isReplying && (
 								<div className="comment responding">
@@ -331,6 +496,23 @@ export default function Comment({
 													</p>
 												</div>
 											)}
+                  <div className="commentInformations">
+                    <div className="commentHeader">
+                      <p className="user">{connectedUser.username}</p>
+                      {connectedUser.user_roles[0] == "ROLE_CERTIFIED" && (
+                        <div className={"userRole professionnel"}>
+                          <p>
+                            Professionnel <FontAwesomeIcon icon={faCheck} />
+                          </p>
+                        </div>
+                      )}
+                      {connectedUser.user_roles[0] == "ROLE_ADMIN" && (
+                        <div className={"userRole admin"}>
+                          <p>
+                            Administrateur <FontAwesomeIcon icon={faCheck} />
+                          </p>
+                        </div>
+                      )}
 
 											<p className="date">En cours d'écriture ...</p>
 										</div>
@@ -401,6 +583,12 @@ export default function Comment({
 											: "Voir les réponses"}
 									</p>
 								)}
+              {!showReplies && commentData.responses && commentData.responses.length > 0 && (
+                <p className="showReplies" onClick={handleChangeShowReplies}>
+                  <FontAwesomeIcon icon={faChevronDown} />
+                  {commentData.responses.length == 1 ? "Voir la réponse" : "Voir les réponses"}
+                </p>
+              )}
 
 							{showReplies &&
 								commentData.replies &&
@@ -415,6 +603,17 @@ export default function Comment({
 						</div>
 					</div>
 				</div>
+              {showReplies && commentData.responses && commentData.responses.length > 0 && (
+                <p className="showReplies" onClick={handleChangeShowReplies}>
+                  <FontAwesomeIcon icon={faChevronUp} />
+                  {commentData.responses.length == 1
+                    ? "Masquer la réponse"
+                    : "Masquer les réponses"}
+                </p>
+              )}
+            </div>
+          </div>
+        </div>
 
 				{showReplies &&
 					commentData.replies &&
@@ -437,4 +636,23 @@ export default function Comment({
 			</div>
 		</>
 	);
+        {showReplies && commentData.responses && commentData.responses.length > 0 && (
+          <div className="responseContainer">
+            {commentData.responses.map((reply: any, index: number) => {
+              return (
+                <Comment
+                  key={index}
+                  commentData={reply}
+                  parentId={parentId}
+                  subject={subject}
+                  isReply={true}
+                  updateComments={updateComments}
+                />
+              );
+            })}
+          </div>
+        )}
+      </div>
+    </>
+  );
 }
