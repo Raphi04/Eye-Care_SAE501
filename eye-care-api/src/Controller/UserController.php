@@ -46,9 +46,30 @@ class UserController extends AbstractController
         $apiToken = $request->headers->get('auth-token');
         $user = $this->userService->findUserByPropriety("apiToken", $apiToken);
 
-        $userRoles = $user->getRoles();
+        $data = [
+            'roles' => $user->getRoles()
+        ];
 
-        return new JsonResponse($userRoles, Response::HTTP_OK);
+        return new JsonResponse($data, Response::HTTP_OK);
+    }
+
+    #[Route('/user/user_info', name: 'user_info', methods: ['GET'])]
+    public function GetUserInfo(Request $request): JsonResponse
+    {
+        $apiToken = $request->headers->get('auth-token');
+        $user = $this->userService->findUserByPropriety("apiToken", $apiToken);
+
+        $userRoles = $user->getRoles();
+        $username = $user->getUsername();
+        $userId = $user->getId();
+
+        $data = [
+            'id' => $user->getId(),
+            'username' => $user->getUsername(),
+            'roles' => $user->getRoles()
+        ];
+
+        return new JsonResponse($data, Response::HTTP_OK);
     }
 
     #[Route('/user/user', name: 'my_user_update', methods: ['PUT'])]
