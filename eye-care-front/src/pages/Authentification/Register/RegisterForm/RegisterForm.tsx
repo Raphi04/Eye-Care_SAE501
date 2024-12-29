@@ -47,6 +47,14 @@ export default function RegisterForm() {
 			errors.push("Tous les champs doivent être remplis.");
 		}
 
+		if (password && password.length < 6) {
+			errors.push("Le mot de passe doit contenir au moins 6 caractères.");
+		}
+
+		if (username && username.length < 6) {
+			errors.push("Le mot de passe doit contenir au moins 6 caractères.");
+		}
+
 		if (password !== verifPassword) {
 			errors.push("Les mots de passe ne correspondent pas.");
 		}
