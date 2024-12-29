@@ -47,12 +47,29 @@ export default function RegisterForm() {
 			errors.push("Tous les champs doivent être remplis.");
 		}
 
-		if (password && password.length < 6) {
-			errors.push("Le mot de passe doit contenir au moins 6 caractères.");
+		if (username && username.length < 4) {
+			errors.push("Le nom d'utilisateur doit contenir au moins 4 caractères.");
 		}
 
-		if (username && username.length < 6) {
-			errors.push("Le mot de passe doit contenir au moins 6 caractères.");
+		if (
+			password &&
+			!/^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?])(?!.*\s)$/.test(
+				password
+			)
+		) {
+			errors.push(
+				"Le mot de passe doit contenir au moins une lettre, un chiffre, un caractère spécial et ne doit pas contenir d'espaces."
+			);
+		}
+
+		if (
+			(username && (username.match(/ /g) || []).length >= 2) ||
+			username?.startsWith(" ") ||
+			username?.endsWith(" ")
+		) {
+			errors.push(
+				"Le nom d'utilisateur ne peut pas contenir plus d'un espace, ni commencer ou terminer par un espace."
+			);
 		}
 
 		if (password !== verifPassword) {
