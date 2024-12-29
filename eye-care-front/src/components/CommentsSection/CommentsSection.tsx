@@ -42,12 +42,11 @@ export default function CommentsSection({ subject }: CommentSectionProps) {
         setCommentsLoadingState(true);
 
         const requestOptions = {
-          method: "POST",
+          method: "GET",
           headers: { "Content-Type": "application/json", "auth-token": token },
-          body: JSON.stringify({ subject: subject }),
         };
 
-        const response = await fetch("http://localhost:8000/post", requestOptions);
+        const response = await fetch(`http://localhost:8000/post/${subject}`, requestOptions);
 
         if (!response.ok) {
           throw new Error(`Erreur HTTP : ${response.status}`);
@@ -58,17 +57,16 @@ export default function CommentsSection({ subject }: CommentSectionProps) {
           if (!connectedUser) {
             const scoreA = a.like - a.dislike;
             const scoreB = b.like - b.dislike;
-            console.log(scoreB - scoreA);
             return scoreB - scoreA;
           } else {
             let isAUser;
             let isBUser;
 
-            if (a.username == connectedUser.username) {
+            if (a.user_id == connectedUser.id) {
               isAUser = true;
             }
 
-            if (b.username == connectedUser.username) {
+            if (b.user_id == connectedUser.id) {
               isBUser = true;
             }
 
@@ -130,6 +128,11 @@ export default function CommentsSection({ subject }: CommentSectionProps) {
         setWritedCommentError(true);
         throw new Error("Erreur HTTP:" + response.status);
       }
+
+      const result = await response.json();
+      console.log("ici");
+      console.log(result);
+
       setWritedComment("");
       setWritedCommentSuccess(true);
 
@@ -137,9 +140,9 @@ export default function CommentsSection({ subject }: CommentSectionProps) {
       let currentDate = new Date();
       currentDate.setSeconds(currentDate.getSeconds() - 1);
       let newComment = {
-        id: new Date().getTime(),
+        id: result.id,
         username: connectedUser.username,
-        user_roles: [connectedUser.user_roles[0]],
+        user_roles: [connectedUser.roles[0]],
         text: writedCommentValue,
         like: 0,
         is_liked: false,
@@ -151,7 +154,6 @@ export default function CommentsSection({ subject }: CommentSectionProps) {
 
       const newAllComments = [newComment, ...comments];
       setComments(newAllComments);
-      console.log(newAllComments);
       //
     } catch (error: any) {
       setWritedCommentError(true);
@@ -204,6 +206,7 @@ export default function CommentsSection({ subject }: CommentSectionProps) {
               </p>
             </div>
           )}
+
           {!loadingState && !connectedUser && (
             <p className="notConnected">
               Pour publier un commentaire, il est nécessaire de vous

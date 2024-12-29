@@ -164,7 +164,6 @@ export default function Comment({
     const newLikedState = !commentData.is_liked;
 
     if (newLikedState) {
-      console.log(commentData);
       //Update en local
       if (commentData.is_disliked) {
         setIsDisliked(false);
@@ -201,6 +200,25 @@ export default function Comment({
       setIsLiked(false);
       commentData.is_liked = false;
       commentData.like--;
+
+      //Update en DB
+      try {
+        const requestOptions = {
+          method: "DELETE",
+          headers: { "Content-Type": "application/json", "auth-token": token },
+        };
+
+        const response = await fetch(
+          `http://localhost:8000/user/vote/${commentData.id}`,
+          requestOptions
+        );
+
+        if (!response.ok) {
+          throw new Error("Erreur HTTP : " + response.status);
+        }
+      } catch (error: any) {
+        console.log("Erreur lors de la suppresion : " + error.message);
+      }
     }
   }
 
@@ -239,9 +257,29 @@ export default function Comment({
         console.log("Erreur lors de l'envoie : " + error.message);
       }
     } else {
+      //Update en local
       setIsDisliked(false);
       commentData.is_disliked = false;
       commentData.dislike--;
+
+      //Update en DB
+      try {
+        const requestOptions = {
+          method: "DELETE",
+          headers: { "Content-Type": "application/json", "auth-token": token },
+        };
+
+        const response = await fetch(
+          `http://localhost:8000/user/vote/${commentData.id}`,
+          requestOptions
+        );
+
+        if (!response.ok) {
+          throw new Error("Erreur HTTP : " + response.status);
+        }
+      } catch (error: any) {
+        console.log("Erreur lors de la suppresion : " + error.message);
+      }
     }
   }
 
@@ -258,7 +296,7 @@ export default function Comment({
     const replyLocal = {
       id: new Date().getTime(),
       username: connectedUser.username,
-      user_roles: connectedUser.user_roles[0],
+      user_roles: [connectedUser.roles[0]],
       subject: subject,
       text: replyText,
       like: 0,
@@ -346,16 +384,14 @@ export default function Comment({
                   </p>
                 )}
 
-                {!loadingState &&
-                  connectedUser &&
-                  !(connectedUser.user_roles[0] == "ROLE_USER") && (
-                    <p
-                      className={`response ${isReplying ? "isReplying" : ""}`}
-                      onClick={handleChangeIsReplying}
-                    >
-                      Répondre
-                    </p>
-                  )}
+                {!loadingState && connectedUser && !(connectedUser.roles[0] == "ROLE_USER") && (
+                  <p
+                    className={`response ${isReplying ? "isReplying" : ""}`}
+                    onClick={handleChangeIsReplying}
+                  >
+                    Répondre
+                  </p>
+                )}
 
                 <div
                   className={`commentValue ${!connectedUser ? "noHover" : ""}`}
@@ -389,14 +425,14 @@ export default function Comment({
                   <div className="commentInformations">
                     <div className="commentHeader">
                       <p className="user">{connectedUser.username}</p>
-                      {connectedUser.user_roles[0] == "ROLE_CERTIFIED" && (
+                      {connectedUser.roles[0] == "ROLE_CERTIFIED" && (
                         <div className={"userRole professionnel"}>
                           <p>
                             Professionnel <FontAwesomeIcon icon={faCheck} />
                           </p>
                         </div>
                       )}
-                      {connectedUser.user_roles[0] == "ROLE_ADMIN" && (
+                      {connectedUser.roles[0] == "ROLE_ADMIN" && (
                         <div className={"userRole admin"}>
                           <p>
                             Administrateur <FontAwesomeIcon icon={faCheck} />
