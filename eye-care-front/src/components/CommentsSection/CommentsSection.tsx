@@ -206,8 +206,8 @@ export default function CommentsSection({ subject }: CommentSectionProps) {
           )}
           {!loadingState && !connectedUser && (
             <p className="notConnected">
-              Pour publier un commentaire, il est nécessaire de vous{" "}
-              <Link to={"/authentification/login"}>connecter</Link>.
+              Pour publier un commentaire, il est nécessaire de vous
+              <Link to={"/authentification/login"}> connecter</Link>.
             </p>
           )}
 
