@@ -32,15 +32,35 @@ export default function ApiProvider({ children }: { children: ReactNode }) {
           headers: { "Content-Type": "application/json", "auth-token": token },
         };
 
+        //GET USERNAME
+        let username = "";
         try {
-          console.log(token);
           const response = await fetch("http://localhost:8000/user/profile", requestOptions);
 
           if (!response.ok) {
             throw new Error("Erreur HTTP:" + response.status);
           }
           const result = await response.json();
-          setConnectedUser(result);
+          username = result.username;
+
+          //GET USER_ROLE
+          let user_role = [];
+          try {
+            const response = await fetch("http://localhost:8000/user/user_roles", requestOptions);
+            if (!response.ok) {
+              throw new Error("Erreur HTTP:" + response.status);
+            }
+            user_role[0] = await response.json();
+            //
+          } catch (error: any) {
+            console.log("Erreur lors de l'envoie : " + error);
+          }
+
+          const connectedUser = {
+            username: username,
+            user_roles: user_role[0],
+          };
+          setConnectedUser(connectedUser);
           //
         } catch (error: any) {
           console.log("Erreur lors de l'envoie : " + error);

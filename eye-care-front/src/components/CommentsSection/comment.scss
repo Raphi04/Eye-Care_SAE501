@@ -295,6 +295,14 @@
             }
           }
 
+          &.noHover {
+            cursor: auto;
+
+            &:hover {
+              background-color: transparent;
+            }
+          }
+
           p,
           svg {
             color: rgb(159, 159, 159);
