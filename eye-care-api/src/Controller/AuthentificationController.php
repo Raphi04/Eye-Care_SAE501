@@ -34,12 +34,8 @@ class AuthentificationController extends AbstractController
         $password = $requestData['password'];
 
         $userByEmail = $this->userService->findUserByPropriety("email", $email);
-        $userByUsername = $this->userService->findUserByPropriety("username", $username);
         if ($userByEmail) {
             return new JsonResponse(['message' => 'Email already exist'], Response::HTTP_CONFLICT);
-        }
-        if ($userByUsername) {
-            return new JsonResponse(['message' => 'Username already exist'], Response::HTTP_CONFLICT);
         }
 
         $user = $this->userService->createUser($email, $username, $password);
