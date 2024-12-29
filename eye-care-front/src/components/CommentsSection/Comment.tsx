@@ -293,17 +293,6 @@ export default function Comment({
     let currentDate = new Date();
     currentDate.setSeconds(currentDate.getSeconds() - 1);
 
-    const replyLocal = {
-      id: new Date().getTime(),
-      username: connectedUser.username,
-      user_roles: [connectedUser.roles[0]],
-      subject: subject,
-      text: replyText,
-      like: 0,
-      dislike: 0,
-      created_at: currentDate,
-    };
-
     const replyAPI = {
       subject: subject,
       post_parent_id: parentId,
@@ -324,6 +313,27 @@ export default function Comment({
         setReplyError(newErrorState);
         throw new Error("Erreur HTTP:" + response.status);
       }
+
+      const result = await response.json();
+      console.log(result);
+
+      const replyLocal = {
+        id: result.id,
+        username: connectedUser.username,
+        user_roles: [connectedUser.roles[0]],
+        subject: subject,
+        text: replyText,
+        like: 0,
+        dislike: 0,
+        created_at: currentDate,
+      };
+
+      //Mise à jour de la variable du parent pour plus de fluidité et éviter de refaire un appel à l'API
+      updateComments(parentId, replyLocal, isReply);
+
+      setReplyText("");
+      setIsReplying(false);
+      setShowReplies(true);
       //
     } catch (error: any) {
       newErrorState = true;
@@ -332,14 +342,6 @@ export default function Comment({
       //
     } finally {
       setReplyLoading(false);
-      if (!newErrorState) {
-        //Mise à jour de la variable du parent pour plus de fluidité et éviter de refaire un appel à l'API
-        updateComments(parentId, replyLocal, isReply);
-
-        setReplyText("");
-        setIsReplying(false);
-        setShowReplies(true);
-      }
     }
   }
 

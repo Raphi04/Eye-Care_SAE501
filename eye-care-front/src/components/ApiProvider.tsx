@@ -39,7 +39,6 @@ export default function ApiProvider({ children }: { children: ReactNode }) {
             throw new Error("Erreur HTTP:" + response.status);
           }
           const result = await response.json();
-          console.log(result);
           setConnectedUser(result);
           //
         } catch (error: any) {
