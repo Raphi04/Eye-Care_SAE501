@@ -1,0 +1,295 @@
+.popUpContainer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba($color: #182026, $alpha: 0.7);
+  z-index: 2;
+
+  .popUp {
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 2.5rem;
+    padding: 10rem;
+
+    .firstPartPopUp {
+      width: 30%;
+      padding: 2rem;
+      border-radius: 30px;
+      background-color: $white;
+      transition: background-color 0.3s ease-out;
+
+      body.dark & {
+        background-color: $blueBlack;
+      }
+
+      img {
+        width: 100%;
+      }
+    }
+
+    .secondPartPopUp {
+      width: 70%;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 2rem;
+      border-radius: 30px;
+      background-color: $white;
+      transition: background-color 0.3s ease-out;
+
+      body.dark & {
+        background-color: $blueBlack;
+      }
+
+      h3 {
+        font-size: 1.4rem;
+        font-family: $fontTextBold;
+        color: $blueBlack;
+        transition: color 0.3s ease-out;
+
+        body.dark & {
+          color: $white;
+        }
+      }
+
+      form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 2rem;
+
+        input {
+          padding: 10px;
+          border: 1px solid $blueBlack;
+          border-radius: 10px;
+          font-size: 1.2rem;
+          text-align: center;
+
+          &::placeholder {
+            color: $blueBlack;
+          }
+        }
+
+        button {
+          cursor: pointer;
+          position: relative;
+          width: 100%;
+          padding: 12px 0px;
+          border: none;
+          border-radius: 15px;
+          font-size: 1.5rem;
+          background: $blueStrongDegrade;
+          box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+          color: $white;
+          font-family: $fontBolder;
+          overflow: hidden;
+          z-index: 1;
+
+          &::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: $blueStrongDegradeHover;
+            z-index: -1;
+            opacity: 0;
+            transform-origin: left;
+            transition: opacity 0.3s ease-out;
+          }
+
+          &:hover::before {
+            opacity: 1;
+          }
+        }
+      }
+    }
+
+    .fullPopUp {
+      position: relative;
+      width: 100%;
+      min-height: 400px;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      gap: 2rem;
+      border-radius: 30px;
+      background-color: $white;
+
+      &.result {
+        justify-content: center;
+        min-height: auto;
+        height: fit-content;
+
+        .resultInfos {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 0.5rem;
+        }
+
+        .resultSmiley {
+          display: flex;
+          justify-self: center;
+
+          svg {
+            font-size: 5rem;
+            color: rgb(255, 214, 10);
+          }
+        }
+
+        button {
+          cursor: pointer;
+          position: relative;
+          padding: 12px 75px;
+          border: none;
+          border-radius: 15px;
+          font-size: 1.5rem;
+          background: $blueStrongDegrade;
+          box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+          color: $white;
+          font-family: $fontBolder;
+          overflow: hidden;
+          z-index: 1;
+
+          &:disabled {
+            cursor: auto;
+            background-color: $whiteHover;
+            color: gray;
+          }
+
+          &::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: $blueStrongDegradeHover;
+            z-index: -1;
+            opacity: 0;
+            transform-origin: left;
+            transition: opacity 0.3s ease-out;
+          }
+
+          &:hover::before {
+            opacity: 1;
+          }
+        }
+      }
+
+      .lettersContainer {
+        display: flex;
+        flex: 1;
+        width: 100%;
+        gap: 3rem;
+
+        .letter {
+          flex: 1;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-family: $fontTextBold;
+        }
+      }
+
+      .bottomActions {
+        height: 50%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 2rem;
+
+        form {
+          width: fit-content;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 1rem;
+
+          input {
+            padding: 10px;
+            border: 1px solid $blueBlack;
+            border-radius: 10px;
+            font-size: 1.2rem;
+            text-align: center;
+
+            &::placeholder {
+              color: $blueBlack;
+            }
+          }
+
+          button {
+            cursor: pointer;
+            position: relative;
+            width: 100%;
+            padding: 12px 0px;
+            border: none;
+            border-radius: 15px;
+            font-size: 1.5rem;
+            background: $blueStrongDegrade;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+            color: $white;
+            font-family: $fontBolder;
+            overflow: hidden;
+            z-index: 1;
+
+            &::before {
+              content: "";
+              position: absolute;
+              top: 0;
+              left: 0;
+              width: 100%;
+              height: 100%;
+              background: $blueStrongDegradeHover;
+              z-index: -1;
+              opacity: 0;
+              transform-origin: left;
+              transition: opacity 0.3s ease-out;
+            }
+
+            &:hover::before {
+              opacity: 1;
+            }
+          }
+        }
+
+        h3 {
+          font-size: 1.4rem;
+          font-family: $fontTextBold;
+          color: $blueBlack;
+          transition: color 0.3s ease-out;
+
+          body.dark & {
+            color: $white;
+          }
+        }
+      }
+    }
+
+    .closePopUp {
+      cursor: pointer;
+      position: absolute;
+      top: 10rem;
+      right: 10rem;
+      transform: translate(100%, -100%);
+
+      svg {
+        font-size: 3.5rem;
+        color: $white;
+      }
+    }
+  }
+}

@@ -19,14 +19,21 @@ class VisionDisorder
     private ?string $disorder_name = null;
 
     /**
-     * @var Collection<int, UserVisionDisorder>
+     * @var Collection<int, UserVisionDisorderResult>
      */
-    #[ORM\OneToMany(targetEntity: UserVisionDisorder::class, mappedBy: 'visionDisorder')]
-    private Collection $userVisionDisorders;
+    #[ORM\OneToMany(targetEntity: UserVisionDisorderResult::class, mappedBy: 'vision_disorder', orphanRemoval: true)]
+    private Collection $userVisionDisorderResults;
+
+    /**
+     * @var Collection<int, User>
+     */
+    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'user_vision_disorder')]
+    private Collection $users;
 
     public function __construct()
     {
-        $this->userVisionDisorders = new ArrayCollection();
+        $this->userVisionDisorderResults = new ArrayCollection();
+        $this->users = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -47,30 +54,57 @@ class VisionDisorder
     }
 
     /**
-     * @return Collection<int, UserVisionDisorder>
+     * @return Collection<int, UserVisionDisorderResult>
      */
-    public function getUserVisionDisorders(): Collection
+    public function getUserVisionDisorderResults(): Collection
     {
-        return $this->userVisionDisorders;
+        return $this->userVisionDisorderResults;
     }
 
-    public function addUserVisionDisorder(UserVisionDisorder $userVisionDisorder): static
+    public function addUserVisionDisorderResult(UserVisionDisorderResult $userVisionDisorderResult): static
     {
-        if (!$this->userVisionDisorders->contains($userVisionDisorder)) {
-            $this->userVisionDisorders->add($userVisionDisorder);
-            $userVisionDisorder->setVisionDisorder($this);
+        if (!$this->userVisionDisorderResults->contains($userVisionDisorderResult)) {
+            $this->userVisionDisorderResults->add($userVisionDisorderResult);
+            $userVisionDisorderResult->setVisionDisorder($this);
         }
 
         return $this;
     }
 
-    public function removeUserVisionDisorder(UserVisionDisorder $userVisionDisorder): static
+    public function removeUserVisionDisorderResult(UserVisionDisorderResult $userVisionDisorderResult): static
     {
-        if ($this->userVisionDisorders->removeElement($userVisionDisorder)) {
+        if ($this->userVisionDisorderResults->removeElement($userVisionDisorderResult)) {
             // set the owning side to null (unless already changed)
-            if ($userVisionDisorder->getVisionDisorder() === $this) {
-                $userVisionDisorder->setVisionDisorder(null);
+            if ($userVisionDisorderResult->getVisionDisorder() === $this) {
+                $userVisionDisorderResult->setVisionDisorder(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    public function addUser(User $user): static
+    {
+        if (!$this->users->contains($user)) {
+            $this->users->add($user);
+            $user->addUserVisionDisorder($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(User $user): static
+    {
+        if ($this->users->removeElement($user)) {
+            $user->removeUserVisionDisorder($this);
         }
 
         return $this;

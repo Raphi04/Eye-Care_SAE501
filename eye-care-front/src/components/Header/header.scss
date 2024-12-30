@@ -7,13 +7,14 @@ header {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 10px 100px;
+  padding: 15px 100px;
   z-index: 2;
 
   .headerContainer {
     position: relative;
+    height: 100%;
     width: 100%;
-    padding: 15px 10px;
+    padding: 10px 10px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -101,14 +102,14 @@ header {
     }
 
     nav {
-      height: 35px;
+      height: 100%;
       display: flex;
       align-items: center;
-      padding: 10px;
       gap: 15px;
       font-size: 1.7rem;
 
       .linkContainer {
+        height: 100%;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -156,17 +157,18 @@ header {
       position: absolute;
       right: 40px;
       top: 50%;
+      height: calc(100% - 20px);
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 50px;
+      gap: 25px;
       transform: translateY(-50%);
 
-      &::after {
+      /*&::after {
         content: "";
         position: absolute;
         top: 0;
-        left: calc(50% - 25px);
+        left: calc(50%);
         transform: translateX(-50%);
         width: 4px;
         height: 100%;
@@ -176,7 +178,7 @@ header {
         body.dark & {
           background-color: $blueBlack;
         }
-      }
+      }*/
 
       .slide {
         height: 35px;
@@ -189,107 +191,139 @@ header {
         background-color: $white;
       }
 
-      .userProfile {
-        position: relative;
+      .separator {
+        width: 4px;
+        height: 100%;
+        background-color: $white;
+        border-radius: 30px;
+
+        body.dark & {
+          background-color: $blueBlack;
+        }
+      }
+
+      .seConnecter {
         height: 100%;
         display: flex;
+        align-items: center;
         padding: 7px 20px;
-        justify-content: center;
+        border-radius: 30px;
+        background-color: $white;
+        color: $blueBlack;
+        font-size: 1.2rem;
+        font-weight: bold;
+        transition: background-color 0.3s ease-out;
+
+        &:hover {
+          background-color: $whiteHover;
+        }
+
+        body.dark & {
+          background-color: $blueBlack;
+          color: $white;
+
+          &:hover {
+            background-color: $blueBlackHover;
+          }
+        }
+      }
+
+      .userProfile {
+        cursor: pointer;
+        position: relative;
+        display: flex;
+        padding: 7px 15px 7px 10px;
+        justify-content: start;
         align-items: center;
         gap: 5px;
         border-radius: 30px;
+        background-color: $white;
+        transition: background-color 0.3s ease-out;
+
+        body.dark & {
+          background-color: $blueBlack;
+        }
 
         &:hover {
-          background-color: $blueBlackHover;
-          border-radius: 20px 20px 0 0;
+          background-color: $whiteHover;
 
           body.dark & {
-            background-color: $whiteHover;
+            background-color: $blueBlack;
           }
         }
 
         p {
-          color: $white;
+          text-align: center;
+          color: $blueBlack;
           font-family: $fontBold;
           font-size: 1.2rem;
+          transition: color 0.3s ease-out;
 
           body.dark & {
-            color: $blueBlack;
+            color: $white;
           }
         }
 
         .dropDown {
           position: absolute;
-          bottom: 0;
+          bottom: -8px;
           left: 0;
           transform: translateY(100%);
+          min-width: fit-content;
           width: 100%;
           display: flex;
           flex-direction: column;
-          border-radius: 0 0 15px 15px;
+          border-radius: 15px;
+          overflow: hidden;
+          box-shadow: $boxShadowLight;
 
           .link {
             display: flex;
             align-items: center;
+            justify-content: center;
             padding: 15px 10px;
             font-size: 1rem;
             gap: 7px;
-            color: $white;
-            border-top: 1px solid $white;
-            background-color: $blueBlackHover;
+            color: $blueBlack;
+            background-color: $white;
             transition: background-color 0.3s ease-out;
 
             body.dark & {
-              background-color: $whiteHover;
-              border-top: 1px solid $blueBlack;
+              background-color: $blueBlack;
             }
 
             &:hover {
-              border-top: 1px solid $blueBlackHover;
-              background-color: $white;
+              background-color: $whiteHover;
 
               body.dark & {
-                background-color: $blueBlack;
-                border-top: 1px solid $white;
-              }
-
-              p {
-                color: $blueBlack;
-
-                body.dark & {
-                  color: $white;
-                }
-              }
-
-              &:nth-child(2) {
-                svg,
-                p {
-                  color: red;
-
-                  body.dark & {
-                    color: $white;
-                  }
-                }
+                background-color: $blueBlackHover;
               }
             }
 
             &:nth-child(2) {
-              border-radius: 0 0 15px 15px;
+              border-top: 1px solid $blueBlack;
+
+              p,
+              svg {
+                color: $red;
+              }
 
               body.dark & {
+                border-top: 1px solid $white;
+
                 svg,
                 p {
-                  color: $blueBlack;
+                  color: $white;
                 }
               }
             }
 
             p {
-              color: $white;
+              color: $blueBlack;
               transition: color 0.3s ease-out;
 
               body.dark & {
-                color: $blueBlack;
+                color: $white;
               }
             }
 
@@ -310,18 +344,18 @@ header {
           display: flex;
           justify-content: center;
           align-items: center;
-          background-color: $white;
+          background-color: $blueBlack;
           border-radius: 100%;
 
           body.dark & {
-            background-color: $blueBlack;
+            background-color: $white;
           }
 
           p {
-            color: $blueBlack;
+            color: $white;
 
             body.dark & {
-              color: $white;
+              color: $blueBlack;
             }
           }
         }
@@ -330,6 +364,52 @@ header {
           font-size: 1.2rem;
           color: $blueBlack;
           background-color: $white;
+        }
+      }
+    }
+  }
+  .linkArticles {
+    position: relative;
+    cursor: pointer;
+
+    .dropDownArticle {
+      position: absolute;
+      bottom: -8px;
+      left: 0;
+      transform: translateY(100%);
+      min-width: fit-content;
+      width: 100%;
+      border-radius: 15px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-shadow: $boxShadowLight;
+      body.dark & {
+        box-shadow: $boxShadowBlue;
+      }
+
+      .linkMenu {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 15px 10px;
+        font-size: 1rem;
+        gap: 7px;
+        color: $blueBlack;
+        background-color: $white;
+        transition: background-color 0.3s ease-out;
+
+        body.dark & {
+          background-color: $blueBlack;
+          color: $white;
+        }
+
+        &:hover {
+          background-color: $whiteHover;
+
+          body.dark & {
+            background-color: $blueBlackHover;
+          }
         }
       }
     }
