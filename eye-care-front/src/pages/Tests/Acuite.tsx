@@ -28,11 +28,15 @@ export default function Acuite() {
           throw new Error(`Erreur HTTP : ${response.status}`);
         }
         const result = await response.json();
-        const currentAcuiteScore = result.vision_disorder_result.map((disorder: any) => {
-          if (disorder.vision_disorder == "myopie") {
-            return disorder.result;
-          }
-        });
+
+        let currentAcuiteScore;
+        if (result.vision_disorder.length > 0) {
+          currentAcuiteScore = result.vision_disorder_result.find(
+            (disorder: any) => disorder.vision_disorder == "myopie"
+          ).result;
+        } else {
+          currentAcuiteScore = "";
+        }
 
         setAcuiteScore(currentAcuiteScore);
         //
@@ -105,11 +109,11 @@ export default function Acuite() {
         )}
 
         {!loadingState && !connectedUser && (
-          <p>Votre score actuel : {acuiteScore.length ? acuiteScore + "/50" : "-"}</p>
+          <p>Votre score actuel : {acuiteScore ? acuiteScore + "/50" : "-"}</p>
         )}
 
         {!loadingState && connectedUser && !getScoreLoadingState && (
-          <p>Votre score actuel : {acuiteScore.length ? acuiteScore + "/50" : "-"}</p>
+          <p>Votre score actuel : {acuiteScore ? acuiteScore + "/50" : "-"}</p>
         )}
       </div>
 
