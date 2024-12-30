@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSmile, faSpinner, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { faFrown, faMeh, faSmile, faSpinner, faXmark } from "@fortawesome/free-solid-svg-icons";
 import "./popUps.scss";
 import { useEffect, useRef, useState } from "react";
 import { useApiContext } from "../../../components/ApiProvider";
@@ -195,7 +195,9 @@ export default function AcuitePop({ closePopUp, upDateScore }: AcuitePopProps) {
                   <h3>Test fini ! Vous avez obtenu un score de {newAcuiteScore}/50 !</h3>
                 </div>
                 <div className="resultSmiley">
-                  <FontAwesomeIcon icon={faSmile} />
+                  {newAcuiteScore < 25 && <FontAwesomeIcon icon={faFrown} />}
+                  {newAcuiteScore < 40 && newAcuiteScore >= 25 && <FontAwesomeIcon icon={faMeh} />}
+                  {newAcuiteScore >= 40 && <FontAwesomeIcon icon={faSmile} />}
                 </div>
                 <button onClick={sendResultsToDB} type="submit" disabled={sendingloadingState}>
                   {!sendingloadingState && "ENREGISTRER"}

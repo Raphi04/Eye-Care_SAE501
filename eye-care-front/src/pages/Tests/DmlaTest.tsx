@@ -1,6 +1,6 @@
 import GrilleDMLA from "../../assets/grilleDMLA.png";
 
-export default function Dmla() {
+export default function DmlaTest() {
   return (
     <>
       <div className="textContainer">
