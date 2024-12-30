@@ -39,6 +39,22 @@ class UserService
         return $user;
     }
 
+    public function updateUser(User $user, string $email, string $username, string $password): Void
+    {
+        $hashedPassword = $this->passwordHasher->hashPassword($user, $password);
+
+        if(!empty($email)){
+            $user->setEmail($email);
+        }
+        if(!empty($username)){
+            $user->setUsername($username);
+        }
+        if(!empty($password)){
+            $hashedPassword = $this->passwordHasher->hashPassword($user, $password);
+            $user->setPassword($hashedPassword);
+        }
+    }
+
     public function usersMapping(array $users): array
     {
         foreach ($users as $user) {
@@ -60,7 +76,7 @@ class UserService
             'email' => $user->getEmail(),
             'username' => $user->getUsername(),
             'password' => $user->getPassword(),
-            'role' => $user->getRoles(),
+            'roles' => $user->getRoles(),
         ];
     }
 

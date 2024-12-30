@@ -1,0 +1,353 @@
+%commentsStyle {
+  position: relative;
+  display: flex;
+  gap: 1.2rem;
+
+  &.responding {
+    margin: 1rem 0 0 8rem;
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: calc(-8rem - 25px);
+      transform: translate(-50%, -50%);
+      width: 50px;
+      height: 50px;
+      border-left: 2px solid $blueBlack;
+      border-bottom: 2px solid $blueBlack;
+      border-radius: 0 0 0 10px;
+      transition: border-color 0.3s ease-out;
+
+      body.dark & {
+        border-color: $white;
+      }
+    }
+
+    .commentInformations {
+      .inputReply {
+        input {
+          background-color: transparent;
+          width: 100%;
+          border: 0;
+          margin-bottom: 5px;
+
+          &:focus {
+            outline: none;
+          }
+        }
+
+        hr {
+          border-top: 1px solid $blueBlack;
+        }
+      }
+
+      .mainActions {
+        justify-content: end;
+
+        .stateMessage {
+          margin-right: 15px;
+          color: $blueBlack;
+
+          body.dark & {
+            color: $white;
+          }
+
+          &.error {
+            color: $red;
+          }
+        }
+
+        button {
+          cursor: pointer;
+          border: 0;
+          background-color: transparent;
+          font-size: 1.2rem;
+          padding: 7px 20px;
+          border-radius: 30px;
+          transition: background-color 0.3s ease-out;
+
+          &.cancelButton {
+            &:hover {
+              background-color: $whiteHover;
+            }
+
+            body.dark & {
+              background-color: transparent;
+              color: $white;
+
+              &:hover {
+                background-color: $white;
+                color: $blueBlack;
+              }
+            }
+          }
+
+          &.responseButton {
+            background-color: $blueBlack;
+            color: $white;
+
+            &:hover {
+              background-color: $blueBlackHover;
+            }
+
+            &:disabled {
+              cursor: auto;
+              background-color: $whiteHover;
+              color: gray;
+            }
+
+            body.dark & {
+              &:disabled {
+                background-color: $whiteHover;
+                color: gray;
+              }
+
+              background-color: $white;
+              color: $blueBlack;
+
+              &:hover {
+                background-color: $whiteHover;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .userIcon {
+    position: absolute;
+    top: 0;
+    left: -75px;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: $blueBlack;
+    border-radius: 100%;
+    transition: background-color 0.3s ease-out;
+
+    body.dark & {
+      background-color: $white;
+    }
+
+    p {
+      font-size: 1.5rem;
+      font-family: $fontBold;
+      color: $white;
+      transition: color 0.3s ease-out;
+
+      body.dark & {
+        color: $blueBlack;
+      }
+    }
+  }
+
+  .commentInformations {
+    position: relative;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+
+    .commentHeader {
+      width: fit-content;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 0.8rem;
+
+      p.user {
+        font-size: 1.2rem;
+        color: $blueBlack;
+        font-weight: bold;
+        transition: color 0.3s ease-out;
+
+        body.dark & {
+          color: $white;
+        }
+      }
+
+      div.userRole {
+        padding: 5px 8px;
+        font-size: 1rem;
+        border-radius: 8px;
+        color: $white;
+
+        &.professionnel {
+          background-color: $blueStrong;
+        }
+
+        &.admin {
+          background-color: $darkOrange;
+        }
+
+        svg {
+          margin-left: 2px;
+        }
+      }
+
+      p.date {
+        font-size: 1rem;
+        color: rgb(146, 146, 146);
+        transition: color 0.3s ease-out;
+
+        body.dark & {
+          color: rgb(211, 211, 211);
+        }
+      }
+    }
+
+    .commentText {
+      font-size: 1.2rem;
+      color: $blueBlack;
+      text-align: justify;
+      transition: color 0.3s ease-out;
+
+      body.dark & {
+        color: $white;
+      }
+    }
+
+    .actions {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+
+      .mainActions {
+        display: flex;
+        align-items: center;
+        gap: 0.2rem;
+        margin-left: -1rem;
+
+        .response {
+          cursor: pointer;
+          color: rgb(159, 159, 159);
+          padding: 0.5rem 1rem;
+          border-radius: 15px;
+          transition: background-color 0.3s ease-out, color 0.3s ease-out;
+
+          body.dark & {
+            color: $white;
+          }
+
+          &.loading {
+            cursor: auto;
+            &:hover {
+              background-color: transparent;
+            }
+          }
+
+          &.isReplying {
+            color: $blueBlack;
+            background-color: $whiteHover;
+
+            body.dark & {
+              background-color: $white;
+              color: $blueBlack;
+            }
+          }
+
+          &:hover {
+            background-color: $whiteHover;
+            color: $blueBlack;
+
+            body.dark & {
+              background-color: $white;
+              color: $blueBlack;
+            }
+          }
+        }
+
+        .commentValue {
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          padding: 0.5rem 1rem;
+          border-radius: 15px;
+          transition: background-color 0.3s ease-out;
+
+          &:hover {
+            background-color: $whiteHover;
+
+            body.dark & {
+              background-color: $white;
+
+              p,
+              svg {
+                color: $blueBlack !important;
+              }
+
+              svg {
+                font-size: 1.2rem;
+
+                &.green {
+                  color: $green !important;
+                }
+
+                &.red {
+                  color: $red !important;
+                }
+              }
+            }
+          }
+
+          &.noHover {
+            cursor: auto;
+
+            &:hover {
+              background-color: transparent;
+            }
+          }
+
+          p,
+          svg {
+            color: rgb(159, 159, 159);
+            transition: color 0.3s ease-out;
+
+            body.dark & {
+              color: $white;
+            }
+          }
+
+          p {
+            font-size: 1rem;
+          }
+
+          svg {
+            font-size: 1.2rem;
+
+            &.green {
+              color: $green !important;
+            }
+
+            &.red {
+              color: $red !important;
+            }
+          }
+        }
+      }
+
+      .showReplies {
+        width: fit-content;
+        cursor: pointer;
+        color: $blueStrong;
+        padding-bottom: 5px;
+        border-bottom: 1px solid $blueStrong;
+        transition: color 0.3s ease-out, border-bottom 0.3s ease-out;
+
+        body.dark & {
+          color: $white;
+          border-bottom: 1px solid $white;
+        }
+
+        svg {
+          margin-right: 8px;
+        }
+      }
+    }
+  }
+}

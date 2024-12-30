@@ -1,0 +1,458 @@
+main.login {
+  padding: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+
+  /* Button d'envoi du formulaire avec le style du global.scss */
+
+  .formButton {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 20px;
+    margin-top: 10px;
+    gap: 10px;
+    position: relative;
+    width: fit-content;
+    padding: 12px 30px;
+    border-radius: 15px;
+    font-size: 1.5rem;
+    font-family: $fontBolder;
+    overflow: hidden;
+    background: $blueStrongDegrade;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+    color: $white;
+    z-index: 1;
+    border: none;
+    cursor: pointer;
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: $blueStrongDegradeHover;
+      z-index: -1;
+      opacity: 0;
+      transition: opacity 0.3s ease-out;
+    }
+
+    &:hover::before {
+      opacity: 1;
+    }
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: $blueStrongDegradeHover;
+      z-index: -1;
+      opacity: 0;
+      transition: opacity 0.3s ease-out;
+    }
+
+    &:hover::before {
+      opacity: 1;
+    }
+  }
+
+  /* Contenu de la page d'authentification */
+
+  .mainContent {
+    &-login {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      flex: 1;
+
+      h1 {
+        font-size: 5rem;
+        color: $blueBlack;
+        font-family: $fontBolder;
+        transition: color 0.3s ease-out;
+        margin-bottom: 15px;
+        transition: color 0.3s ease-out;
+
+        body.dark & {
+          color: $white;
+        }
+      }
+
+      /* Message d'erreur login */
+
+      .error-container {
+        width: 320px;
+        padding: 10px;
+        margin-top: 10px;
+        background-color: $red;
+        border-radius: 10px;
+        text-align: center;
+      }
+
+      .error-message {
+        font-family: $fontTextBold;
+        color: $white;
+        font-size: 1rem;
+        margin: 0;
+        line-height: 1.5;
+      }
+    }
+
+    &-register {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: auto;
+
+      /* Message d'erreur register */
+
+      .error-container {
+        width: 320px;
+        padding: 10px;
+        margin-top: 10px;
+        background-color: $red;
+        border-radius: 10px;
+        text-align: center;
+      }
+
+      .error-message {
+        font-family: $fontTextBold;
+        font-size: 1rem;
+        color: $white;
+        margin: 0;
+        line-height: 1.5;
+      }
+
+      /* Switch Certificat */
+
+      .switchContainer {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 15px;
+        gap: 10px;
+
+        .switchPro {
+          position: relative;
+          display: inline-block;
+          width: 60px;
+          height: 34px;
+
+          input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+          }
+
+          .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #a6a6a6;
+            -webkit-transition: 0.4s;
+            transition: 0.4s;
+          }
+
+          .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            -webkit-transition: 0.4s;
+            transition: 0.4s;
+          }
+
+          input:checked + .slider {
+            background-color: $blueStrong;
+          }
+
+          input:checked + .slider:before {
+            -webkit-transform: translateX(26px);
+            -ms-transform: translateX(26px);
+            transform: translateX(26px);
+          }
+
+          .slider.round {
+            border-radius: 34px;
+          }
+
+          .slider.round:before {
+            border-radius: 50%;
+          }
+        }
+
+        .switchProText {
+          font-family: $fontTextBold;
+          color: $blueBlack;
+          font-size: 1.2rem;
+          transition: color 0.3s ease-out;
+
+          body.dark & {
+            color: $white;
+          }
+        }
+      }
+
+      h1 {
+        font-size: 5rem;
+        color: $blueBlack;
+        font-family: $fontBolder;
+        margin-bottom: 20px;
+        transition: color 0.3s ease-out;
+
+        body.dark & {
+          color: $white;
+        }
+      }
+
+      /* Champs de saisie pour les pros */
+
+      .fieldsFlex {
+        gap: 25px;
+        display: flex !important;
+      }
+
+      .containerFileAndImg {
+        display: flex;
+        align-items: center;
+        height: 190px;
+        width: 320px;
+        background-color: $white;
+        border-radius: 10px;
+
+        .containerFieldFile {
+          position: relative;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: left;
+          width: 210px;
+          height: 100%;
+          border-radius: 10px;
+
+          .fieldFile {
+            margin-top: 10px;
+            margin-left: 30px;
+          }
+
+          .fieldButton {
+            margin-top: 10px;
+            margin-left: 50px;
+          }
+
+          p {
+            position: relative;
+            width: 100%;
+            font-family: $fontBold;
+            color: #a6a6a6;
+            font-size: 1.3rem;
+          }
+        }
+
+        .fileText {
+          font-family: $fontTextNormal;
+          color: #a6a6a6;
+        }
+
+        .fileImg {
+          padding: 20px;
+          font-size: 100px;
+          color: #a6a6a6;
+        }
+      }
+    }
+
+    &-logOut {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      flex: 1;
+
+      p {
+        font-size: 2.5rem;
+      }
+    }
+  }
+
+  /* Champs de saisie */
+  .fields {
+    display: inline-block;
+    padding: 0.7rem 1rem 0.7rem 1rem;
+    border-radius: 10px;
+    border: 0;
+    font-size: 1.2rem;
+  }
+
+  .field {
+    width: 320px;
+    display: inline-block;
+    padding: 0.7rem 1rem 0.7rem 1rem;
+    border-radius: 10px;
+    border: 0;
+    margin-bottom: 25px;
+    font-size: 1.2rem;
+
+    &-last {
+      width: 100%;
+      display: inline-block;
+      padding: 0.7rem 1rem 0.7rem 1rem;
+      border-radius: 10px;
+      border: 0;
+      margin-bottom: 15px;
+      font-size: 1.2rem;
+
+      &::placeholder {
+        font-family: $fontTextNormal;
+        color: #a6a6a6;
+      }
+    }
+
+    &::placeholder {
+      font-family: $fontTextNormal;
+      color: #a6a6a6;
+    }
+  }
+
+  /* Autre contenu de la page */
+
+  .bgSwitch {
+    background-color: $blueBlack;
+    display: flex;
+    justify-content: center;
+    position: relative;
+    width: fit-content;
+    padding: 10px;
+    border-radius: 30px;
+
+    body.dark & {
+      background-color: $white;
+    }
+  }
+
+  .buttonLogin {
+    margin-top: 30px;
+    margin-bottom: 30px;
+  }
+
+  .topScreen {
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-height: 80px;
+    position: absolute;
+    top: 25px;
+    left: 0;
+    z-index: 1;
+
+    .logo {
+      width: 175px;
+      height: fit-content;
+
+      path:nth-child(1) {
+        color: $black;
+
+        body.dark & {
+          color: $white;
+        }
+      }
+
+      path:nth-child(2) {
+        color: $blueStrong;
+
+        body.dark & {
+          color: $blueLight;
+        }
+      }
+      path:nth-child(3) {
+        color: $black;
+
+        body.dark & {
+          color: $white;
+        }
+      }
+      path:nth-child(4) {
+        color: $black;
+
+        body.dark & {
+          color: $white;
+        }
+      }
+      path:nth-child(5) {
+        color: $black;
+
+        body.dark & {
+          color: $white;
+        }
+      }
+      path:nth-child(6) {
+        color: $black;
+
+        body.dark & {
+          color: $white;
+        }
+      }
+      path:nth-child(7) {
+        color: $black;
+
+        body.dark & {
+          color: $white;
+        }
+      }
+      path:nth-child(8) {
+        color: $black;
+
+        body.dark & {
+          color: $white;
+        }
+      }
+      path:nth-child(9) {
+        color: $black;
+
+        body.dark & {
+          color: $white;
+        }
+      }
+    }
+  }
+
+  .redirection {
+    font-family: $fontTextNormal;
+    position: relative;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    font-size: 1.1em;
+    transition: color 0.3s ease-out;
+
+    body.dark & {
+      color: $white;
+    }
+
+    strong {
+      color: $blueBlack;
+      transition: color 0.3s ease-out;
+
+      body.dark & {
+        color: $white;
+      }
+    }
+  }
+}

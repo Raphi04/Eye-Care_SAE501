@@ -34,7 +34,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
-    #[ORM\Column(length: 255, unique: true)]
+    #[ORM\Column(length: 255)]
     private ?string $username = null;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -44,14 +44,35 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?\DateTimeInterface $tokenExpiresAt = null;
 
     /**
-     * @var Collection<int, UserVisionDisorder>
+     * @var Collection<int, UserVisionDisorderResult>
      */
-    #[ORM\OneToMany(targetEntity: UserVisionDisorder::class, mappedBy: 'user')]
-    private Collection $userVisionDisorders;
+    #[ORM\OneToMany(targetEntity: UserVisionDisorderResult::class, mappedBy: 'user', orphanRemoval: true)]
+    private Collection $userVisionDisorderResults;
+
+    /**
+     * @var Collection<int, VisionDisorder>
+     */
+    #[ORM\ManyToMany(targetEntity: VisionDisorder::class, inversedBy: 'users')]
+    private Collection $user_vision_disorder;
+
+    /**
+     * @var Collection<int, Post>
+     */
+    #[ORM\OneToMany(targetEntity: Post::class, mappedBy: 'user', orphanRemoval: true)]
+    private Collection $posts;
+
+    /**
+     * @var Collection<int, Vote>
+     */
+    #[ORM\OneToMany(targetEntity: Vote::class, mappedBy: 'user', orphanRemoval: true)]
+    private Collection $votes;
 
     public function __construct()
     {
-        $this->userVisionDisorders = new ArrayCollection();
+        $this->userVisionDisorderResults = new ArrayCollection();
+        $this->user_vision_disorder = new ArrayCollection();
+        $this->posts = new ArrayCollection();
+        $this->votes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -182,29 +203,113 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     // }
 
     /**
-     * @return Collection<int, UserVisionDisorder>
+     * @return Collection<int, UserVisionDisorderResult>
      */
-    public function getUserVisionDisorders(): Collection
+    public function getUserVisionDisorderResults(): Collection
     {
-        return $this->userVisionDisorders;
+        return $this->userVisionDisorderResults;
     }
 
-    public function addUserVisionDisorder(UserVisionDisorder $userVisionDisorder): static
+    public function addUserVisionDisorderResult(UserVisionDisorderResult $userVisionDisorderResult): static
     {
-        if (!$this->userVisionDisorders->contains($userVisionDisorder)) {
-            $this->userVisionDisorders->add($userVisionDisorder);
-            $userVisionDisorder->setUser($this);
+        if (!$this->userVisionDisorderResults->contains($userVisionDisorderResult)) {
+            $this->userVisionDisorderResults->add($userVisionDisorderResult);
+            $userVisionDisorderResult->setUser($this);
         }
 
         return $this;
     }
 
-    public function removeUserVisionDisorder(UserVisionDisorder $userVisionDisorder): static
+    public function removeUserVisionDisorderResult(UserVisionDisorderResult $userVisionDisorderResult): static
     {
-        if ($this->userVisionDisorders->removeElement($userVisionDisorder)) {
+        if ($this->userVisionDisorderResults->removeElement($userVisionDisorderResult)) {
             // set the owning side to null (unless already changed)
-            if ($userVisionDisorder->getUser() === $this) {
-                $userVisionDisorder->setUser(null);
+            if ($userVisionDisorderResult->getUser() === $this) {
+                $userVisionDisorderResult->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, VisionDisorder>
+     */
+    public function getUserVisionDisorder(): Collection
+    {
+        return $this->user_vision_disorder;
+    }
+
+    public function addUserVisionDisorder(VisionDisorder $userVisionDisorder): static
+    {
+        if (!$this->user_vision_disorder->contains($userVisionDisorder)) {
+            $this->user_vision_disorder->add($userVisionDisorder);
+        }
+
+        return $this;
+    }
+
+    public function removeUserVisionDisorder(VisionDisorder $userVisionDisorder): static
+    {
+        $this->user_vision_disorder->removeElement($userVisionDisorder);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Post>
+     */
+    public function getPosts(): Collection
+    {
+        return $this->posts;
+    }
+
+    public function addPost(Post $post): static
+    {
+        if (!$this->posts->contains($post)) {
+            $this->posts->add($post);
+            $post->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removePost(Post $post): static
+    {
+        if ($this->posts->removeElement($post)) {
+            // set the owning side to null (unless already changed)
+            if ($post->getUser() === $this) {
+                $post->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Vote>
+     */
+    public function getVotes(): Collection
+    {
+        return $this->votes;
+    }
+
+    public function addVote(Vote $vote): static
+    {
+        if (!$this->votes->contains($vote)) {
+            $this->votes->add($vote);
+            $vote->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVote(Vote $vote): static
+    {
+        if ($this->votes->removeElement($vote)) {
+            // set the owning side to null (unless already changed)
+            if ($vote->getUser() === $this) {
+                $vote->setUser(null);
             }
         }
 

@@ -1,4 +1,4 @@
-main {
+main.accueil {
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -246,7 +246,7 @@ main {
 
   .blogDiscussion {
     width: 100%;
-    margin-top: 5rem;
+    margin: 5rem 0;
     padding: 0 100px 0 100px;
     display: flex;
     flex-direction: column;
@@ -334,6 +334,7 @@ main {
         width: 100px;
         height: 100px;
         box-shadow: $boxShadowLight;
+        border-radius: 45%;
       }
     }
   }
