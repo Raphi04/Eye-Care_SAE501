@@ -297,6 +297,9 @@ export default function Comment({
 		}
 	}
 
+	//URL dynamique de l'API
+	const APIURL = import.meta.env.VITE_API_URL;
+
 	async function sendResponse() {
 		setReplyError(false);
 		setReplyLoading(true);
