@@ -189,6 +189,9 @@ export default function Comment({
 		}
 	}
 
+	//URL dynamique de l'API
+	const APIURL = import.meta.env.VITE_API_URL;
+
 	async function sendResponse() {
 		setReplyError(false);
 		setReplyLoading(true);
@@ -216,7 +219,7 @@ export default function Comment({
 		};
 
 		try {
-			const response = await fetch("localhost/comment", requestOptions);
+			const response = await fetch(`${APIURL}/comment`, requestOptions);
 
 			if (!response.ok) {
 				newErrorState = true;

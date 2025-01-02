@@ -39,7 +39,6 @@ export default function RegisterForm() {
 		const email = formData.get("email")?.toString().trim();
 		const password = formData.get("password")?.toString().trim();
 		const verifPassword = formData.get("verifPassword")?.toString().trim();
-		const APIURL = import.meta.env.VITE_API_URL;
 
 		const errors: string[] = [];
 
@@ -86,6 +85,8 @@ export default function RegisterForm() {
 			email,
 			password,
 		};
+
+		const APIURL = import.meta.env.VITE_API_URL;
 
 		try {
 			console.log(`${APIURL}/register`);
