@@ -15,7 +15,7 @@ import {
 import { useApiContext } from "../ApiProvider";
 
 interface HeaderProps {
-	active: string;
+	active?: string;
 }
 
 export default function Header({ active }: HeaderProps) {
