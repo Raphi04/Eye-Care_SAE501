@@ -168,7 +168,7 @@ export default function Header({ active }: HeaderProps) {
 
 								{onProfileClick && (
 									<div className="dropDown" ref={profileRef}>
-										<Link to="/profil" className="link">
+										<Link to="/profile" className="link">
 											<p>Mon profile</p>
 										</Link>
 										<Link to="/authentification/logOut" className="link">

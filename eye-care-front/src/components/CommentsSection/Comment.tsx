@@ -77,6 +77,10 @@ export default function Comment({
 	const [replyLoading, setReplyLoading] = useState<boolean>(false);
 
 	useEffect(() => {
+		console.log(connectedUser);
+	}, [connectedUser]);
+
+	useEffect(() => {
 		//Récupération de l'intervale de temps entre le post et maintenant
 		getDifferenceTime();
 	}, []);
@@ -323,7 +327,10 @@ export default function Comment({
 		};
 
 		try {
-			const response = await fetch(`${APIURL}/comment`, requestOptions);
+			const response = await fetch(
+				`http://localhost:8000/user/post`,
+				requestOptions
+			);
 
 			if (!response.ok) {
 				newErrorState = true;
