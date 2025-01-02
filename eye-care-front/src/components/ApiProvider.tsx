@@ -45,7 +45,7 @@ export default function ApiProvider({ children }: { children: ReactNode }) {
 				try {
 					console.log(token);
 					const response = await fetch(
-						`${APIURL}/user/profile`,
+						`${APIURL}/user/user_info`,
 						requestOptions
 					);
 

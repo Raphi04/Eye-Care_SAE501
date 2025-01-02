@@ -160,8 +160,13 @@ export default function CommentsSection({ subject }: CommentSectionProps) {
 			}),
 		};
 
+		console.log(requestOptions);
+
 		try {
-			const response = await fetch(`${APIURL}/comment`, requestOptions);
+			const response = await fetch(
+				`http://localhost:8000/user/post`,
+				requestOptions
+			);
 
 			if (!response.ok) {
 				setWritedCommentError(true);
