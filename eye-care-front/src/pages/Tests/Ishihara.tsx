@@ -83,24 +83,17 @@ export default function Ishihara() {
       <div className="textContainer">
         <h2>Test d'Ishihara</h2>
         <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nibh elit, tincidunt at
-          sapien id, commodo ornare dolor. Praesent pellentesque et est sit amet congue. Aliquam
-          erat volutpat. Suspendisse molestie porttitor lacus a convallis. Praesent lacinia purus
-          vel lacus pulvinar, ac ultricies neque scelerisque. Sed non imperdiet nisl. Pellentesque
-          habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Aenean
-          vehicula augue nec risus rhoncus interdum.
+          Le test d'Ishihara permet de détecter un potentiel daltonisme chez le patient. Il existe
+          plusieurs types de daltonisme, tels que la protanopie, la tritanopie ou bien la
+          deutéranopie
         </p>
       </div>
 
       <div className="textContainer">
         <h2>Déroulement du test</h2>
         <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nibh elit, tincidunt at
-          sapien id, commodo ornare dolor. Praesent pellentesque et est sit amet congue. Aliquam
-          erat volutpat. Suspendisse molestie porttitor lacus a convallis. Praesent lacinia purus
-          vel lacus pulvinar, ac ultricies neque scelerisque. Sed non imperdiet nisl. Pellentesque
-          habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Aenean
-          vehicula augue nec risus rhoncus interdum.
+          Vous allez voir sur la gauche une série de nombres cachés dans des cercles de couleurs
+          différents. Vous allez devoir écrire ces nombre dans le champ de formulaire juste à côté.
         </p>
       </div>
 
@@ -122,26 +115,26 @@ export default function Ishihara() {
       </div>
 
       <div className="textContainer">
-        <h2>Pour consulter</h2>
+        <h2>Diagnostique</h2>
         <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nibh elit, tincidunt at
-          sapien id, commodo ornare dolor. Praesent pellentesque et est sit amet congue. Aliquam
-          erat volutpat. Suspendisse molestie porttitor lacus a convallis. Praesent lacinia purus
-          vel lacus pulvinar, ac ultricies neque scelerisque. Sed non imperdiet nisl. Pellentesque
-          habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Aenean
-          vehicula augue nec risus rhoncus interdum.
+          Notre test n'est pas à prendre comme un résultat définitif et correspondant à 100% à votre
+          acuité visuelle. Il se peut qu'il n'ait pas pu s'adapter à la morphologie de votre écran
+          ou qu'il ait été réalisé dans de mauvaises conditions
+          <br />
+          <br />
+          Si vous avez eu des difficulté à voir les nombres caché dans les cercles, il est alors
+          conseillé de consulter un professionnel de santé.
         </p>
       </div>
 
       <div className="textContainer">
-        <h2>Diagnostique</h2>
+        <h2>Pour consulter</h2>
         <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nibh elit, tincidunt at
-          sapien id, commodo ornare dolor. Praesent pellentesque et est sit amet congue. Aliquam
-          erat volutpat. Suspendisse molestie porttitor lacus a convallis. Praesent lacinia purus
-          vel lacus pulvinar, ac ultricies neque scelerisque. Sed non imperdiet nisl. Pellentesque
-          habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Aenean
-          vehicula augue nec risus rhoncus interdum.
+          En cas de suspicion de daltonisme, vous pouvez consulter un ophtalmologiste. C'est un
+          médecin spécialisé dans la science de l'œil qui pourra vous faire passer ce test dans un
+          cadre professionnel. Il n'existe à l'heure actuelle aucun traitement contre le daltonisme.
+          Cependant, il existe des lunettes et des lentilles qui permettent aux personnes atteintes
+          de daltonisme de mieux distinguer les couleurs.
         </p>
       </div>
 
