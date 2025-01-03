@@ -16,6 +16,15 @@ main.accueil {
     body.dark & {
       color: $white;
     }
+
+    @media (max-width: 1440px) {
+      margin: 0;
+      text-align: center;
+    }
+
+    @media (max-width: 1440px) {
+      font-size: 6rem;
+    }
   }
 
   .welcomeContainer {
@@ -31,6 +40,14 @@ main.accueil {
       align-items: center;
     }
 
+    @media (max-width: 1024px) {
+      padding: 0 75px 0 75px;
+    }
+
+    @media (max-width: 768px) {
+      margin-top: 1.5rem;
+    }
+
     .textContainer {
       display: flex;
       flex-direction: column;
@@ -39,6 +56,10 @@ main.accueil {
 
       @media (max-width: 1440px) {
         width: 100%;
+      }
+
+      @media (max-width: 1440px) {
+        align-items: center;
       }
 
       h2 {
@@ -50,6 +71,10 @@ main.accueil {
         body.dark & {
           color: $white;
         }
+
+        @media (max-width: 768px) {
+          font-size: 2.5rem;
+        }
       }
 
       p {
@@ -60,6 +85,10 @@ main.accueil {
 
         body.dark & {
           color: $white;
+        }
+
+        @media (max-width: 768px) {
+          font-size: 1.5rem;
         }
       }
     }
@@ -110,6 +139,10 @@ main.accueil {
     background-color: $blueBlack;
     box-shadow: $boxShadow;
 
+    @media (max-width: 1024px) {
+      padding: 65px 75px 65px 75px;
+    }
+
     body.dark & {
       background-color: $blueLight;
       box-shadow: $boxShadowBlue;
@@ -123,6 +156,7 @@ main.accueil {
 
       @media (max-width: 1440px) {
         width: 100%;
+        align-items: center;
       }
 
       h2 {
@@ -132,6 +166,10 @@ main.accueil {
 
         body.dark & {
           color: $blueBlack;
+        }
+
+        @media (max-width: 768px) {
+          font-size: 2.5rem;
         }
       }
 
@@ -144,6 +182,25 @@ main.accueil {
         body.dark & {
           color: $blueBlack;
         }
+
+        @media (max-width: 768px) {
+          font-size: 1.5rem;
+        }
+      }
+    }
+
+    .bigEyes {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: fit-content;
+
+      @media (max-width: 1440px) {
+        display: none;
+      }
+
+      img {
+        width: 350px;
       }
     }
   }
@@ -155,7 +212,19 @@ main.accueil {
     display: flex;
     justify-content: space-between;
 
+    @media (max-width: 1024px) {
+      padding: 0 75px 0 75px;
+    }
+
     .imgTest {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      @media (max-width: 1440px) {
+        display: none;
+      }
+
       img {
         box-shadow: $boxShadow;
       }
@@ -169,6 +238,7 @@ main.accueil {
 
       @media (max-width: 1440px) {
         width: 100%;
+        align-items: center;
       }
 
       h2 {
@@ -179,6 +249,14 @@ main.accueil {
 
         body.dark & {
           color: $white;
+        }
+
+        @media (max-width: 1440px) {
+          text-align: center;
+        }
+
+        @media (max-width: 768px) {
+          font-size: 2.5rem;
         }
       }
 
@@ -192,10 +270,18 @@ main.accueil {
         body.dark & {
           color: $white;
         }
+
+        @media (max-width: 768px) {
+          font-size: 1.5rem;
+        }
       }
 
       .button {
         align-self: flex-end;
+
+        @media (max-width: 1440px) {
+          align-self: auto;
+        }
       }
     }
   }
@@ -210,6 +296,14 @@ main.accueil {
     background-color: $blueBlack;
     box-shadow: $boxShadow;
 
+    @media (max-width: 1024px) {
+      padding: 65px 75px 65px 75px;
+    }
+
+    @media (max-width: 1440px) {
+      align-items: center;
+    }
+
     body.dark & {
       background-color: $blueLight;
       box-shadow: $boxShadowBlue;
@@ -223,6 +317,10 @@ main.accueil {
       body.dark & {
         color: $blueBlack;
       }
+
+      @media (max-width: 768px) {
+        font-size: 2.5rem;
+      }
     }
 
     .allArticlesContainer {
@@ -231,6 +329,10 @@ main.accueil {
       grid-template-columns: repeat(3, 1fr);
       grid-template-rows: repeat(2, 1fr);
       gap: 2rem;
+
+      @media (max-width: 768px) {
+        grid-template-columns: repeat(1, 1fr);
+      }
 
       .article {
         background-color: $white;
@@ -252,6 +354,14 @@ main.accueil {
     flex-direction: column;
     gap: 3rem;
 
+    @media (max-width: 1440px) {
+      align-items: center;
+    }
+
+    @media (max-width: 1024px) {
+      padding: 0 75px 0 75px;
+    }
+
     h2 {
       font-size: 2.7rem;
       font-family: $fontBold;
@@ -259,6 +369,10 @@ main.accueil {
 
       body.dark & {
         color: $white;
+      }
+
+      @media (max-width: 768px) {
+        font-size: 2.5rem;
       }
     }
 
@@ -328,6 +442,10 @@ main.accueil {
           line-height: 2rem;
           text-align: justify;
         }
+
+        @media (max-width: 768px) {
+          font-size: 1.5rem;
+        }
       }
 
       > img {
@@ -335,6 +453,14 @@ main.accueil {
         height: 100px;
         box-shadow: $boxShadowLight;
         border-radius: 45%;
+      }
+    }
+
+    .button {
+      align-self: flex-end;
+
+      @media (max-width: 1440px) {
+        align-self: auto;
       }
     }
   }
