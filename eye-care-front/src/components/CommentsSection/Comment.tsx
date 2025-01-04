@@ -225,6 +225,13 @@ export default function Comment({
     }
   }
 
+  useEffect(() => {
+    console.log("like:");
+    console.log(isLiked);
+    console.log("dislike:");
+    console.log(isDisliked);
+  }, [isLiked, isDisliked]);
+
   async function handleChangeIsDisliked() {
     const newDisLikedState = !commentData.is_disliked;
     if (newDisLikedState) {
