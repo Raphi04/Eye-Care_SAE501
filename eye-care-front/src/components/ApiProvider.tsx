@@ -21,6 +21,7 @@ export function useApiContext() {
 export default function ApiProvider({ children }: { children: ReactNode }) {
   //URL dynamique de l'API
   const APIURL = import.meta.env.VITE_API_URL;
+
   const [connectedUser, setConnectedUser] = useState<any>(null);
   const [loadingState, setLoadingState] = useState<boolean>(false);
   const token = localStorage.getItem("token");
