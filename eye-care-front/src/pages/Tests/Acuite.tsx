@@ -35,7 +35,7 @@ export default function Acuite() {
         const result = await response.json();
 
         let currentAcuiteScore;
-        if (result.vision_disorde_result.length > 0) {
+        if (result.vision_disorder_result.length > 0) {
           currentAcuiteScore = result.vision_disorder_result.find(
             (disorder: any) => disorder.vision_disorder == "myopie"
           ).result;
