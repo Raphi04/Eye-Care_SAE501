@@ -5,6 +5,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 
 export default function Acuite() {
+  //URL dynamique de l'API
+  const APIURL = import.meta.env.VITE_API_URL;
+
   //Connected User
   const { connectedUser, loadingState } = useApiContext();
   const token = localStorage.getItem("token") || "";
@@ -22,7 +25,7 @@ export default function Acuite() {
       };
 
       try {
-        const response = await fetch("http://localhost:8000/user/profile", requestOptions);
+        const response = await fetch(`${APIURL}/user/profile`, requestOptions);
 
         if (!response.ok) {
           throw new Error(`Erreur HTTP : ${response.status}`);
