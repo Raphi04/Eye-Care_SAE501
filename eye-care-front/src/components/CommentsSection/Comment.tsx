@@ -261,8 +261,6 @@ export default function Comment({
       }
     } else {
       //Update en local
-      if (isLiked && isDisliked) {
-      }
       setIsDisliked(false);
       commentData.is_disliked = false;
       commentData.dislike--;
@@ -403,7 +401,7 @@ export default function Comment({
                 >
                   <FontAwesomeIcon
                     icon={commentData.is_liked ? faThumbsUp : faThumbsUpBorder}
-                    className={commentData.is_liked ? "green" : ""}
+                    className={commentData.is_liked || isLiked ? "green" : ""}
                   />
                   <p>{commentData.like}</p>
                 </div>
@@ -414,7 +412,7 @@ export default function Comment({
                 >
                   <FontAwesomeIcon
                     icon={commentData.is_disliked ? faThumbsDown : faThumbsDownBorder}
-                    className={commentData.is_disliked ? "red" : ""}
+                    className={commentData.is_disliked || isDisliked ? "red" : ""}
                   />
                   <p>{commentData.dislike}</p>
                 </div>
