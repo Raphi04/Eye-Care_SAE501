@@ -8,7 +8,7 @@ Il vous indiquera comment installer les différentes dépendances et comment lan
 - La première chose à faire pour faire fonctionner le front est de créer un fichier `.env` à la racine du dossier *eye-care-front*.
 - Ensuite veuillez écrire la ligne suivante dans le fichier :
 
-`VITE_API_URL="http://localhost:8000/"`
+`VITE_API_URL="http://localhost:8000"`
 
 - Ouvrez un terminal dans **Visual Studio Code** et aller dans le dossier *eye-care-front* à l'aide de la commande suivante :
 
