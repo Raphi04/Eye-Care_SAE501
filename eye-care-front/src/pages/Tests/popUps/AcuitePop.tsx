@@ -16,6 +16,9 @@ interface LettersArray {
 }
 
 export default function AcuitePop({ closePopUp, upDateScore }: AcuitePopProps) {
+  //URL dynamique de l'API
+  const APIURL = import.meta.env.VITE_API_URL;
+
   //ConnectedUser
   const { connectedUser, loadingState } = useApiContext();
   const token = localStorage.getItem("token") || "";
@@ -127,10 +130,7 @@ export default function AcuitePop({ closePopUp, upDateScore }: AcuitePopProps) {
 
       try {
         setSendingLoadingState(true);
-        const response = await fetch(
-          "http://localhost:8000/user/user_vision_disorder_result",
-          requestOptions
-        );
+        const response = await fetch(`${APIURL}/user/user_vision_disorder_result`, requestOptions);
 
         if (!response.ok) {
           throw new Error(`Erreur HTTP : ${response.status}`);
