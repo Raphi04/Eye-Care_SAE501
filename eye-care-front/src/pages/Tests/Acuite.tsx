@@ -12,7 +12,9 @@ export default function Acuite() {
   const { connectedUser, loadingState } = useApiContext();
   const token = localStorage.getItem("token") || "";
 
-  const [acuiteScore, setAcuiteScore] = useState<string>("");
+  const [acuiteScore, setAcuiteScore] = useState<any>(() => {
+    return localStorage.getItem("daltonismeScore") || "";
+  });
   const [getScoreLoadingState, setGetScoreLoadingState] = useState<boolean>(false);
   const [testIsStarted, setTestIsStarted] = useState<Boolean>(false);
 
