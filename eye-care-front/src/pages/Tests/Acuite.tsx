@@ -5,6 +5,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 
 export default function Acuite() {
+  //URL dynamique de l'API
+  const APIURL = import.meta.env.VITE_API_URL;
+
   //Connected User
   const { connectedUser, loadingState } = useApiContext();
   const token = localStorage.getItem("token") || "";
@@ -22,17 +25,21 @@ export default function Acuite() {
       };
 
       try {
-        const response = await fetch("http://localhost:8000/user/profile", requestOptions);
+        const response = await fetch(`${APIURL}/user/profile`, requestOptions);
 
         if (!response.ok) {
           throw new Error(`Erreur HTTP : ${response.status}`);
         }
         const result = await response.json();
-        const currentAcuiteScore = result.vision_disorder_result.map((disorder: any) => {
-          if (disorder.vision_disorder == "myopie") {
-            return disorder.result;
-          }
-        });
+
+        let currentAcuiteScore;
+        if (result.vision_disorder.length > 0) {
+          currentAcuiteScore = result.vision_disorder_result.find(
+            (disorder: any) => disorder.vision_disorder == "myopie"
+          ).result;
+        } else {
+          currentAcuiteScore = "";
+        }
 
         setAcuiteScore(currentAcuiteScore);
         //
@@ -75,24 +82,24 @@ export default function Acuite() {
       <div className="textContainer">
         <h2>Test d'acuité visuelle</h2>
         <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nibh elit, tincidunt at
-          sapien id, commodo ornare dolor. Praesent pellentesque et est sit amet congue. Aliquam
-          erat volutpat. Suspendisse molestie porttitor lacus a convallis. Praesent lacinia purus
-          vel lacus pulvinar, ac ultricies neque scelerisque. Sed non imperdiet nisl. Pellentesque
-          habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Aenean
-          vehicula augue nec risus rhoncus interdum.
+          Un test d'acuite visuelle sert à détecter de potentielles troubles occulaires tel que la
+          myopie ou l'astigmatisme.
         </p>
       </div>
 
       <div className="textContainer">
         <h2>Déroulement du test</h2>
         <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nibh elit, tincidunt at
-          sapien id, commodo ornare dolor. Praesent pellentesque et est sit amet congue. Aliquam
-          erat volutpat. Suspendisse molestie porttitor lacus a convallis. Praesent lacinia purus
-          vel lacus pulvinar, ac ultricies neque scelerisque. Sed non imperdiet nisl. Pellentesque
-          habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Aenean
-          vehicula augue nec risus rhoncus interdum.
+          Notre test évalue sur cinquante votre perception visuelle sur des lettres de plus en plus
+          petites. Cela nous permet donc de détecter une potentielle myopie chez vous.
+          <br />
+          <br />
+          Vous allez voir cinq lettres à chaque étape du test, ces dernières devront être écrites
+          correctement et dans l'ordre pour obtenir 5/5 points.
+          <br />
+          <br />
+          Ce test a été prévu pour être réalisé à une distance d'environ 1 mètre de votre écran et
+          idéalement sur un écran 1920px * 1080px. (96 dpi).
         </p>
       </div>
 
@@ -105,37 +112,37 @@ export default function Acuite() {
         )}
 
         {!loadingState && !connectedUser && (
-          <p>Votre score actuel : {acuiteScore.length ? acuiteScore + "/50" : "-"}</p>
+          <p>Votre score actuel : {acuiteScore ? acuiteScore + "/50" : "-"}</p>
         )}
 
         {!loadingState && connectedUser && !getScoreLoadingState && (
-          <p>Votre score actuel : {acuiteScore.length ? acuiteScore + "/50" : "-"}</p>
+          <p>Votre score actuel : {acuiteScore ? acuiteScore + "/50" : "-"}</p>
         )}
-      </div>
-
-      <div className="textContainer">
-        <h2>Pour consulter</h2>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nibh elit, tincidunt at
-          sapien id, commodo ornare dolor. Praesent pellentesque et est sit amet congue. Aliquam
-          erat volutpat. Suspendisse molestie porttitor lacus a convallis. Praesent lacinia purus
-          vel lacus pulvinar, ac ultricies neque scelerisque. Sed non imperdiet nisl. Pellentesque
-          habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Aenean
-          vehicula augue nec risus rhoncus interdum.
-        </p>
       </div>
 
       <div className="textContainer">
         <h2>Diagnostique</h2>
         <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nibh elit, tincidunt at
-          sapien id, commodo ornare dolor. Praesent pellentesque et est sit amet congue. Aliquam
-          erat volutpat. Suspendisse molestie porttitor lacus a convallis. Praesent lacinia purus
-          vel lacus pulvinar, ac ultricies neque scelerisque. Sed non imperdiet nisl. Pellentesque
-          habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Aenean
-          vehicula augue nec risus rhoncus interdum.
+          Notre test n'est pas à prendre comme un résultat définitif et correspondant à 100% à votre
+          acuité visuelle. Il se peut qu'il n'ait pas pu s'adapter à la morphologie de votre écran
+          ou qu'il ait été réalisé dans de mauvaises conditions.
+          <br />
+          <br />
+          Si à mesure que les lettres rétrécissaient, elle devenaient floues, il est préférable que
+          vous consultiez un professionnel de santé.
         </p>
       </div>
+
+      <div className="textContainer">
+        <h2>Pour consulter</h2>
+        <p>
+          En cas de suspicion de myopie, vous pouvez consulter un ophtalmologiste. C'est un médecin
+          spécialisé dans la science de l'œil qui pourra vous faire passer ce test dans un cadre
+          professionnel. Il pourra aussi évaluer le résultat obtenu pour vous rédiger, si
+          nécessaire, une ordonnance pour commander des lunettes.
+        </p>
+      </div>
+
       {testIsStarted && (
         <AcuitePop closePopUp={handleChangeTestIsStarted} upDateScore={handleChangeAcuiteScore} />
       )}

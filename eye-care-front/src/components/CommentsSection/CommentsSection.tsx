@@ -30,6 +30,9 @@ export default function CommentsSection({ subject }: CommentSectionProps) {
   const [writedCommentError, setWritedCommentError] = useState<boolean>();
   const [writedCommentSuccess, setWritedCommentSuccess] = useState<boolean>();
 
+  //URL dynamique de l'API
+  const APIURL = import.meta.env.VITE_API_URL;
+
   //Le nombre total de commentaire
   const [totalComments, setTotalComments] = useState<number>(() => {
     return comments.length;
@@ -46,7 +49,7 @@ export default function CommentsSection({ subject }: CommentSectionProps) {
           headers: { "Content-Type": "application/json", "auth-token": token },
         };
 
-        const response = await fetch(`http://localhost:8000/post/${subject}`, requestOptions);
+        const response = await fetch(`${APIURL}/post/${subject}`, requestOptions);
 
         if (!response.ok) {
           throw new Error(`Erreur HTTP : ${response.status}`);
@@ -152,8 +155,10 @@ export default function CommentsSection({ subject }: CommentSectionProps) {
       }),
     };
 
+    console.log(requestOptions);
+
     try {
-      const response = await fetch("http://localhost:8000/user/post", requestOptions);
+      const response = await fetch(`${APIURL}/user/post`, requestOptions);
 
       if (!response.ok) {
         setWritedCommentError(true);
@@ -290,7 +295,7 @@ export default function CommentsSection({ subject }: CommentSectionProps) {
           )}
           {!commentsLoadingState && (
             <div className="commentsContainer">
-              {comments.map((comment: any, index: number) => {
+              {comments.map((comment: any) => {
                 return (
                   <Comment
                     key={comment.id}

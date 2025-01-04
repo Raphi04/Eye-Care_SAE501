@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useContext, useEffect, useState } from "react";
+import { createContext, ReactNode, useContext, useEffect, useRef, useState } from "react";
 
 interface ApiContextTyping {
   connectedUser: any;
@@ -19,21 +19,27 @@ export function useApiContext() {
 }
 
 export default function ApiProvider({ children }: { children: ReactNode }) {
+  //URL dynamique de l'API
+  const APIURL = import.meta.env.VITE_API_URL;
+
   const [connectedUser, setConnectedUser] = useState<any>(null);
   const [loadingState, setLoadingState] = useState<boolean>(false);
   const token = localStorage.getItem("token");
+  const alreadyGotInformations = useRef(false);
 
   useEffect(() => {
     if (token) {
       const getConnectedUser = async () => {
         setLoadingState(true);
+        alreadyGotInformations.current = true;
         const requestOptions = {
           method: "GET",
           headers: { "Content-Type": "application/json", "auth-token": token },
         };
 
         try {
-          const response = await fetch("http://localhost:8000/user/user_info", requestOptions);
+          console.log(token);
+          const response = await fetch(`${APIURL}/user/user_info`, requestOptions);
 
           if (!response.ok) {
             throw new Error("Erreur HTTP:" + response.status);
@@ -48,8 +54,9 @@ export default function ApiProvider({ children }: { children: ReactNode }) {
           setLoadingState(false);
         }
       };
-
-      getConnectedUser();
+      if (!alreadyGotInformations.current) {
+        getConnectedUser();
+      }
     }
   }, []);
 
