@@ -40,9 +40,13 @@ Il vous indiquera comment installer les différentes dépendances et comment lan
 
 `php/bin doctrine:database create`
 
-- Migrer la base de donnée : 
+- Migrer la base de données : 
 
 `php/bin doctrine:migration migrate`
+
+- Chargement des données initiales dans la base de données : 
+
+`php bin/console doctrine:fixtures:load`
 
 - Lancer le server avec la commande :
 
