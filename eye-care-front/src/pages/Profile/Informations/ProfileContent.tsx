@@ -39,18 +39,18 @@ export default function ProfileContent({ userData }: ProfileContentProps) {
 
 		const email = formData.get("email");
 		const username = formData.get("username");
-		const newPassword = formData.get("newPassword");
+		const password = formData.get("newPassword");
 		const APIURL = import.meta.env.VITE_API_URL;
 		setGlobalErrors([]);
 
 		const payload = {
 			email,
 			username,
-			newPassword,
+			password,
 		};
 
 		try {
-			const token = localStorage.getItem("auth-token");
+			const token = localStorage.getItem("token");
 
 			if (!token) {
 				setGlobalErrors(["Token d'authentification manquant."]);
