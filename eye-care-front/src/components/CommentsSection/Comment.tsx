@@ -54,6 +54,8 @@ export default function Comment({
 
   //Variables des commentaires
   const [publishedAgo, setPublishedAgo] = useState<string>();
+  const [isLiked, setIsLiked] = useState<boolean>(commentData.is_liked || false);
+  const [isDisliked, setIsDisliked] = useState<boolean>(commentData.is_disliked || false);
 
   //Variable des réponses
   const [replyText, setReplyText] = useState<string>(() => {
@@ -171,9 +173,11 @@ export default function Comment({
     if (newLikedState) {
       //Update en local
       if (commentData.is_disliked) {
+        setIsDisliked(false);
         commentData.is_disliked = false;
         commentData.dislike--;
       }
+      setIsLiked(true);
       commentData.is_liked = true;
       commentData.like++;
 
@@ -226,9 +230,11 @@ export default function Comment({
     if (newDisLikedState) {
       //Update en local
       if (commentData.is_liked) {
+        setIsLiked(false);
         commentData.is_liked = false;
         commentData.like--;
       }
+      setIsDisliked(true);
       commentData.is_disliked = true;
       commentData.dislike++;
 
@@ -255,6 +261,9 @@ export default function Comment({
       }
     } else {
       //Update en local
+      if (isLiked && isDisliked) {
+      }
+      setIsDisliked(false);
       commentData.is_disliked = false;
       commentData.dislike--;
 
