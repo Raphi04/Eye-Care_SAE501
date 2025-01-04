@@ -13,7 +13,7 @@ export default function Acuite() {
   const token = localStorage.getItem("token") || "";
 
   const [acuiteScore, setAcuiteScore] = useState<any>(() => {
-    return localStorage.getItem("daltonismeScore") || "";
+    return localStorage.getItem("acuiteScore") || "";
   });
   const [getScoreLoadingState, setGetScoreLoadingState] = useState<boolean>(false);
   const [testIsStarted, setTestIsStarted] = useState<Boolean>(false);
@@ -35,7 +35,7 @@ export default function Acuite() {
         const result = await response.json();
 
         let currentAcuiteScore;
-        if (result.vision_disorder.length > 0) {
+        if (result.vision_disorde_result.length > 0) {
           currentAcuiteScore = result.vision_disorder_result.find(
             (disorder: any) => disorder.vision_disorder == "myopie"
           ).result;
