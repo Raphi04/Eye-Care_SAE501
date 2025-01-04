@@ -45,7 +45,7 @@ class AppFixtures extends Fixture
         $user->setPassword($password);
         $manager->persist($user);
 
-        //Vision Disorder
+        //Vision Disorders
         $myopie = new VisionDisorder();
         $myopie->setDisorderName("myopie");
         $manager->persist($myopie);
@@ -53,18 +53,6 @@ class AppFixtures extends Fixture
         $daltonisme = new VisionDisorder();
         $daltonisme->setDisorderName("daltonisme");
         $manager->persist($daltonisme);
-
-        // $myopie = new VisionDisorder();
-        // $myopie->setDisorderName("myopie");
-        // $manager->persist($myopie);
-
-        // $myopie = new VisionDisorder();
-        // $myopie->setDisorderName("myopie");
-        // $manager->persist($myopie);
-
-        // $myopie = new VisionDisorder();
-        // $myopie->setDisorderName("myopie");
-        // $manager->persist($myopie);
 
         //Categories
         $accueilCategory = new Category();
