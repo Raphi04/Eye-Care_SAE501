@@ -28,7 +28,6 @@ export default function Login() {
 		const formData = new FormData(form);
 
 		const email = formData.get("email");
-		console.log(email);
 		const password = formData.get("password");
 		const APIURL = import.meta.env.VITE_API_URL;
 		setGlobalErrors([]);

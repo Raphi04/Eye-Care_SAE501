@@ -1,0 +1,301 @@
+// INITIALES ET SALUTATION
+
+.usernameContent {
+	width: fit-content;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 40px;
+	margin-bottom: 40px;
+	gap: 80px;
+	display: flex;
+
+	.initialsCard {
+		width: 10em;
+		height: 10em;
+		background-color: $white;
+		line-height: 10em;
+		text-align: center;
+		border-radius: 15px;
+		margin-left: auto;
+		margin-right: auto;
+
+		.initials {
+			font-size: 5em;
+			font-family: $fontTextBold;
+		}
+	}
+
+	.usernameText {
+		margin-left: auto;
+		margin-right: auto;
+
+		.hello {
+			font-size: 1.5em;
+			font-weight: bold;
+			margin-top: 1em;
+			font-family: $fontTextBold;
+		}
+
+		.username {
+			font-size: 4.5em;
+			font-family: $fontTextBold;
+		}
+	}
+}
+
+// VOS INFORMATIONS ET TESTS
+
+.globalContent {
+	display: flex;
+	margin-left: auto;
+	margin-right: auto;
+	width: 80vw;
+	justify-content: space-evenly;
+	margin-top: 50px;
+	margin-bottom: 50px;
+
+	.profileContent {
+		width: 35vw;
+
+		.userInformationsContent {
+			&.last {
+				margin-top: 40px;
+			}
+
+			.titleInformations {
+				font-size: 2em;
+				font-family: $fontBolder;
+			}
+
+			.userInformations {
+				font-family: $fontTextNormal;
+				font-size: 1.3em;
+				margin-top: 10px;
+				margin-bottom: 10px;
+
+				&.last {
+					margin-bottom: 10px;
+				}
+			}
+
+			.buttonsInformations {
+				display: flex;
+				gap: 20px;
+
+				.buttonInformations {
+					display: flex;
+					align-items: center;
+					margin-bottom: 20px;
+					margin-top: 10px;
+					gap: 10px;
+					position: relative;
+					width: fit-content;
+					padding: 10px 25px;
+					border-radius: 12px;
+					font-size: 1.2rem;
+					font-family: $fontBolder;
+					overflow: hidden;
+					box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+					color: $white;
+					z-index: 1;
+					border: none;
+					cursor: pointer;
+
+					&.delete {
+						background: red;
+
+						&::before {
+							content: "";
+							position: absolute;
+							top: 0;
+							left: 0;
+							width: 100%;
+							height: 100%;
+							background: rgb(172, 0, 0);
+							z-index: -1;
+							opacity: 0;
+							transition: opacity 0.3s ease-out;
+						}
+					}
+
+					&.modify {
+						background: $blueStrongDegrade;
+
+						&::before {
+							content: "";
+							position: absolute;
+							top: 0;
+							left: 0;
+							width: 100%;
+							height: 100%;
+							background: $blueStrongDegradeHover;
+							z-index: -1;
+							opacity: 0;
+							transition: opacity 0.3s ease-out;
+						}
+					}
+
+					&::before {
+						content: "";
+						position: absolute;
+						top: 0;
+						left: 0;
+						width: 100%;
+						height: 100%;
+						background: $blueStrongDegradeHover;
+						z-index: -1;
+						opacity: 0;
+						transition: opacity 0.3s ease-out;
+					}
+
+					&:hover::before {
+						opacity: 1;
+					}
+
+					&:hover::before {
+						opacity: 1;
+					}
+				}
+			}
+		}
+
+		.popupOverlay {
+			position: fixed;
+			text-align: center;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background: rgba(0, 0, 0, 0.5);
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			z-index: 2;
+
+			.popupContent {
+				background: #fff;
+				padding: 20px;
+				border-radius: 15px;
+				box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+				width: 600px;
+
+				h1 {
+					margin-bottom: 15px;
+					font-family: $fontBolder;
+					font-size: 2.5em;
+				}
+
+				h3 {
+					margin-bottom: 20px;
+					font-family: $fontTextBold;
+					font-size: 1.2em;
+				}
+			}
+
+			.popupField {
+				margin-bottom: 10px;
+
+				.has-value {
+					font-family: $fontTextNormal;
+					font-size: 1em;
+				}
+
+				input {
+					width: 60%;
+					padding: 8px;
+					margin-top: 5px;
+					border: 3px solid $blueBlack;
+					border-radius: 8px;
+				}
+			}
+		}
+
+		.popupButtons {
+			margin-top: 15px;
+			display: flex;
+			justify-content: center;
+			gap: 20px;
+		}
+
+		.popupButton {
+			display: flex;
+			align-items: center;
+			margin-bottom: 20px;
+			margin-top: 10px;
+			gap: 10px;
+			position: relative;
+			width: fit-content;
+			padding: 10px 25px;
+			border-radius: 12px;
+			font-size: 1.2rem;
+			font-family: $fontBolder;
+			overflow: hidden;
+			box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+			color: $white;
+			z-index: 1;
+			border: none;
+			cursor: pointer;
+
+			&.delete {
+				background: red;
+
+				&::before {
+					content: "";
+					position: absolute;
+					top: 0;
+					left: 0;
+					width: 100%;
+					height: 100%;
+					background: rgb(172, 0, 0);
+					z-index: -1;
+					opacity: 0;
+					transition: opacity 0.3s ease-out;
+				}
+			}
+
+			&.modify {
+				background: $blueStrongDegrade;
+
+				&::before {
+					content: "";
+					position: absolute;
+					top: 0;
+					left: 0;
+					width: 100%;
+					height: 100%;
+					background: $blueStrongDegradeHover;
+					z-index: -1;
+					opacity: 0;
+					transition: opacity 0.3s ease-out;
+				}
+			}
+
+			&::before {
+				content: "";
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+				background: $blueStrongDegradeHover;
+				z-index: -1;
+				opacity: 0;
+				transition: opacity 0.3s ease-out;
+			}
+
+			&:hover::before {
+				opacity: 1;
+			}
+
+			&:hover::before {
+				opacity: 1;
+			}
+		}
+	}
+
+	// Résumé problèmes oculaires
+
+	.ocularIssuesContent {
+		width: 35vw;
+	}
+}

@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSmile, faSpinner, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { faFrown, faMeh, faSmile, faSpinner, faXmark } from "@fortawesome/free-solid-svg-icons";
 import "./popUps.scss";
 import { useEffect, useRef, useState } from "react";
 import { useApiContext } from "../../../components/ApiProvider";
@@ -16,6 +16,9 @@ interface LettersArray {
 }
 
 export default function AcuitePop({ closePopUp, upDateScore }: AcuitePopProps) {
+  //URL dynamique de l'API
+  const APIURL = import.meta.env.VITE_API_URL;
+
   //ConnectedUser
   const { connectedUser, loadingState } = useApiContext();
   const token = localStorage.getItem("token") || "";
@@ -127,10 +130,7 @@ export default function AcuitePop({ closePopUp, upDateScore }: AcuitePopProps) {
 
       try {
         setSendingLoadingState(true);
-        const response = await fetch(
-          "http://localhost:8000/user/user_vision_disorder_result",
-          requestOptions
-        );
+        const response = await fetch(`${APIURL}/user/user_vision_disorder_result`, requestOptions);
 
         if (!response.ok) {
           throw new Error(`Erreur HTTP : ${response.status}`);
@@ -195,7 +195,9 @@ export default function AcuitePop({ closePopUp, upDateScore }: AcuitePopProps) {
                   <h3>Test fini ! Vous avez obtenu un score de {newAcuiteScore}/50 !</h3>
                 </div>
                 <div className="resultSmiley">
-                  <FontAwesomeIcon icon={faSmile} />
+                  {newAcuiteScore < 25 && <FontAwesomeIcon icon={faFrown} />}
+                  {newAcuiteScore < 40 && newAcuiteScore >= 25 && <FontAwesomeIcon icon={faMeh} />}
+                  {newAcuiteScore >= 40 && <FontAwesomeIcon icon={faSmile} />}
                 </div>
                 <button onClick={sendResultsToDB} type="submit" disabled={sendingloadingState}>
                   {!sendingloadingState && "ENREGISTRER"}

@@ -45,14 +45,15 @@ export default function Comment({
   isReply,
   updateComments,
 }: CommentProps) {
+  //URL dynamique de l'API
+  const APIURL = import.meta.env.VITE_API_URL;
+
   //ConnectedUser
   const { connectedUser, loadingState } = useApiContext();
   const token = localStorage.getItem("token") || "";
 
   //Variables des commentaires
   const [publishedAgo, setPublishedAgo] = useState<string>();
-  const [isLiked, setIsLiked] = useState<boolean>(commentData.is_liked || false);
-  const [isDisliked, setIsDisliked] = useState<boolean>(commentData.is_disliked || false);
 
   //Variable des réponses
   const [replyText, setReplyText] = useState<string>(() => {
@@ -67,6 +68,10 @@ export default function Comment({
   const input = useRef<HTMLInputElement>(null);
   const [replyError, setReplyError] = useState<boolean>(false);
   const [replyLoading, setReplyLoading] = useState<boolean>(false);
+
+  useEffect(() => {
+    console.log(connectedUser);
+  }, [connectedUser]);
 
   useEffect(() => {
     //Récupération de l'intervale de temps entre le post et maintenant
@@ -166,11 +171,9 @@ export default function Comment({
     if (newLikedState) {
       //Update en local
       if (commentData.is_disliked) {
-        setIsDisliked(false);
         commentData.is_disliked = false;
         commentData.dislike--;
       }
-      setIsLiked(true);
       commentData.is_liked = true;
       commentData.like++;
 
@@ -187,7 +190,7 @@ export default function Comment({
           body: JSON.stringify(body),
         };
 
-        const response = await fetch("http://localhost:8000/user/vote", requestOptions);
+        const response = await fetch(`${APIURL}/user/vote`, requestOptions);
 
         if (!response.ok) {
           throw new Error("Erreur HTTP : " + response.status);
@@ -197,7 +200,6 @@ export default function Comment({
       }
     } else {
       //Update en local
-      setIsLiked(false);
       commentData.is_liked = false;
       commentData.like--;
 
@@ -208,10 +210,7 @@ export default function Comment({
           headers: { "Content-Type": "application/json", "auth-token": token },
         };
 
-        const response = await fetch(
-          `http://localhost:8000/user/vote/${commentData.id}`,
-          requestOptions
-        );
+        const response = await fetch(`${APIURL}/user/vote/${commentData.id}`, requestOptions);
 
         if (!response.ok) {
           throw new Error("Erreur HTTP : " + response.status);
@@ -227,11 +226,9 @@ export default function Comment({
     if (newDisLikedState) {
       //Update en local
       if (commentData.is_liked) {
-        setIsLiked(false);
         commentData.is_liked = false;
         commentData.like--;
       }
-      setIsDisliked(true);
       commentData.is_disliked = true;
       commentData.dislike++;
 
@@ -248,7 +245,7 @@ export default function Comment({
           body: JSON.stringify(body),
         };
 
-        const response = await fetch("http://localhost:8000/user/vote", requestOptions);
+        const response = await fetch(`${APIURL}/user/vote`, requestOptions);
 
         if (!response.ok) {
           throw new Error("Erreur HTTP : " + response.status);
@@ -258,7 +255,6 @@ export default function Comment({
       }
     } else {
       //Update en local
-      setIsDisliked(false);
       commentData.is_disliked = false;
       commentData.dislike--;
 
@@ -269,10 +265,7 @@ export default function Comment({
           headers: { "Content-Type": "application/json", "auth-token": token },
         };
 
-        const response = await fetch(
-          `http://localhost:8000/user/vote/${commentData.id}`,
-          requestOptions
-        );
+        const response = await fetch(`${APIURL}/user/vote/${commentData.id}`, requestOptions);
 
         if (!response.ok) {
           throw new Error("Erreur HTTP : " + response.status);
@@ -306,7 +299,7 @@ export default function Comment({
     };
 
     try {
-      const response = await fetch("http://localhost:8000/user/post", requestOptions);
+      const response = await fetch(`${APIURL}/user/post`, requestOptions);
 
       if (!response.ok) {
         newErrorState = true;

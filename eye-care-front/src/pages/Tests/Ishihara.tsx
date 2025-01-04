@@ -1,12 +1,69 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import IshiharaPop from "./popUps/IshiharaPop";
+import { useApiContext } from "../../components/ApiProvider";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 
 export default function Ishihara() {
+  //URL dynamique de l'API
+  const APIURL = import.meta.env.VITE_API_URL;
+
+  //ConnectedUser variables
+  const { connectedUser, loadingState } = useApiContext();
+  const token = localStorage.getItem("token") || "";
+
   const [daltonismeScore, setDaltonismeScore] = useState<any>(() => {
     return localStorage.getItem("daltonismeScore") || "";
   });
 
   const [testIsStarted, setTestIsStarted] = useState<Boolean>(false);
+  const [getScoreLoadingState, setGetScoreLoadingState] = useState<boolean>(false);
+
+  async function getDaltonismeScore() {
+    setGetScoreLoadingState(true);
+    if (connectedUser && !loadingState) {
+      const requestOptions = {
+        method: "GET",
+        headers: { "Content-Type": "application/json", "auth-token": token },
+      };
+
+      try {
+        const response = await fetch(`${APIURL}/user/profile`, requestOptions);
+
+        if (!response.ok) {
+          throw new Error(`Erreur HTTP : ${response.status}`);
+        }
+
+        const result = await response.json();
+
+        console.log(result);
+        let currentDaltonismeScore;
+        if (result.vision_disorder_result.length > 0) {
+          currentDaltonismeScore = result.vision_disorder_result.find(
+            (disorder: any) => disorder.vision_disorder == "daltonisme"
+          ).result;
+        } else {
+          currentDaltonismeScore = "";
+        }
+
+        setDaltonismeScore(currentDaltonismeScore);
+        //
+      } catch (error: any) {
+        console.log("Erreur lors de la récupération : " + error.message);
+      } finally {
+        setGetScoreLoadingState(false);
+      }
+    }
+  }
+
+  useEffect(() => {
+    getDaltonismeScore();
+    if (!connectedUser && !loadingState) {
+      setGetScoreLoadingState(false);
+      const currentDaltonismeScore = localStorage.getItem("daltonismeScore") || "";
+      setDaltonismeScore(currentDaltonismeScore);
+    }
+  }, [connectedUser, loadingState]);
 
   function handleChangeTestIsStarted() {
     const scrollBarWidth = window.innerWidth - document.documentElement.clientWidth;
@@ -21,62 +78,76 @@ export default function Ishihara() {
     setTestIsStarted(newState);
   }
 
+  function handleChangeDaltonismeScore(newScore: string) {
+    setDaltonismeScore(newScore);
+  }
+
   return (
     <>
       <div className="textContainer">
         <h2>Test d'Ishihara</h2>
         <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nibh elit, tincidunt at
-          sapien id, commodo ornare dolor. Praesent pellentesque et est sit amet congue. Aliquam
-          erat volutpat. Suspendisse molestie porttitor lacus a convallis. Praesent lacinia purus
-          vel lacus pulvinar, ac ultricies neque scelerisque. Sed non imperdiet nisl. Pellentesque
-          habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Aenean
-          vehicula augue nec risus rhoncus interdum.
+          Le test d'Ishihara permet de détecter un potentiel daltonisme chez le patient. Il existe
+          plusieurs types de daltonisme, tels que la protanopie, la tritanopie ou bien la
+          deutéranopie
         </p>
       </div>
 
       <div className="textContainer">
         <h2>Déroulement du test</h2>
         <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nibh elit, tincidunt at
-          sapien id, commodo ornare dolor. Praesent pellentesque et est sit amet congue. Aliquam
-          erat volutpat. Suspendisse molestie porttitor lacus a convallis. Praesent lacinia purus
-          vel lacus pulvinar, ac ultricies neque scelerisque. Sed non imperdiet nisl. Pellentesque
-          habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Aenean
-          vehicula augue nec risus rhoncus interdum.
+          Vous allez voir sur la gauche une série de nombres cachés dans des cercles de couleurs
+          différents. Vous allez devoir écrire ces nombre dans le champ de formulaire juste à côté.
         </p>
       </div>
 
       <div className="startTest">
         <button onClick={handleChangeTestIsStarted}>LANCER LE TEST</button>
-        <p>Score actuel : {daltonismeScore ? daltonismeScore + "/50" : "-"}</p>
-      </div>
+        {getScoreLoadingState && (
+          <p>
+            <FontAwesomeIcon icon={faSpinner} spin /> Chargement en cours ...
+          </p>
+        )}
 
-      <div className="textContainer">
-        <h2>Pour consulter</h2>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nibh elit, tincidunt at
-          sapien id, commodo ornare dolor. Praesent pellentesque et est sit amet congue. Aliquam
-          erat volutpat. Suspendisse molestie porttitor lacus a convallis. Praesent lacinia purus
-          vel lacus pulvinar, ac ultricies neque scelerisque. Sed non imperdiet nisl. Pellentesque
-          habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Aenean
-          vehicula augue nec risus rhoncus interdum.
-        </p>
+        {!loadingState && !connectedUser && (
+          <p>Votre score actuel : {daltonismeScore ? daltonismeScore + "/10" : "-"}</p>
+        )}
+
+        {!loadingState && connectedUser && !getScoreLoadingState && (
+          <p>Votre score actuel : {daltonismeScore ? daltonismeScore + "/10" : "-"}</p>
+        )}
       </div>
 
       <div className="textContainer">
         <h2>Diagnostique</h2>
         <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nibh elit, tincidunt at
-          sapien id, commodo ornare dolor. Praesent pellentesque et est sit amet congue. Aliquam
-          erat volutpat. Suspendisse molestie porttitor lacus a convallis. Praesent lacinia purus
-          vel lacus pulvinar, ac ultricies neque scelerisque. Sed non imperdiet nisl. Pellentesque
-          habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Aenean
-          vehicula augue nec risus rhoncus interdum.
+          Notre test n'est pas à prendre comme un résultat définitif et correspondant à 100% à votre
+          acuité visuelle. Il se peut qu'il n'ait pas pu s'adapter à la morphologie de votre écran
+          ou qu'il ait été réalisé dans de mauvaises conditions
+          <br />
+          <br />
+          Si vous avez eu des difficulté à voir les nombres caché dans les cercles, il est alors
+          conseillé de consulter un professionnel de santé.
         </p>
       </div>
 
-      {testIsStarted && <IshiharaPop closePopUp={handleChangeTestIsStarted} />}
+      <div className="textContainer">
+        <h2>Pour consulter</h2>
+        <p>
+          En cas de suspicion de daltonisme, vous pouvez consulter un ophtalmologiste. C'est un
+          médecin spécialisé dans la science de l'œil qui pourra vous faire passer ce test dans un
+          cadre professionnel. Il n'existe à l'heure actuelle aucun traitement contre le daltonisme.
+          Cependant, il existe des lunettes et des lentilles qui permettent aux personnes atteintes
+          de daltonisme de mieux distinguer les couleurs.
+        </p>
+      </div>
+
+      {testIsStarted && (
+        <IshiharaPop
+          closePopUp={handleChangeTestIsStarted}
+          upDateScore={handleChangeDaltonismeScore}
+        />
+      )}
     </>
   );
 }

@@ -127,6 +127,12 @@
       gap: 2rem;
       border-radius: 30px;
       background-color: $white;
+      transition: background-color 0.3s ease-out, color 0.3s ease-out;
+
+      body.dark & {
+        background-color: $blueBlack;
+        color: $white;
+      }
 
       &.result {
         justify-content: center;
