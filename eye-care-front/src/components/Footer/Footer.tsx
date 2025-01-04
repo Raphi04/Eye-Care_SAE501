@@ -53,7 +53,7 @@ export default function Footer() {
             </p>
             <p className="cr">
               Copyright ©2024 - Tous droits réservés -
-              <Link to="/mention-légal"> Mentions légales</Link>
+              <Link to="/mentionslegales"> Mentions légales</Link>
             </p>
           </div>
           <div>
