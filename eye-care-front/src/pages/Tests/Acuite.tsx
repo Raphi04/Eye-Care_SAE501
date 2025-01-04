@@ -41,6 +41,7 @@ export default function Acuite() {
           currentAcuiteScore = "";
         }
 
+        console.log(currentAcuiteScore);
         setAcuiteScore(currentAcuiteScore);
         //
       } catch (error: any) {
