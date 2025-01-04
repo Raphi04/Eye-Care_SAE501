@@ -1,4 +1,5 @@
-import { useState } from "react";
+import axios from "axios";
+import { useEffect, useState } from "react";
 
 type UserData = {
 	email: string;
@@ -13,10 +14,79 @@ type ProfileContentProps = {
 
 export default function ProfileContent({ userData }: ProfileContentProps) {
 	const [isPopupOpen, setIsPopupOpen] = useState(false);
+	const [email, setEmail] = useState(userData?.email);
+	const [username, setUsername] = useState(userData?.username);
+	const [previousPassword, setPreviousPassword] = useState("");
+	const [newPassword, setNewPassword] = useState("");
+	const [verifNewPassword, setVerifNewPassword] = useState("");
+	const [globalErrors, setGlobalErrors] = useState<string[]>([]);
+
+	useEffect(() => {
+		if (userData?.email) setEmail(userData.email);
+		if (userData?.username) setUsername(userData.username);
+	}, [userData]);
 
 	// Fonction pour ouvrir/fermer la pop-up
 	const modifyPopUp = () => {
 		setIsPopupOpen(!isPopupOpen);
+	};
+
+	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+
+		const form = e.target as HTMLFormElement;
+		const formData = new FormData(form);
+
+		const email = formData.get("email");
+		const username = formData.get("username");
+		const newPassword = formData.get("newPassword");
+		const APIURL = import.meta.env.VITE_API_URL;
+		setGlobalErrors([]);
+
+		const payload = {
+			email,
+			username,
+			newPassword,
+		};
+
+		try {
+			const token = localStorage.getItem("auth-token");
+
+			if (!token) {
+				setGlobalErrors(["Token d'authentification manquant."]);
+				return;
+			}
+
+			// Envoi d'une requête POST au serveur pour la connexion
+			const response = await axios.put(`${APIURL}/user/user`, payload, {
+				headers: {
+					"Content-Type": "application/json",
+					"auth-token": token,
+				},
+			});
+
+			if (response.status === 200) {
+				alert("Informations mises à jour avec succès !");
+				setIsPopupOpen(false);
+			}
+		} catch (error: unknown) {
+			if (axios.isAxiosError(error)) {
+				const status = error.response?.status;
+				const message = error.response?.data?.message;
+
+				// Traitement des erreurs spécifiques à l'API
+				if (status === 400) {
+					setGlobalErrors([`Erreur : ${message || "Données invalides."}`]);
+				} else if (status === 401) {
+					setGlobalErrors(["Mot de passe actuel incorrect."]);
+				} else {
+					setGlobalErrors([`Erreur de mise à jour : ${message || "Inconnue"}`]);
+				}
+			} else {
+				console.error("Erreur inattendue :", error);
+				setGlobalErrors(["Une erreur inattendue s'est produite."]);
+			}
+		}
 	};
 
 	return (
@@ -71,27 +141,76 @@ export default function ProfileContent({ userData }: ProfileContentProps) {
 			{isPopupOpen && (
 				<div className="popupOverlay">
 					<div className="popupContent">
-						<h3>Modifier vos informations</h3>
-						<form>
+						<h1>Vos informations</h1>
+						<h3>Vous pouvez modifier vos informations ci-dessous</h3>
+						<form onSubmit={handleSubmit}>
+							{/* --- Champs de modification --- */}
 							<div className="popupField">
-								<label>Nom d'utilisateur :</label>
-								<input type="text" defaultValue={userData?.username} />
+								<input
+									type="text"
+									name="username"
+									value={username}
+									onChange={(e) => setUsername(e.target.value)}
+									className="has-value"
+								/>
 							</div>
 							<div className="popupField">
-								<label>Email :</label>
-								<input type="email" defaultValue={userData?.email} />
+								<input
+									type="email"
+									name="email"
+									value={email}
+									onChange={(e) => setEmail(e.target.value)}
+									className="has-value"
+								/>
 							</div>
+							<div className="popupField">
+								<input
+									type="password"
+									name="previousPassword"
+									value={previousPassword}
+									onChange={(e) => setPreviousPassword(e.target.value)}
+									className="has-value"
+									placeholder="Ancien mot de passe"
+								/>
+							</div>
+							<div className="popupField">
+								<input
+									type="password"
+									name="newPassword"
+									value={newPassword}
+									onChange={(e) => setNewPassword(e.target.value)}
+									className="has-value"
+									placeholder="Nouveau mot de passe"
+								/>
+							</div>
+							<div className="popupField">
+								<input
+									type="password"
+									name="verifNewPassword"
+									value={verifNewPassword}
+									onChange={(e) => setVerifNewPassword(e.target.value)}
+									className="has-value"
+									placeholder="Vérification nouveau mot de passe"
+								/>
+							</div>
+							{/* Message d'erreur global */}
+							{globalErrors.length > 0 && (
+								<div className="error-container">
+									{globalErrors.map((err, index) => (
+										<p key={index} className="error-message">
+											{err}
+										</p>
+									))}
+								</div>
+							)}
+							{/* --- Boutons de validation --- */}
 							<div className="popupButtons">
-								<button
-									type="button"
-									className="popupButton save"
-									onClick={modifyPopUp}
-								>
+								<button type="submit" className="popupButton modify">
 									Enregistrer
 								</button>
 								<button
 									type="button"
-									className="popupButton cancel"
+									className="popupButton delete"
 									onClick={modifyPopUp}
 								>
 									Annuler
