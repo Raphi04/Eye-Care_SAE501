@@ -1,6 +1,6 @@
 import axios from "axios";
 import Header from "../../components/Header/Header";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import "./profile.scss";
 import ProfileContent from "./Informations/ProfileContent";
 import OcularIssuesContent from "./Informations/OcularIssuesContent";
@@ -16,27 +16,27 @@ export default function Profile() {
 	} | null>(null);
 	const token = localStorage.getItem("token");
 
-	useEffect(() => {
+	// Fonction pour récupérer les données utilisateur
+	const fetchUser = useCallback(async () => {
 		if (token) {
-			const fetchUser = async () => {
-				setLoadingState(true);
-				try {
-					const response = await axios.get(`${APIURL}/user/profile`, {
-						headers: {
-							"auth-token": token,
-						},
-					});
-					console.log(response.data);
-					setUserData(response.data);
-				} catch (error: unknown) {
-					console.log("Erreur lors de l'envoi : " + error);
-				} finally {
-					setLoadingState(false);
-				}
-			};
-			fetchUser();
+			setLoadingState(true);
+			try {
+				const response = await axios.get(`${APIURL}/user/profile`, {
+					headers: { "auth-token": token },
+				});
+				setUserData(response.data);
+			} catch (error: unknown) {
+				console.error("Erreur lors de l'envoi : " + error);
+			} finally {
+				setLoadingState(false);
+			}
 		}
 	}, [token, APIURL]);
+
+	// Chargement initial des données utilisateur
+	useEffect(() => {
+		fetchUser();
+	}, [fetchUser]);
 
 	return (
 		<>
@@ -57,7 +57,8 @@ export default function Profile() {
 				</div>
 			</div>
 			<div className="globalContent">
-				<ProfileContent userData={userData} />
+				{/* Passer fetchUser comme prop pour le rafraîchissement */}
+				<ProfileContent userData={userData} refreshUserData={fetchUser} />
 				<OcularIssuesContent />
 			</div>
 		</>
