@@ -74,13 +74,13 @@ export default function ProfileContent({
 		const errors: string[] = [];
 
 		if (
-			!username ||
-			!email ||
-			!previousPassword ||
-			!newPassword ||
-			!verifNewPassword
+			(!previousPassword && !newPassword && verifNewPassword) ||
+			(!previousPassword && newPassword && !verifNewPassword) ||
+			(previousPassword && !newPassword && !verifNewPassword)
 		) {
-			errors.push("Tous les champs doivent être remplis.");
+			errors.push(
+				"Veuillez remplir tous les champs concernant le mot de passe."
+			);
 		}
 
 		if (username && (username.length < 2 || username.length > 20)) {
