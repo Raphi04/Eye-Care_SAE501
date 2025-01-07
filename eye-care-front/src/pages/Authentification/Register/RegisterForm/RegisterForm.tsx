@@ -40,8 +40,10 @@ export default function RegisterForm() {
 			errors.push("Tous les champs doivent être remplis.");
 		}
 
-		if (username && username.length < 2) {
-			errors.push("Le nom d'utilisateur doit contenir au moins 2 caractères.");
+		if (username && (username.length < 2 || username.length > 20)) {
+			errors.push(
+				"Le nom d'utilisateur doit contenir entre 2 et 20 caractères."
+			);
 		}
 
 		if (
