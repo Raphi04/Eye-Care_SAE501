@@ -10,10 +10,15 @@ type UserData = {
 
 type ProfileContentProps = {
 	userData: UserData | null;
+	refreshUserData: () => void;
 };
 
-export default function ProfileContent({ userData }: ProfileContentProps) {
-	const [isPopupOpen, setIsPopupOpen] = useState(false);
+export default function ProfileContent({
+	userData,
+	refreshUserData,
+}: ProfileContentProps) {
+	const [isModifPopupOpen, setIsModifPopupOpen] = useState(false);
+	const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false);
 	const [email, setEmail] = useState(userData?.email);
 	const [username, setUsername] = useState(userData?.username);
 	const [previousPassword, setPreviousPassword] = useState("");
@@ -21,17 +26,29 @@ export default function ProfileContent({ userData }: ProfileContentProps) {
 	const [verifNewPassword, setVerifNewPassword] = useState("");
 	const [globalErrors, setGlobalErrors] = useState<string[]>([]);
 
+	// Mise à jour des champs
 	useEffect(() => {
 		if (userData?.email) setEmail(userData.email);
 		if (userData?.username) setUsername(userData.username);
 	}, [userData]);
 
-	// Fonction pour ouvrir/fermer la pop-up
+	useEffect(() => {
+		if (isModifPopupOpen && userData) {
+			setEmail(userData.email);
+			setUsername(userData.username);
+		}
+	}, [isModifPopupOpen, userData]);
+
+	// Fonctions pour ouvrir/fermer les pop-up
 	const modifyPopUp = () => {
-		setIsPopupOpen(!isPopupOpen);
+		setIsModifPopupOpen(!isModifPopupOpen);
 	};
 
-	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+	const deletePopUp = () => {
+		setIsDeletePopupOpen(!isDeletePopupOpen);
+	};
+
+	const handleSubmitModify = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 
 		const form = e.target as HTMLFormElement;
@@ -66,8 +83,56 @@ export default function ProfileContent({ userData }: ProfileContentProps) {
 			});
 
 			if (response.status === 200) {
-				alert("Informations mises à jour avec succès !");
-				setIsPopupOpen(false);
+				refreshUserData();
+				setIsModifPopupOpen(false);
+			}
+		} catch (error: unknown) {
+			if (axios.isAxiosError(error)) {
+				const status = error.response?.status;
+				const message = error.response?.data?.message;
+
+				// Traitement des erreurs spécifiques à l'API
+				if (status === 400) {
+					setGlobalErrors([`Erreur : ${message || "Données invalides."}`]);
+				} else if (status === 401) {
+					setGlobalErrors(["Mot de passe actuel incorrect."]);
+				} else {
+					setGlobalErrors([`Erreur de mise à jour : ${message || "Inconnue"}`]);
+				}
+			} else {
+				console.error("Erreur inattendue :", error);
+				setGlobalErrors(["Une erreur inattendue s'est produite."]);
+			}
+		}
+	};
+
+	const handleSubmitDelete = async (e: React.FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+
+		setGlobalErrors([]);
+
+		try {
+			const token = localStorage.getItem("token");
+
+			if (!token) {
+				setGlobalErrors(["Token d'authentification manquant."]);
+				return;
+			}
+
+			const APIURL = import.meta.env.VITE_API_URL;
+
+			// Envoi d'une requête DELETE au serveur supprimer le compte
+			const response = await axios.delete(`${APIURL}/user/user`, {
+				headers: {
+					"Content-Type": "application/json",
+					"auth-token": token,
+				},
+			});
+
+			if (response.status === 200) {
+				if (email) setEmail(email);
+				if (username) setUsername(username);
+				setIsModifPopupOpen(false);
 			}
 		} catch (error: unknown) {
 			if (axios.isAxiosError(error)) {
@@ -117,7 +182,11 @@ export default function ProfileContent({ userData }: ProfileContentProps) {
 					>
 						<p>MODIFIER</p>
 					</button>
-					<button type="submit" className="buttonInformations delete">
+					<button
+						type="submit"
+						className="buttonInformations danger"
+						onClick={deletePopUp}
+					>
 						<p>SUPPRIMER LE COMPTE</p>
 					</button>
 				</div>
@@ -138,12 +207,12 @@ export default function ProfileContent({ userData }: ProfileContentProps) {
 			</div>
 
 			{/* --- Pop-Up Modal --- */}
-			{isPopupOpen && (
+			{isModifPopupOpen && (
 				<div className="popupOverlay">
 					<div className="popupContent">
 						<h1>Vos informations</h1>
 						<h3>Vous pouvez modifier vos informations ci-dessous</h3>
-						<form onSubmit={handleSubmit}>
+						<form onSubmit={handleSubmitModify}>
 							{/* --- Champs de modification --- */}
 							<div className="popupField">
 								<input
@@ -205,15 +274,49 @@ export default function ProfileContent({ userData }: ProfileContentProps) {
 							)}
 							{/* --- Boutons de validation --- */}
 							<div className="popupButtons">
-								<button type="submit" className="popupButton modify">
-									Enregistrer
-								</button>
 								<button
 									type="button"
-									className="popupButton delete"
+									className="popupButton none"
 									onClick={modifyPopUp}
 								>
-									Annuler
+									ANNULER
+								</button>
+								<button type="submit" className="popupButton modify">
+									ENREGISTRER
+								</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			)}
+			{/* --- Pop-Up Modal --- */}
+			{isDeletePopupOpen && (
+				<div className="popupOverlay">
+					<div className="popupContent">
+						<h1>Supprimer votre compte</h1>
+						<h3>Nous sommes désolés de vous voir partir</h3>
+						<form onSubmit={handleSubmitDelete}>
+							{/* Message d'erreur global */}
+							{globalErrors.length > 0 && (
+								<div className="error-container">
+									{globalErrors.map((err, index) => (
+										<p key={index} className="error-message">
+											{err}
+										</p>
+									))}
+								</div>
+							)}
+							{/* --- Boutons de validation --- */}
+							<div className="popupButtons">
+								<button
+									type="button"
+									className="popupButton none"
+									onClick={deletePopUp}
+								>
+									ANNULER
+								</button>
+								<button type="submit" className="popupButton danger">
+									SUPPRIMER LE COMPTE
 								</button>
 							</div>
 						</form>
