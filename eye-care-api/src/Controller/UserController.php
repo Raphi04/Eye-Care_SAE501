@@ -66,10 +66,13 @@ class UserController extends AbstractController
         $username = $user->getUsername();
         $userId = $user->getId();
 
+        $imageUrl = $user->getProfileImage() ? $this->params->get('profile_download_dir') . $user->getProfileImage() : null;
+
         $data = [
             'id' => $user->getId(),
             'username' => $user->getUsername(),
-            'roles' => $user->getRoles()
+            'roles' => $user->getRoles(),
+            'profile_image' => $imageUrl
         ];
 
         return new JsonResponse($data, Response::HTTP_OK);
@@ -109,15 +112,33 @@ class UserController extends AbstractController
     {
         $image = $request->files->get('image');
         
+        $apiToken = $request->headers->get('auth-token');
+        $user = $this->userService->findUserByPropriety("apiToken", $apiToken);
+        $userImage = $user->getProfileImage();
+        
         if (!$image) {
             return new JsonResponse(['message' => 'No file provided'], Response::HTTP_BAD_REQUEST);
+        }
+
+        if (!$image->isValid() || !in_array($image->getMimeType(), ['image/jpeg', 'image/png', 'image/jpg'])) {
+            return new JsonResponse(['message' => 'Invalid file type or upload error'], Response::HTTP_BAD_REQUEST);
         }
 
         $uploadDir = $this->params->get('profile_upload_dir');
         $imageName = uniqid() . '.' . $image->guessExtension();
 
+        if($userImage){
+            $oldImage = $uploadDir . '/' . $userImage;
+            if (file_exists($oldImage)) {
+                unlink($oldImage);
+            }
+        }
+
         $image->move($uploadDir, $imageName);
 
-        return new JsonResponse(['message' => 'Profile image created/updated'], Response::HTTP_CREATED);
+        $user->setProfileImage($imageName);
+        $this->userService->persistAndFlush($user);
+
+        return new JsonResponse(['message' => 'Profile image created or updated'], Response::HTTP_CREATED);
     }
 }
