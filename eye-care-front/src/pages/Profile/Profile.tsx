@@ -2,6 +2,7 @@ import axios from "axios";
 import Header from "../../components/Header/Header";
 import { useEffect, useState, useCallback } from "react";
 import "./profile.scss";
+import "./Informations/PopUp/popup.scss";
 import ProfileContent from "./Informations/ProfileContent";
 import OcularIssuesContent from "./Informations/OcularIssuesContent";
 
