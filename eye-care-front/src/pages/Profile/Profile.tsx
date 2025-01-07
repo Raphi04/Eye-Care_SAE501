@@ -16,6 +16,17 @@ export default function Profile() {
 	} | null>(null);
 	const token = localStorage.getItem("token");
 
+	function getInitials() {
+		if (userData?.username) {
+			const usernameSplited = userData.username.split(" ");
+			const onlyInitials = usernameSplited.map((word: string) => {
+				return word.charAt(0).toUpperCase();
+			});
+
+			return onlyInitials.join("");
+		}
+	}
+
 	// Fonction pour récupérer les données utilisateur
 	const fetchUser = useCallback(async () => {
 		if (token) {
@@ -43,9 +54,7 @@ export default function Profile() {
 			<Header />
 			<div className="usernameContent">
 				<div className="initialsCard">
-					<h1 className="initials">
-						{userData?.username?.charAt(0).toUpperCase()}
-					</h1>
+					<h1 className="initials">{getInitials() || "U.I."}</h1>
 				</div>
 				<div className="usernameText">
 					<p className="hello">
