@@ -1,6 +1,8 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useApiContext } from "../../../components/ApiProvider";
+import ModifyPopup from "./PopUp/ModifyPopup";
+import DeletePopup from "./PopUp/DeletePopup";
 
 type UserData = {
 	email: string;
@@ -57,9 +59,9 @@ export default function ProfileContent({
 		const form = e.target as HTMLFormElement;
 		const formData = new FormData(form);
 
-		const email = formData.get("email");
-		const username = formData.get("username");
-		const password = formData.get("newPassword");
+		const email = formData.get("email")?.toString().trim();
+		const username = formData.get("username")?.toString().trim();
+		const password = formData.get("newPassword")?.toString().trim();
 		const APIURL = import.meta.env.VITE_API_URL;
 		setGlobalErrors([]);
 
@@ -68,6 +70,54 @@ export default function ProfileContent({
 			username,
 			password,
 		};
+
+		const errors: string[] = [];
+
+		if (
+			!username ||
+			!email ||
+			!previousPassword ||
+			!newPassword ||
+			!verifNewPassword
+		) {
+			errors.push("Tous les champs doivent être remplis.");
+		}
+
+		if (username && (username.length < 2 || username.length > 20)) {
+			errors.push(
+				"Le nom d'utilisateur doit contenir entre 2 et 20 caractères."
+			);
+		}
+
+		if (
+			newPassword &&
+			!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(
+				newPassword
+			)
+		) {
+			errors.push(
+				"Le mot de passe doit contenir au moins une majuscule, une minuscule, un chiffre et un caractère spécial."
+			);
+		}
+
+		if (
+			(username && (username.match(/ /g) || []).length >= 2) ||
+			username?.startsWith(" ") ||
+			username?.endsWith(" ")
+		) {
+			errors.push(
+				"Le nom d'utilisateur ne peut pas contenir plus d'un espace, ni commencer ou terminer par un espace."
+			);
+		}
+
+		if (newPassword !== verifNewPassword) {
+			errors.push("Les mots de passe ne correspondent pas.");
+		}
+
+		if (errors.length > 0) {
+			setGlobalErrors(errors);
+			return;
+		}
 
 		try {
 			const token = localStorage.getItem("token");
@@ -209,124 +259,28 @@ export default function ProfileContent({
 					<p>Faire le test de DMLA</p>
 				</div>
 			</div>
-
-			{/* --- Pop-Up Modal --- */}
-			{isModifPopupOpen && (
-				<div className="popupOverlay">
-					<div className="popupContent">
-						<h1>Vos informations</h1>
-						<h3>Vous pouvez modifier vos informations ci-dessous</h3>
-						<form onSubmit={handleSubmitModify}>
-							{/* --- Champs de modification --- */}
-							<div className="popupField">
-								<input
-									type="text"
-									name="username"
-									value={username}
-									onChange={(e) => setUsername(e.target.value)}
-									className="has-value"
-								/>
-							</div>
-							<div className="popupField">
-								<input
-									type="email"
-									name="email"
-									value={email}
-									onChange={(e) => setEmail(e.target.value)}
-									className="has-value"
-								/>
-							</div>
-							<div className="popupField">
-								<input
-									type="password"
-									name="previousPassword"
-									value={previousPassword}
-									onChange={(e) => setPreviousPassword(e.target.value)}
-									className="has-value"
-									placeholder="Ancien mot de passe"
-								/>
-							</div>
-							<div className="popupField">
-								<input
-									type="password"
-									name="newPassword"
-									value={newPassword}
-									onChange={(e) => setNewPassword(e.target.value)}
-									className="has-value"
-									placeholder="Nouveau mot de passe"
-								/>
-							</div>
-							<div className="popupField">
-								<input
-									type="password"
-									name="verifNewPassword"
-									value={verifNewPassword}
-									onChange={(e) => setVerifNewPassword(e.target.value)}
-									className="has-value"
-									placeholder="Vérification nouveau mot de passe"
-								/>
-							</div>
-							{/* Message d'erreur global */}
-							{globalErrors.length > 0 && (
-								<div className="error-container">
-									{globalErrors.map((err, index) => (
-										<p key={index} className="error-message">
-											{err}
-										</p>
-									))}
-								</div>
-							)}
-							{/* --- Boutons de validation --- */}
-							<div className="popupButtons">
-								<button
-									type="button"
-									className="popupButton none"
-									onClick={modifyPopUp}
-								>
-									ANNULER
-								</button>
-								<button type="submit" className="popupButton modify">
-									ENREGISTRER
-								</button>
-							</div>
-						</form>
-					</div>
-				</div>
-			)}
-			{/* --- Pop-Up Modal --- */}
-			{isDeletePopupOpen && (
-				<div className="popupOverlay">
-					<div className="popupContent">
-						<h1>Supprimer votre compte</h1>
-						<h3>Nous sommes désolés de vous voir partir</h3>
-						<form onSubmit={handleSubmitDelete}>
-							{/* Message d'erreur global */}
-							{globalErrors.length > 0 && (
-								<div className="error-container">
-									{globalErrors.map((err, index) => (
-										<p key={index} className="error-message">
-											{err}
-										</p>
-									))}
-								</div>
-							)}
-							{/* --- Boutons de validation --- */}
-							<div className="popupButtons">
-								<button
-									type="button"
-									className="popupButton none"
-									onClick={deletePopUp}
-								>
-									ANNULER
-								</button>
-								<button type="submit" className="popupButton danger">
-									SUPPRIMER LE COMPTE
-								</button>
-							</div>
-						</form>
-					</div>
-				</div>
-			)}
+			<ModifyPopup
+				isOpen={isModifPopupOpen}
+				onClose={modifyPopUp}
+				onSubmit={handleSubmitModify}
+				username={username || ""}
+				setUsername={setUsername}
+				email={email || ""}
+				setEmail={setEmail}
+				previousPassword={previousPassword}
+				setPreviousPassword={setPreviousPassword}
+				newPassword={newPassword}
+				setNewPassword={setNewPassword}
+				verifNewPassword={verifNewPassword}
+				setVerifNewPassword={setVerifNewPassword}
+				globalErrors={globalErrors}
+			/>
+			<DeletePopup
+				isOpen={isDeletePopupOpen}
+				onClose={deletePopUp}
+				onSubmit={handleSubmitDelete}
+				globalErrors={globalErrors}
+			/>
 		</div>
 	);
 }
