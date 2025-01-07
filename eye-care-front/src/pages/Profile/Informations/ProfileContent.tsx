@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useApiContext } from "../../../components/ApiProvider";
 
 type UserData = {
 	email: string;
@@ -26,11 +27,13 @@ export default function ProfileContent({
 	const [verifNewPassword, setVerifNewPassword] = useState("");
 	const [globalErrors, setGlobalErrors] = useState<string[]>([]);
 
+	const { connectedUser, refreshConnectedUser } = useApiContext();
+
 	// Mise à jour des champs
 	useEffect(() => {
-		if (userData?.email) setEmail(userData.email);
-		if (userData?.username) setUsername(userData.username);
-	}, [userData]);
+		setEmail(connectedUser?.email || "");
+		setUsername(connectedUser?.username || "");
+	}, [connectedUser]);
 
 	useEffect(() => {
 		if (isModifPopupOpen && userData) {
@@ -84,6 +87,7 @@ export default function ProfileContent({
 
 			if (response.status === 200) {
 				refreshUserData();
+				await refreshConnectedUser();
 				setIsModifPopupOpen(false);
 			}
 		} catch (error: unknown) {
