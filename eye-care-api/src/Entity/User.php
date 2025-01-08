@@ -70,6 +70,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $profile_image = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $certificate = null;
+
     public function __construct()
     {
         $this->userVisionDisorderResults = new ArrayCollection();
@@ -327,6 +330,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setProfileImage(?string $profile_image): static
     {
         $this->profile_image = $profile_image;
+
+        return $this;
+    }
+
+    public function getCertificate(): ?string
+    {
+        return $this->certificate;
+    }
+
+    public function setCertificate(?string $certificate): static
+    {
+        $this->certificate = $certificate;
 
         return $this;
     }
