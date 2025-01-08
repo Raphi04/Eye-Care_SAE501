@@ -69,3 +69,5 @@ Les utilisateurs sont composés de personnes cherchant à s'informer sur les tro
 ## **Documentation du projet**
 
 - [Phase de cadrage](markdown/phaseCadrage.md)
+- [Installation du projet](markdown/installation.md)
+
