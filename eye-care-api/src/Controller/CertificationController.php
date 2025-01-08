@@ -32,7 +32,7 @@ class CertificationController extends AbstractController
         
         $apiToken = $request->headers->get('auth-token');
         $user = $this->userService->findUserByPropriety("apiToken", $apiToken);
-        // $userCertificat = $user->getProfileImage();
+        $userCertificat = $user->getCertificate();
         
         if (!$certificat) {
             return new JsonResponse(['message' => 'No file provided'], Response::HTTP_BAD_REQUEST);
@@ -45,17 +45,17 @@ class CertificationController extends AbstractController
         $uploadDir = $this->params->get('certificat_upload_dir');
         $certificatName = uniqid() . '.' . $certificat->guessExtension();
 
-        // if($userCertificat){
-        //     $oldImage = $uploadDir . '/' . $userCertificat;
-        //     if (file_exists($oldImage)) {
-        //         unlink($oldImage);
-        //     }
-        // }
+        if($userCertificat){
+            $oldCertificat = $uploadDir . '/' . $userCertificat;
+            if (file_exists($oldCertificat)) {
+                unlink($oldCertificat);
+            }
+        }
 
         $certificat->move($uploadDir, $certificatName);
 
-        // $user->setProfileImage($certificatName);
-        // $this->userService->persistAndFlush($user);
+        $user->setCertificate($certificatName);
+        $this->userService->persistAndFlush($user);
 
         return new JsonResponse(['message' => 'Certificat created or updated'], Response::HTTP_CREATED);
     }
