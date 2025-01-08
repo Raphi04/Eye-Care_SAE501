@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useApiContext } from "../../../components/ApiProvider";
 import ModifyPopup from "./PopUp/ModifyPopup";
 import DeletePopup from "./PopUp/DeletePopup";
+import { useNavigate } from "react-router-dom";
 
 type UserData = {
 	email: string;
@@ -28,7 +29,13 @@ export default function ProfileContent({
 	const [newPassword, setNewPassword] = useState("");
 	const [verifNewPassword, setVerifNewPassword] = useState("");
 	const [globalErrors, setGlobalErrors] = useState<string[]>([]);
+	const navigate = useNavigate();
 
+	//	Token et URL de l'API
+	const APIURL = import.meta.env.VITE_API_URL;
+	const token = localStorage.getItem("token");
+
+	//	Pour savoir si l'utilisateur est connecté
 	const { connectedUser, refreshConnectedUser } = useApiContext();
 
 	// Mise à jour des champs
@@ -62,8 +69,6 @@ export default function ProfileContent({
 		const email = formData.get("email")?.toString().trim();
 		const username = formData.get("username")?.toString().trim();
 		const password = formData.get("newPassword")?.toString().trim();
-		const APIURL = import.meta.env.VITE_API_URL;
-		setGlobalErrors([]);
 
 		const payload = {
 			email,
@@ -71,6 +76,7 @@ export default function ProfileContent({
 			password,
 		};
 
+		setGlobalErrors([]);
 		const errors: string[] = [];
 
 		if (
@@ -160,47 +166,33 @@ export default function ProfileContent({
 		}
 	};
 
-	const handleSubmitDelete = async (e: React.FormEvent<HTMLFormElement>) => {
-		e.preventDefault();
-
+	const handleSubmitDelete = async () => {
 		setGlobalErrors([]);
 
 		try {
-			const token = localStorage.getItem("token");
-
 			if (!token) {
 				setGlobalErrors(["Token d'authentification manquant."]);
 				return;
 			}
 
-			const APIURL = import.meta.env.VITE_API_URL;
-
 			// Envoi d'une requête DELETE au serveur supprimer le compte
 			const response = await axios.delete(`${APIURL}/user/user`, {
 				headers: {
-					"Content-Type": "application/json",
 					"auth-token": token,
 				},
 			});
 
 			if (response.status === 200) {
-				if (email) setEmail(email);
-				if (username) setUsername(username);
 				setIsModifPopupOpen(false);
+				navigate("/Accueil/accueil");
 			}
 		} catch (error: unknown) {
 			if (axios.isAxiosError(error)) {
-				const status = error.response?.status;
-				const message = error.response?.data?.message;
-
 				// Traitement des erreurs spécifiques à l'API
-				if (status === 400) {
-					setGlobalErrors([`Erreur : ${message || "Données invalides."}`]);
-				} else if (status === 401) {
-					setGlobalErrors(["Mot de passe actuel incorrect."]);
-				} else {
-					setGlobalErrors([`Erreur de mise à jour : ${message || "Inconnue"}`]);
-				}
+
+				setGlobalErrors([
+					"Une erreur est survenue lors de la suppression du compte",
+				]);
 			} else {
 				console.error("Erreur inattendue :", error);
 				setGlobalErrors(["Une erreur inattendue s'est produite."]);
