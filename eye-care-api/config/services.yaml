@@ -6,6 +6,9 @@
 parameters:
     profile_upload_dir: '%kernel.project_dir%/public/uploads/images/profile'
     profile_download_dir: uploads/images/profile/
+    certificat_upload_dir: '%kernel.project_dir%/public/uploads/certificat'
+    certificat_download_dir: uploads/certificat/
+
 services:
     # default configuration for services in *this* file
     _defaults:
