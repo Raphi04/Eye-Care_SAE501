@@ -67,6 +67,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Vote::class, mappedBy: 'user', orphanRemoval: true)]
     private Collection $votes;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $profile_image = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $certificate = null;
+
     public function __construct()
     {
         $this->userVisionDisorderResults = new ArrayCollection();
@@ -312,6 +318,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $vote->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getProfileImage(): ?string
+    {
+        return $this->profile_image;
+    }
+
+    public function setProfileImage(?string $profile_image): static
+    {
+        $this->profile_image = $profile_image;
+
+        return $this;
+    }
+
+    public function getCertificate(): ?string
+    {
+        return $this->certificate;
+    }
+
+    public function setCertificate(?string $certificate): static
+    {
+        $this->certificate = $certificate;
 
         return $this;
     }

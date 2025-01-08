@@ -54,6 +54,22 @@ class AppFixtures extends Fixture
         $daltonisme->setDisorderName("daltonisme");
         $manager->persist($daltonisme);
 
+        $presbytie = new VisionDisorder();
+        $presbytie->setDisorderName("presbytie");
+        $manager->persist($presbytie);
+
+        $astigmatie = new VisionDisorder();
+        $astigmatie->setDisorderName("astigmatie");
+        $manager->persist($astigmatie);
+
+        $hypermetropie = new VisionDisorder();
+        $hypermetropie->setDisorderName("hypermetropie");
+        $manager->persist($hypermetropie);
+
+        $cecite = new VisionDisorder();
+        $cecite->setDisorderName("cecite");
+        $manager->persist($cecite);
+
         //Categories
         $accueilCategory = new Category();
         $accueilCategory->setSubject("accueil");
