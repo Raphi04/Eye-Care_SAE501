@@ -164,11 +164,12 @@
 
 	.ocularIssuesContent {
 		width: 35vw;
-		min-height: 300px;
 		background-color: $blueBlack;
 		border-radius: 1em;
 		display: flex;
 		flex-direction: column;
+		height: fit-content;
+		padding-bottom: 0.3rem;
 
 		.titleIssues {
 			text-align: center;
@@ -181,18 +182,93 @@
 
 		.ocularIssues {
 			background-color: $white;
-			margin-left: 5px;
-			margin-right: 5px;
+			margin: 0 5px;
 			padding: 20px;
-			flex: 0.985;
-			border-radius: 0px 0px 0.9em 0.9em;
+			border-radius: 0 0 0.9em 0.9em;
+			display: flex;
+			flex-direction: column;
+			gap: 15px;
 
 			.ocularIssue {
+				display: flex;
+				justify-content: space-between;
 				background-color: $blueBlack;
 				border-radius: 15px;
 				padding: 10px 15px;
-				margin-bottom: 15px;
-				margin-top: 15px;
+				align-items: center;
+				box-shadow: $white 0px 0px 10px;
+				z-index: 3;
+				cursor: pointer;
+
+				.ocularIssueMain {
+					display: flex;
+					gap: 10px;
+					align-items: center;
+
+					.ocularIssueIndicator {
+						width: 1em;
+						height: 1em;
+						border-radius: 100%;
+						font-size: 1.2em;
+
+						&.danger {
+							background-color: $red;
+						}
+
+						&.warning {
+							background-color: $orange;
+						}
+
+						&.medium {
+							background-color: $yellow;
+						}
+
+						&.good {
+							background-color: $green;
+						}
+					}
+				}
+
+				.chevron {
+					color: $white;
+					font-size: 1.5em;
+				}
+			}
+
+			.ocularIssueDetails {
+				width: 90%;
+				margin: 0 auto;
+				background-color: $blueBlack;
+				border-radius: 0 0 10px 10px;
+				padding: 15px;
+				color: $white;
+				overflow: hidden;
+				max-height: 0;
+				transition: max-height 1s ease-in-out;
+				display: none;
+
+				.ocularIssueNote {
+					font-family: $fontNormal;
+					font-size: 1.2em;
+					color: $white;
+				}
+
+				.ocularIssueText {
+					margin-top: 10px;
+					font-family: $fontTextNormal;
+					font-size: 1.1em;
+					color: $white;
+				}
+
+				&.openMyopie {
+					display: block;
+					max-height: 300px;
+				}
+
+				&.openDaltonisme {
+					display: block;
+					max-height: 300px;
+				}
 			}
 
 			.ocularIssuesTitle {
