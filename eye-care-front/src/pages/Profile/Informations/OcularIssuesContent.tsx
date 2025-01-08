@@ -45,11 +45,13 @@ export default function OcularIssuesContent() {
 		handleSubmitModify();
 	}, [handleSubmitModify]);
 
+	const hasResults = (userData?.vision_disorder_result ?? []).length > 0;
+
 	return (
 		<div className="ocularIssuesContent">
 			<h1 className="titleIssues">VOTRE PROFIL OCULAIRE</h1>
 			<div className="ocularIssues">
-				{userData?.vision_disorder_result ? (
+				{userData?.vision_disorder_result && hasResults ? (
 					userData.vision_disorder_result.map((disorder, index) => (
 						<div>
 							{disorder.vision_disorder === "myopie" ? (
@@ -169,7 +171,9 @@ export default function OcularIssuesContent() {
 						</div>
 					))
 				) : (
-					<p>Vous n'avez pas encore effectué de tests</p>
+					<p className="ocularIssuesTextNoTest">
+						Vous n'avez pas encore effectué de tests
+					</p>
 				)}
 			</div>
 		</div>
