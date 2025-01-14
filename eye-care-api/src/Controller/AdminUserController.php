@@ -11,6 +11,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\User;
 use App\Service\UserService;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 
 class AdminUserController extends AbstractController
@@ -52,5 +53,21 @@ class AdminUserController extends AbstractController
         $data = $mappedUsers;
 
         return new JsonResponse($data, Response::HTTP_OK);
+    }
+
+    #[Route('/admin/user_certificate/{id}', name: 'get_users_by_role', methods: ['GET'])]
+    public function getUsersCertificate(string $id): BinaryFileResponse|JsonResponse
+    {
+        $user = $this->userService->findUserByPropriety("id",$id);
+        if(!$user){
+            return new JsonResponse(['message' => 'User not found'], Response::HTTP_NOT_FOUND);
+        }
+
+        $filePath = $user->getCertificate() ? $this->params->get('certificate_download_dir') . $user->getCertificate() : null;
+        if (!$filePath || !file_exists($filePath)) {
+            return new JsonResponse(['message' => 'Certificate not found'. " : " . $filePath], Response::HTTP_NOT_FOUND);
+        }
+
+        return new BinaryFileResponse($filePath);
     }
 }
