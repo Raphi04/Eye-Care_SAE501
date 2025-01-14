@@ -87,9 +87,25 @@ class AdminUserController extends AbstractController
 
         $filePath = $user->getCertificate() ? $this->params->get('certificate_download_dir') . $user->getCertificate() : null;
         if (!$filePath || !file_exists($filePath)) {
-            return new JsonResponse(['message' => 'Certificate not found'. " : " . $filePath], Response::HTTP_NOT_FOUND);
+            return new JsonResponse(['message' => 'Certificate not found'], Response::HTTP_NOT_FOUND);
         }
 
         return new BinaryFileResponse($filePath);
+    }
+
+    #[Route('/admin/user_certify/{id}', name: 'user_certify', methods: ['PUT'])]
+    public function certifyUser(string $id): JsonResponse
+    {
+        $roles = ["ROLE_CERTIFIED"];
+
+        $user = $this->userService->findUserByPropriety("id",$id);
+        if(!$user){
+            return new JsonResponse(['message' => 'User not found'], Response::HTTP_NOT_FOUND);
+        }
+
+        $user->setRoles($roles);
+        $this->userService->persistAndFlush($user);
+
+        return new JsonResponse(['message' => 'User certified'], Response::HTTP_OK);
     }
 }
