@@ -21,6 +21,13 @@ class CategoryService
         return $category;
     }
 
+    public function getAllCategories(): ? array
+    {
+        $category = $this->entityManager->getRepository(Category::class)->findAll();
+
+        return $category;
+    }
+
     public function createCategory(string $subject): Category
     {
         $category = new Category();
@@ -28,6 +35,31 @@ class CategoryService
         $category->setSubject($subject);
 
         return $category;
+    }
+
+    public function updateCategory(Category $category, string $subject): Category
+    {
+        $category->setSubject($subject);
+
+        return $category;
+    }
+
+
+    public function mapCategories(array $categories): array
+    {
+        foreach ($categories as $category) {
+            $data[] = [
+                'id' => $category->getId(),
+                'subject' => $category->getSubject()
+            ];
+        }
+        return $data;
+    }
+
+    public function removeAndFlush(Category $category): void
+    {
+        $this->entityManager->remove($category);
+        $this->entityManager->flush();
     }
 
     public function persistAndFlush(Category $category): void
