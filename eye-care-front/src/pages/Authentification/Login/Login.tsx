@@ -7,17 +7,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
 import Field from "../../../components/Authentification/Fields/Field";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function Login() {
 	const navigate = useNavigate();
-	useEffect(() => {
-		const token = localStorage.getItem("token");
-		if (token) {
-			navigate("/accueil");
-		}
-	}, [navigate]);
 	const [globalErrors, setGlobalErrors] = useState<string[]>([]);
 	const [showPassword, setShowPassword] = useState(false);
 

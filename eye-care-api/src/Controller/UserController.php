@@ -11,6 +11,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\User;
 use App\Service\UserService;
 use App\Service\ProfileService;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 
 class UserController extends AbstractController
@@ -18,12 +19,14 @@ class UserController extends AbstractController
     private EntityManagerInterface $entityManager;
     private UserService $userService;
     private ProfileService $profileService;
+    private ParameterBagInterface $params;
 
-    public function __construct(EntityManagerInterface $entityManager, UserService $userService, ProfileService $profileService)
+    public function __construct(EntityManagerInterface $entityManager, UserService $userService, ProfileService $profileService, ParameterBagInterface $params)
     {
         $this->entityManager = $entityManager;
         $this->userService = $userService;
         $this->profileService = $profileService;
+        $this->params = $params;
     }
 
     #[Route('/user/profile', name: 'get_profile', methods: ['GET'])]
@@ -63,10 +66,13 @@ class UserController extends AbstractController
         $username = $user->getUsername();
         $userId = $user->getId();
 
+        $imageUrl = $user->getProfileImage() ? $this->params->get('profile_download_dir') . $user->getProfileImage() : null;
+
         $data = [
             'id' => $user->getId(),
             'username' => $user->getUsername(),
-            'roles' => $user->getRoles()
+            'roles' => $user->getRoles(),
+            'profile_image' => $imageUrl
         ];
 
         return new JsonResponse($data, Response::HTTP_OK);
@@ -101,27 +107,38 @@ class UserController extends AbstractController
         return new JsonResponse(['message' => 'User deleted'], Response::HTTP_OK);
     }
 
-    // #[Route('/user', name: 'get_users', methods: ['GET'])]
-    // public function getAllUsers(): JsonResponse
-    // {
-    //     $users = $this->entityManager->getRepository(User::class)->findAll();
-    //     if (!$users) {
-    //         return new JsonResponse(['message' => 'No users'], Response::HTTP_NOT_FOUND);
-    //     }
+    #[Route('/user/profile_image', name: 'profile_image', methods: ['POST'])]
+    public function profileImage(Request $request): JsonResponse
+    {
+        $image = $request->files->get('image');
+        
+        $apiToken = $request->headers->get('auth-token');
+        $user = $this->userService->findUserByPropriety("apiToken", $apiToken);
+        $userImage = $user->getProfileImage();
+        
+        if (!$image) {
+            return new JsonResponse(['message' => 'No file provided'], Response::HTTP_BAD_REQUEST);
+        }
 
-    //     $data = $this->userService->usersMapping($users);
-    //     return new JsonResponse($data, Response::HTTP_OK);
-    // }
+        if (!$image->isValid() || !in_array($image->getMimeType(), ['image/jpeg', 'image/png', 'image/jpg'])) {
+            return new JsonResponse(['message' => 'Invalid file type or upload error'], Response::HTTP_BAD_REQUEST);
+        }
 
-    // #[Route('/user/{id}', name: 'get_user', methods: ['GET'])]
-    // public function getUserById(int $id): JsonResponse
-    // {
-    //     $user = $this->entityManager->getRepository(User::class)->find($id);
-    //     if (!$user) {
-    //         return new JsonResponse(['message' => 'User not found'], Response::HTTP_NOT_FOUND);
-    //     }
+        $uploadDir = $this->params->get('profile_upload_dir');
+        $imageName = uniqid() . '.' . $image->guessExtension();
 
-    //     $data = $this->userService->userMapping($user);
-    //     return new JsonResponse($data, Response::HTTP_OK);
-    // }
+        if($userImage){
+            $oldImage = $uploadDir . '/' . $userImage;
+            if (file_exists($oldImage)) {
+                unlink($oldImage);
+            }
+        }
+
+        $image->move($uploadDir, $imageName);
+
+        $user->setProfileImage($imageName);
+        $this->userService->persistAndFlush($user);
+
+        return new JsonResponse(['message' => 'Profile image created or updated'], Response::HTTP_CREATED);
+    }
 }
