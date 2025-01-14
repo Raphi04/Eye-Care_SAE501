@@ -25,25 +25,25 @@ class CertificationController extends AbstractController
         $this->params = $params;
     }
 
-    #[Route('/user/certificat', name: 'upload_certificat', methods: ['POST'])]
+    #[Route('/user/certificate', name: 'upload_certificate', methods: ['POST'])]
     public function uploadCertificat(Request $request): JsonResponse
     {
-        $certificat = $request->files->get('certificat');
+        $certificate = $request->files->get('certificate');
         
         $apiToken = $request->headers->get('auth-token');
         $user = $this->userService->findUserByPropriety("apiToken", $apiToken);
         $userCertificat = $user->getCertificate();
         
-        if (!$certificat) {
+        if (!$certificate) {
             return new JsonResponse(['message' => 'No file provided'], Response::HTTP_BAD_REQUEST);
         }
 
-        if (!$certificat->isValid() || $certificat->getMimeType() !== 'application/pdf') {
+        if (!$certificate->isValid() || $certificate->getMimeType() !== 'application/pdf') {
             return new JsonResponse(['message' => 'Invalid file type or upload error'], Response::HTTP_BAD_REQUEST);
         }
 
-        $uploadDir = $this->params->get('certificat_upload_dir');
-        $certificatName = uniqid() . '.' . $certificat->guessExtension();
+        $uploadDir = $this->params->get('certificate_upload_dir');
+        $certificateName = uniqid() . '.' . $certificate->guessExtension();
 
         if($userCertificat){
             $oldCertificat = $uploadDir . '/' . $userCertificat;
@@ -52,9 +52,9 @@ class CertificationController extends AbstractController
             }
         }
 
-        $certificat->move($uploadDir, $certificatName);
+        $certificate->move($uploadDir, $certificateName);
 
-        $user->setCertificate($certificatName);
+        $user->setCertificate($certificateName);
         $this->userService->persistAndFlush($user);
 
         return new JsonResponse(['message' => 'Certificat created or updated'], Response::HTTP_CREATED);
