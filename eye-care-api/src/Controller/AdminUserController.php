@@ -55,7 +55,29 @@ class AdminUserController extends AbstractController
         return new JsonResponse($data, Response::HTTP_OK);
     }
 
-    #[Route('/admin/user_certificate/{id}', name: 'get_users_by_role', methods: ['GET'])]
+    #[Route('/admin/user_to_certificate', name: 'get_users_to_certificate', methods: ['GET'])]
+    public function getUsersToCertificate(): JsonResponse
+    {
+        $users = $this->entityManager->getRepository(User::class)->findAll();
+        $usersWithCertificate = [];
+        foreach($users as $user){
+            $isCertified = in_array('ROLE_CERTIFIED', $user->getRoles()) || in_array('ROLE_ADMIN', $user->getRoles());
+            if($user->getCertificate() && !$isCertified){
+                $usersWithCertificate[] = $user;
+            }
+        }
+        
+        if(!$usersWithCertificate){
+            return new JsonResponse(['message' => 'User not found'], Response::HTTP_NOT_FOUND);
+        }
+
+        $mappedUsers = $this->userService->usersMapping($usersWithCertificate);
+        $data = $mappedUsers;
+
+        return new JsonResponse($data, Response::HTTP_OK);
+    }
+
+    #[Route('/admin/user_certificate/{id}', name: 'get_user_certificate', methods: ['GET'])]
     public function getUsersCertificate(string $id): BinaryFileResponse|JsonResponse
     {
         $user = $this->userService->findUserByPropriety("id",$id);
