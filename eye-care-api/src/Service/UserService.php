@@ -27,7 +27,6 @@ class UserService
 
     public function findByRole(string $role): array
     {
-        // The ResultSetMapping maps the SQL result to entities
         $rsm = new ResultSetMappingBuilder($this->entityManager);
         $rsm->addRootEntityFromClassMetadata(User::class, 'u');
     
