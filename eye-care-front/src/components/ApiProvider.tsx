@@ -31,29 +31,30 @@ export function useApiContext() {
 }
 
 export default function ApiProvider({ children }: { children: ReactNode }) {
+	//URL dynamique de l'API
 	const APIURL = import.meta.env.VITE_API_URL;
+
 	const [connectedUser, setConnectedUser] = useState<any>(null);
 	const [loadingState, setLoadingState] = useState<boolean>(false);
 	const token = localStorage.getItem("token");
 	const alreadyGotInformations = useRef(false);
 
-	const fetchUserData = async () => {
+	const getConnectedUser = async () => {
 		if (!token) return;
-
+		alreadyGotInformations.current = true;
 		setLoadingState(true);
-		const requestOptions = {
-			method: "GET",
-			headers: { "Content-Type": "application/json", "auth-token": token },
-		};
-
 		try {
-			const response = await fetch(`${APIURL}/user/user_info`, requestOptions);
+			const response = await fetch(`${APIURL}/user/user_info`, {
+				method: "GET",
+				headers: { "Content-Type": "application/json", "auth-token": token },
+			});
 
 			if (!response.ok) {
 				throw new Error("Erreur HTTP:" + response.status);
 			}
 			const result = await response.json();
 			setConnectedUser(result);
+		} catch (error) {
 		} catch (error) {
 			console.error("Erreur lors de l'envoi : ", error);
 		} finally {
@@ -79,10 +80,9 @@ export default function ApiProvider({ children }: { children: ReactNode }) {
 
 	useEffect(() => {
 		if (token && !alreadyGotInformations.current) {
-			alreadyGotInformations.current = true;
-			fetchUserData();
+			getConnectedUser();
 		}
-	}, [token]);
+	}, []);
 
 	return (
 		<>

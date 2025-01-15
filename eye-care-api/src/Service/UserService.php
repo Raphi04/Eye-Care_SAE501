@@ -5,6 +5,7 @@ namespace App\Service;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Doctrine\ORM\Query\ResultSetMappingBuilder;
 
 class UserService
 {
@@ -22,6 +23,23 @@ class UserService
         $user = $this->entityManager->getRepository(User::class)->findOneBy([$propriety => $value]);
 
         return $user;
+    }
+
+    public function findByRole(string $role): array
+    {
+        $rsm = new ResultSetMappingBuilder($this->entityManager);
+        $rsm->addRootEntityFromClassMetadata(User::class, 'u');
+    
+        $rawQuery = sprintf(
+            "SELECT u.*
+            FROM user u
+            WHERE JSON_CONTAINS(u.roles, :role, '$')",
+            $rsm->generateSelectClause()
+        );
+    
+        $query = $this->entityManager->createNativeQuery($rawQuery, $rsm);
+        $query->setParameter('role', json_encode($role));
+        return $query->getResult();
     }
 
     public function createUser(string $email, string $username, string $password): User
@@ -62,7 +80,6 @@ class UserService
                 'id' => $user->getId(),
                 'email' => $user->getEmail(),
                 'username' => $user->getUsername(),
-                'password' => $user->getPassword(),
                 'roles' => $user->getRoles(),
             ];
         }
@@ -75,7 +92,6 @@ class UserService
             'id' => $user->getId(),
             'email' => $user->getEmail(),
             'username' => $user->getUsername(),
-            'password' => $user->getPassword(),
             'roles' => $user->getRoles(),
         ];
     }

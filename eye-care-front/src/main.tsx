@@ -27,6 +27,7 @@ import Myopie from "./pages/Articles/Myopie.tsx";
 import Presbytie from "./pages/Articles/Presbytie.tsx";
 import Daltonisme from "./pages/Articles/Daltonisme.tsx";
 import Astigmatisme from "./pages/Articles/Astigmatisme.tsx";
+import MentionsLegales from "./pages/MentionsLegales/mentionslegales.tsx";
 
 import Tests from "./pages/Tests/Tests.tsx";
 import Acuite from "./pages/Tests/Acuite.tsx";
@@ -74,6 +75,10 @@ const router = createBrowserRouter([
 			{
 				path: "/blog",
 				element: <Blog />,
+			},
+			{
+				path: "/mentionslegales",
+				element: <MentionsLegales />,
 			},
 			{
 				path: "/articles",
