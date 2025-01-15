@@ -55,7 +55,11 @@ export default function OcularIssuesContent() {
 					userData.vision_disorder_result.map((disorder, index) => (
 						<div>
 							{disorder.vision_disorder === "myopie" ? (
-								<div className="ocularIssue" onClick={toggleDetailsMyopie}>
+								<div
+									key={index}
+									className="ocularIssue"
+									onClick={toggleDetailsMyopie}
+								>
 									<div className="ocularIssueMain">
 										{disorder.result >= 0 && disorder.result <= 12 ? (
 											<div className="ocularIssueIndicator danger"></div>
