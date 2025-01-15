@@ -16,11 +16,11 @@ Hugo BAJOUE
 
 ### **Rôles**
 
-**Arno LE MOIL** : Dev Front-End | WebDesigner UI/UX
-**Hugo BAJOUE** : Chef de Projet | Rédacteur 
+**Arno LE MOIL** : Dev Front-End | WebDesigner UI/UX  
+**Hugo BAJOUE** : Chef de Projet | Rédacteur  
 **Jérémie PARANT** : Dev Back-end | Référent Back-end  
-**Matthieu TISSIER** : WebDesigner UI/UX | 3D
-**Raphael CADETE** : Dev Front-End | Référent Front-end
+**Matthieu TISSIER** : WebDesigner UI/UX | 3D  
+**Raphael CADETE** : Dev Front-End | Référent Front-end  
 
 ## **Gestion du projet**
 
