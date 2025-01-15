@@ -14,7 +14,7 @@ use App\Service\ProfileService;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 
-class UserController extends AbstractController
+class UserProfileController extends AbstractController
 {
     private EntityManagerInterface $entityManager;
     private UserService $userService;
@@ -43,41 +43,6 @@ class UserController extends AbstractController
         return new JsonResponse($data, Response::HTTP_OK);
     }
 
-    #[Route('/user/user_roles', name: 'user_roles', methods: ['GET'])]
-    public function GetRoles(Request $request): JsonResponse
-    {
-        $apiToken = $request->headers->get('auth-token');
-        $user = $this->userService->findUserByPropriety("apiToken", $apiToken);
-
-        $data = [
-            'roles' => $user->getRoles()
-        ];
-
-        return new JsonResponse($data, Response::HTTP_OK);
-    }
-
-    #[Route('/user/user_info', name: 'user_info', methods: ['GET'])]
-    public function GetUserInfo(Request $request): JsonResponse
-    {
-        $apiToken = $request->headers->get('auth-token');
-        $user = $this->userService->findUserByPropriety("apiToken", $apiToken);
-
-        $userRoles = $user->getRoles();
-        $username = $user->getUsername();
-        $userId = $user->getId();
-
-        $imageUrl = $user->getProfileImage() ? $this->params->get('profile_download_dir') . $user->getProfileImage() : null;
-
-        $data = [
-            'id' => $user->getId(),
-            'username' => $user->getUsername(),
-            'roles' => $user->getRoles(),
-            'profile_image' => $imageUrl
-        ];
-
-        return new JsonResponse($data, Response::HTTP_OK);
-    }
-
     #[Route('/user/user', name: 'my_user_update', methods: ['PUT'])]
     public function updateUser(Request $request): JsonResponse
     {
@@ -89,7 +54,7 @@ class UserController extends AbstractController
         $apiToken = $request->headers->get('auth-token');
         $user = $this->userService->findUserByPropriety("apiToken", $apiToken);
 
-        $this->userService->updateUser($user, $email, $username, $password);
+        $this->profileService->updateUser($user, $email, $username, $password);
         $this->userService->persistAndFlush($user);
 
         return new JsonResponse(['message' => 'User updated'], Response::HTTP_OK);
