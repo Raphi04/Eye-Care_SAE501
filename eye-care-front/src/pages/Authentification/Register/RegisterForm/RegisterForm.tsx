@@ -3,6 +3,7 @@ import {
 	faEnvelope,
 	faFile,
 	faLock,
+	faSpinner,
 	faUser,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -18,6 +19,7 @@ export default function RegisterForm() {
 	const [globalErrors, setGlobalErrors] = useState<string[]>([]);
 	const [showPassword, setShowPassword] = useState(false);
 	const [showPasswordVerif, setShowPasswordVerif] = useState(false);
+	const [loadingState, setLoadingState] = useState<boolean>(false);
 
 	const toggleCheck = () => {
 		setIsPro(!isPro);
@@ -76,6 +78,8 @@ export default function RegisterForm() {
 			return;
 		}
 
+		setLoadingState(true);
+
 		const payload = {
 			username,
 			email,
@@ -114,6 +118,8 @@ export default function RegisterForm() {
 				console.error("Erreur inattendue :", error);
 				setGlobalErrors(["Une erreur inattendue s'est produite."]);
 			}
+		} finally {
+			setLoadingState(false);
 		}
 
 		form.reset();
@@ -177,8 +183,18 @@ export default function RegisterForm() {
 						)}
 					</div>
 					<button type="submit" className="formButton">
-						<p>S'INSCRIRE</p>
-						<FontAwesomeIcon icon={faArrowRight} className="arrow" />
+						{loadingState ? (
+							<div>
+								<p>
+									<FontAwesomeIcon icon={faSpinner} spin /> Chargement...
+								</p>
+							</div>
+						) : (
+							<>
+								<p>S'INSCRIRE</p>
+								<FontAwesomeIcon icon={faArrowRight} className="arrow" />
+							</>
+						)}
 					</button>
 				</form>
 			)}
@@ -247,8 +263,18 @@ export default function RegisterForm() {
 						</div>
 					</div>
 					<button type="submit" className="formButton">
-						<p>S'INSCRIRE</p>
-						<FontAwesomeIcon icon={faArrowRight} className="arrow" />
+						{loadingState ? (
+							<div>
+								<p>
+									<FontAwesomeIcon icon={faSpinner} spin /> Chargement...
+								</p>
+							</div>
+						) : (
+							<>
+								<p>S'INSCRIRE</p>
+								<FontAwesomeIcon icon={faArrowRight} className="arrow" />
+							</>
+						)}
 					</button>
 				</form>
 			)}

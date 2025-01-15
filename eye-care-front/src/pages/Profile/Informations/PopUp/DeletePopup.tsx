@@ -8,7 +8,6 @@ import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 interface DeletePopupProps {
 	isOpen: boolean;
 	onClose: () => void;
-	globalErrors: string[];
 }
 
 export default function DeletePopup({ isOpen, onClose }: DeletePopupProps) {
@@ -22,6 +21,7 @@ export default function DeletePopup({ isOpen, onClose }: DeletePopupProps) {
 	useEffect(() => {
 		setStateTokenForDeleteUser(localStorage.getItem("token") || "");
 	}, [isOpen]);
+
 	if (!isOpen) return null;
 
 	const handleSubmitDelete = async (token: string) => {

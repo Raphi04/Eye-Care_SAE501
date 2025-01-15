@@ -112,7 +112,7 @@ export default function OcularIssuesContent() {
 								}`}
 							>
 								<p className="ocularIssueNote">
-									Résultat : {disorder.result}/10
+									Résultat : {disorder.result}/50
 								</p>
 								{disorder.vision_disorder === "myopie" ? (
 									disorder.result >= 0 && disorder.result <= 12 ? (
@@ -133,7 +133,7 @@ export default function OcularIssuesContent() {
 									) : disorder.result > 37 ? (
 										<p className="ocularIssueText">
 											Vous avez une très bonne vue, continuez à prendre soin de
-											vos
+											vos yeux
 										</p>
 									) : null
 								) : null}
