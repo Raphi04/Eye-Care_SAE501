@@ -5,11 +5,16 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 
 export default function Acuite() {
+  //URL dynamique de l'API
+  const APIURL = import.meta.env.VITE_API_URL;
+
   //Connected User
   const { connectedUser, loadingState } = useApiContext();
   const token = localStorage.getItem("token") || "";
 
-  const [acuiteScore, setAcuiteScore] = useState<string>("");
+  const [acuiteScore, setAcuiteScore] = useState<any>(() => {
+    return localStorage.getItem("acuiteScore") || "";
+  });
   const [getScoreLoadingState, setGetScoreLoadingState] = useState<boolean>(false);
   const [testIsStarted, setTestIsStarted] = useState<Boolean>(false);
 
@@ -22,7 +27,7 @@ export default function Acuite() {
       };
 
       try {
-        const response = await fetch("http://localhost:8000/user/profile", requestOptions);
+        const response = await fetch(`${APIURL}/user/profile`, requestOptions);
 
         if (!response.ok) {
           throw new Error(`Erreur HTTP : ${response.status}`);
@@ -30,7 +35,7 @@ export default function Acuite() {
         const result = await response.json();
 
         let currentAcuiteScore;
-        if (result.vision_disorder.length > 0) {
+        if (result.vision_disorder_result.length > 0) {
           currentAcuiteScore = result.vision_disorder_result.find(
             (disorder: any) => disorder.vision_disorder == "myopie"
           ).result;
@@ -38,6 +43,7 @@ export default function Acuite() {
           currentAcuiteScore = "";
         }
 
+        console.log(currentAcuiteScore);
         setAcuiteScore(currentAcuiteScore);
         //
       } catch (error: any) {
