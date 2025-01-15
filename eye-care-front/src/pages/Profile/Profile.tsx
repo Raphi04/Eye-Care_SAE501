@@ -6,7 +6,6 @@ import "./Informations/PopUp/popup.scss";
 import ProfileContent from "./Informations/ProfileContent";
 import OcularIssuesContent from "./Informations/OcularIssuesContent";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Link } from "react-router-dom";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { useApiContext } from "../../components/ApiProvider";
 
@@ -62,11 +61,11 @@ export default function Profile() {
 		<>
 			<Header />
 			{loadingState && (
-				<Link to="/login" className="loading">
+				<div className="loading">
 					<p>
 						<FontAwesomeIcon icon={faSpinner} spin /> Chargement...
 					</p>
-				</Link>
+				</div>
 			)}
 			{!loadingState && connectedUser && (
 				<>
