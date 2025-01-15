@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 use App\Service\CategoryService;
 
 
-class CategoryController extends AbstractController
+class AdminCategoryController extends AbstractController
 {
     private CategoryService $categoryService;
 
