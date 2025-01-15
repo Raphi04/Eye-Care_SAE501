@@ -55,7 +55,6 @@ export default function ApiProvider({ children }: { children: ReactNode }) {
 			const result = await response.json();
 			setConnectedUser(result);
 		} catch (error) {
-		} catch (error) {
 			console.error("Erreur lors de l'envoi : ", error);
 		} finally {
 			setLoadingState(false);
