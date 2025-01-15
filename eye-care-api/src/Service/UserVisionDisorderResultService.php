@@ -18,38 +18,39 @@ class UserVisionDisorderResultService
 
     public function findUserVisionDisorderResultByProprieties(string $propriety1, int $value1, string $propriety2, int $value2): ?UserVisionDisorderResult
     {
-        $userVisionDisorder = $this->entityManager->getRepository(UserVisionDisorderResult::class)->findOneBy([$propriety1 => $value1, $propriety2 => $value2]);
+        $userVisionDisorderResult = $this->entityManager->getRepository(UserVisionDisorderResult::class)->findOneBy([$propriety1 => $value1, $propriety2 => $value2]);
 
-        return $userVisionDisorder;
+        return $userVisionDisorderResult;
     }
 
     public function createUserVisionDisorderResult(User $user, VisionDisorder $visionDisorder, int $result): UserVisionDisorderResult
     {
-        $userVisionDisorder = new UserVisionDisorderResult();
-        $userVisionDisorder->setUser($user);
-        $userVisionDisorder->setVisionDisorder($visionDisorder);
-        $userVisionDisorder->setResult($result);
+        $userVisionDisorderResult = new UserVisionDisorderResult();
+        $userVisionDisorderResult->setUser($user);
+        $userVisionDisorderResult->setVisionDisorder($visionDisorder);
+        $userVisionDisorderResult->setResult($result);
 
-        return $userVisionDisorder;
+        return $userVisionDisorderResult;
     }
 
-    public function userVisionDisorderResultsMapping($userVisionDisorders): array
+    public function userVisionDisorderResultsMapping($userVisionDisorderResults): array
     {
         $mappedData = [];
 
-        foreach ($userVisionDisorders as $userVisionDisorder) {
+        foreach ($userVisionDisorderResults as $userVisionDisorderResult) {
             $mappedData[] = [
-                'vision_disorder' => $userVisionDisorder->getVisionDisorder()->getDisorderName(),
-                'result' => $userVisionDisorder->getResult(),
+                'id' => $userVisionDisorderResult->getId(),
+                'vision_disorder' => $userVisionDisorderResult->getVisionDisorder()->getDisorderName(),
+                'result' => $userVisionDisorderResult->getResult(),
             ];
         }
 
         return $mappedData;
     }
 
-    public function persistAndFlush(UserVisionDisorderResult $userVisionDisorder): void
+    public function persistAndFlush(UserVisionDisorderResult $userVisionDisorderResult): void
     {
-        $this->entityManager->persist($userVisionDisorder);
+        $this->entityManager->persist($userVisionDisorderResult);
         $this->entityManager->flush();
     }
 }
