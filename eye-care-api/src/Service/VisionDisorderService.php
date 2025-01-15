@@ -30,13 +30,6 @@ class VisionDisorderService
         return $visionDisorder;
     }
 
-    public function visionDisorderMapping(VisionDisorder $visionDisorder): array
-    {
-        return [
-            'disorder_name' => $visionDisorder->getDisorderName()
-        ];
-    }
-
     public function persistAndFlush(VisionDisorder $visionDisorder): void
     {
         $this->entityManager->persist($visionDisorder);
