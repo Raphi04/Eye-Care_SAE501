@@ -17,13 +17,6 @@ class PostService
         $this->entityManager = $entityManager;
     }
 
-    public function findPostByPropriety(string $propriety, string $value): ?Post
-    {
-        $post = $this->entityManager->getRepository(Post::class)->findOneBy([$propriety => $value]);
-
-        return $post;
-    }
-
     public function findPostsByCategory(string $value): array
     {
         $posts = $this->entityManager->getRepository(Post::class)->findBy(["category" => $value]);

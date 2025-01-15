@@ -16,13 +16,6 @@ class UserVisionDisorderResultService
         $this->entityManager = $entityManager;
     }
 
-    public function findUserVisionDisorderResultByPropriety(string $propriety, string $value): ?UserVisionDisorderResult
-    {
-        $userVisionDisorder = $this->entityManager->getRepository(UserVisionDisorderResult::class)->findOneBy([$propriety => $value]);
-
-        return $userVisionDisorder;
-    }
-
     public function findUserVisionDisorderResultByProprieties(string $propriety1, int $value1, string $propriety2, int $value2): ?UserVisionDisorderResult
     {
         $userVisionDisorder = $this->entityManager->getRepository(UserVisionDisorderResult::class)->findOneBy([$propriety1 => $value1, $propriety2 => $value2]);
