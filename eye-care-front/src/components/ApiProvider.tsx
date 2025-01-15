@@ -7,6 +7,7 @@ import {
 	useState,
 } from "react";
 import { disconnectUser } from "../utils/logout";
+import { useNavigate } from "react-router-dom";
 
 interface ApiContextTyping {
 	connectedUser: any;
