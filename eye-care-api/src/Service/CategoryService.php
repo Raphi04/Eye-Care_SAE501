@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Entity\Category;
+use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 
 class CategoryService
@@ -28,11 +29,21 @@ class CategoryService
         return $category;
     }
 
-    public function createCategory(string $subject): Category
+    public function createAdminCategory(string $subject): Category
     {
         $category = new Category();
 
         $category->setSubject($subject);
+
+        return $category;
+    }
+
+    public function createCategory(string $subject, User $author): Category
+    {
+        $category = new Category();
+
+        $category->setSubject($subject);
+        $category->setAuthor($author);
 
         return $category;
     }
