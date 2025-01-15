@@ -6,11 +6,13 @@ import {
 	useRef,
 	useState,
 } from "react";
+import { disconnectUser } from "../utils/logout";
 
 interface ApiContextTyping {
 	connectedUser: any;
 	loadingState: boolean;
 	refreshConnectedUser: () => Promise<void>;
+	logoutUser: () => void;
 }
 
 const ApiContext = createContext<ApiContextTyping | undefined>(undefined);
@@ -59,6 +61,22 @@ export default function ApiProvider({ children }: { children: ReactNode }) {
 		}
 	};
 
+	// Fonction de rafraîchissement pour mettre à jour les données utilisateur
+	const refreshConnectedUser = async () => {
+		await fetchUserData();
+	};
+
+	const logoutUser = async () => {
+		if (token) {
+			try {
+				await disconnectUser(token);
+			} catch (error) {
+				console.error("Erreur lors de la déconnexion :", error);
+			}
+		}
+		setConnectedUser(null);
+	};
+
 	useEffect(() => {
 		if (token && !alreadyGotInformations.current) {
 			getConnectedUser();
@@ -71,7 +89,8 @@ export default function ApiProvider({ children }: { children: ReactNode }) {
 				value={{
 					connectedUser,
 					loadingState,
-					refreshConnectedUser: getConnectedUser,
+					refreshConnectedUser,
+					logoutUser,
 				}}
 			>
 				{children}

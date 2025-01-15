@@ -12,6 +12,7 @@ import {
 	faArrowRightFromBracket,
 	faSpinner,
 } from "@fortawesome/free-solid-svg-icons";
+
 import { useApiContext } from "../ApiProvider";
 
 interface HeaderProps {
@@ -22,6 +23,7 @@ export default function Header({ active }: HeaderProps) {
 	//Utilisation de ApiContext pour récuperer les données de l'utilisateur connecté
 	const { connectedUser, loadingState } = useApiContext();
 	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+	const { logoutUser } = useApiContext();
 
 	//Gestion des hovers et des clicks de la barre de navigation
 	const [onProfileClick, setOnProfileClick] = useState<boolean>(false);
@@ -171,13 +173,13 @@ export default function Header({ active }: HeaderProps) {
 										<Link to="/profile" className="link">
 											<p>Mon profile</p>
 										</Link>
-										<Link to="/authentification/logOut" className="link">
+										<div onClick={logoutUser} className="link">
 											<FontAwesomeIcon
 												icon={faArrowRightFromBracket}
 												className="exit"
 											/>
 											<p>Déconnexion</p>
-										</Link>
+										</div>
 									</div>
 								)}
 							</div>

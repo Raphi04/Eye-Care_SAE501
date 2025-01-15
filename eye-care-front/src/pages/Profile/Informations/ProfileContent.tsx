@@ -3,13 +3,17 @@ import { useEffect, useState } from "react";
 import { useApiContext } from "../../../components/ApiProvider";
 import ModifyPopup from "./PopUp/ModifyPopup";
 import DeletePopup from "./PopUp/DeletePopup";
-import { useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCheck } from "@fortawesome/free-solid-svg-icons";
 
 type UserData = {
 	email: string;
 	username: string;
 	vision_disorder: { vision_disorder: string }[];
-	vision_disorder_result: string[];
+	vision_disorder_result: {
+		result: number;
+		vision_disorder: string;
+	}[];
 };
 
 type ProfileContentProps = {
@@ -29,11 +33,9 @@ export default function ProfileContent({
 	const [newPassword, setNewPassword] = useState("");
 	const [verifNewPassword, setVerifNewPassword] = useState("");
 	const [globalErrors, setGlobalErrors] = useState<string[]>([]);
-	const navigate = useNavigate();
 
 	//	Token et URL de l'API
 	const APIURL = import.meta.env.VITE_API_URL;
-	const token = localStorage.getItem("token");
 
 	//	Pour savoir si l'utilisateur est connecté
 	const { connectedUser, refreshConnectedUser } = useApiContext();
@@ -166,43 +168,10 @@ export default function ProfileContent({
 		}
 	};
 
-	const handleSubmitDelete = async () => {
-		setGlobalErrors([]);
-
-		try {
-			if (!token) {
-				setGlobalErrors(["Token d'authentification manquant."]);
-				return;
-			}
-
-			// Envoi d'une requête DELETE au serveur supprimer le compte
-			const response = await axios.delete(`${APIURL}/user/user`, {
-				headers: {
-					"auth-token": token,
-				},
-			});
-
-			if (response.status === 200) {
-				setIsModifPopupOpen(false);
-				navigate("/Accueil/accueil");
-			}
-		} catch (error: unknown) {
-			if (axios.isAxiosError(error)) {
-				// Traitement des erreurs spécifiques à l'API
-
-				setGlobalErrors([
-					"Une erreur est survenue lors de la suppression du compte",
-				]);
-			} else {
-				console.error("Erreur inattendue :", error);
-				setGlobalErrors(["Une erreur inattendue s'est produite."]);
-			}
-		}
-	};
+	const hasResults = (userData?.vision_disorder_result ?? []).length > 0;
 
 	return (
 		<div className="profileContent">
-			{/* --- Informations utilisateur --- */}
 			<div className="userInformationsContent">
 				<h2 className="titleInformations">VOS INFORMATIONS</h2>
 				<div className="userInformations">
@@ -242,13 +211,69 @@ export default function ProfileContent({
 			<div className="userInformationsContent last">
 				<h2 className="titleInformations">FAIRE/REFAIRE LES TESTS</h2>
 				<div className="userInformations">
-					<p>Faire le test de Daltonisme</p>
+					<div
+						className={`checkInformationsAcuity ${
+							hasResults
+								? userData?.vision_disorder_result
+										.filter((disorder) => disorder.vision_disorder === "myopie")
+										.map(() => "done")
+										.join(" ")
+								: ""
+						}`}
+					>
+						{hasResults
+							? userData?.vision_disorder_result.map((disorder, index) =>
+									disorder.vision_disorder === "myopie" ? (
+										<FontAwesomeIcon icon={faCheck} key={index} />
+									) : null
+							  )
+							: null}
+					</div>
+					<p>Faire le test d'acuité visuelle</p>
 				</div>
 				<div className="userInformations">
-					<p>Faire le test de Myopie</p>
-				</div>
-				<div className="userInformations">
+					<div
+						className={`checkInformationsAcuity ${
+							hasResults
+								? userData?.vision_disorder_result
+										.filter((disorder) => disorder.vision_disorder === "DMLA")
+										.map(() => "done")
+										.join(" ")
+								: ""
+						}`}
+					>
+						{hasResults
+							? userData?.vision_disorder_result.map((disorder, index) =>
+									disorder.vision_disorder === "DMLA" ? (
+										<FontAwesomeIcon icon={faCheck} key={index} />
+									) : null
+							  )
+							: null}
+					</div>
 					<p>Faire le test de DMLA</p>
+				</div>
+				<div className="userInformations">
+					<div
+						className={`checkInformationsAcuity ${
+							hasResults
+								? userData?.vision_disorder_result
+										.filter(
+											(disorder) => disorder.vision_disorder === "daltonisme"
+										)
+										.map(() => "done")
+										.join(" ")
+								: ""
+						}`}
+					>
+						{hasResults
+							? userData?.vision_disorder_result.map((disorder, index) =>
+									disorder.vision_disorder === "daltonisme" ? (
+										<FontAwesomeIcon icon={faCheck} key={index} />
+									) : null
+							  )
+							: null}
+					</div>
+					<p>Faire le test de d'Ishihara</p>
 				</div>
 			</div>
 			<ModifyPopup
@@ -270,7 +295,6 @@ export default function ProfileContent({
 			<DeletePopup
 				isOpen={isDeletePopupOpen}
 				onClose={deletePopUp}
-				onSubmit={handleSubmitDelete}
 				globalErrors={globalErrors}
 			/>
 		</div>

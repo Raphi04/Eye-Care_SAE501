@@ -1,3 +1,24 @@
+//Chargement des données
+
+.loading {
+	height: 80vh;
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+	padding: 7px 20px;
+	border-radius: 30px;
+	color: $blueBlack;
+	font-size: 2rem;
+	font-weight: bold;
+
+	body.dark & {
+		background-color: $blueBlack;
+		color: $white;
+	}
+}
+
 // INITIALES ET SALUTATION
 
 .usernameContent {
@@ -60,6 +81,7 @@
 		.userInformationsContent {
 			&.last {
 				margin-top: 40px;
+				margin-bottom: 20px;
 			}
 
 			.titleInformations {
@@ -68,6 +90,9 @@
 			}
 
 			.userInformations {
+				display: flex;
+				align-items: center;
+				gap: 10px;
 				font-family: $fontTextNormal;
 				font-size: 1.3em;
 				margin-top: 10px;
@@ -75,6 +100,48 @@
 
 				&.last {
 					margin-bottom: 10px;
+				}
+
+				.checkInformationsAcuity {
+					color: $white;
+					font-size: 0.8em;
+					text-align: center;
+					border: solid 3px $blueBlack;
+					width: 22px;
+					height: 22px;
+					border-radius: 15px;
+
+					&.done {
+						background-color: $blueBlack;
+					}
+				}
+
+				.checkInformationsDMLA {
+					color: $white;
+					font-size: 0.8em;
+					text-align: center;
+					border: solid 3px $blueBlack;
+					width: 22px;
+					height: 22px;
+					border-radius: 15px;
+
+					&.done {
+						background-color: $blueBlack;
+					}
+				}
+
+				.checkInformationsIshihara {
+					color: $white;
+					font-size: 0.8em;
+					text-align: center;
+					border: solid 3px $blueBlack;
+					width: 22px;
+					height: 22px;
+					border-radius: 15px;
+
+					&.done {
+						background-color: $blueBlack;
+					}
 				}
 			}
 

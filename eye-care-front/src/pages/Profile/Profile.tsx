@@ -5,15 +5,23 @@ import "./profile.scss";
 import "./Informations/PopUp/popup.scss";
 import ProfileContent from "./Informations/ProfileContent";
 import OcularIssuesContent from "./Informations/OcularIssuesContent";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Link } from "react-router-dom";
+import { faSpinner } from "@fortawesome/free-solid-svg-icons";
+import { useApiContext } from "../../components/ApiProvider";
 
 export default function Profile() {
 	const APIURL = import.meta.env.VITE_API_URL;
-	const [, setLoadingState] = useState<unknown>(null);
+	const [loadingState, setLoadingState] = useState<boolean>(false);
+	const { connectedUser } = useApiContext();
 	const [userData, setUserData] = useState<{
 		email: string;
 		username: string;
 		vision_disorder: { vision_disorder: string }[];
-		vision_disorder_result: string[];
+		vision_disorder_result: {
+			result: number;
+			vision_disorder: string;
+		}[];
 	} | null>(null);
 	const token = localStorage.getItem("token");
 
@@ -53,24 +61,32 @@ export default function Profile() {
 	return (
 		<>
 			<Header />
-			<div className="usernameContent">
-				<div className="initialsCard">
-					<h1 className="initials">{getInitials() || "U.I."}</h1>
-				</div>
-				<div className="usernameText">
-					<p className="hello">
-						Bonjour, <br />
+			{loadingState && (
+				<Link to="/login" className="loading">
+					<p>
+						<FontAwesomeIcon icon={faSpinner} spin /> Chargement...
 					</p>
-					<p className="username">
-						{userData?.username || "Utilisateur inconnu"}
-					</p>
-				</div>
-			</div>
-			<div className="globalContent">
-				{/* Passer fetchUser comme prop pour le rafraîchissement */}
-				<ProfileContent userData={userData} refreshUserData={fetchUser} />
-				<OcularIssuesContent />
-			</div>
+				</Link>
+			)}
+			{!loadingState && connectedUser && (
+				<>
+					<div className="usernameContent">
+						<div className="initialsCard">
+							<h1 className="initials">{getInitials()}</h1>
+						</div>
+						<div className="usernameText">
+							<p className="hello">
+								Bonjour, <br />
+							</p>
+							<p className="username">{userData?.username}</p>
+						</div>
+					</div>
+					<div className="globalContent">
+						<ProfileContent userData={userData} refreshUserData={fetchUser} />
+						<OcularIssuesContent />
+					</div>
+				</>
+			)}
 		</>
 	);
 }
