@@ -16,13 +16,6 @@ class VoteService
         $this->entityManager = $entityManager;
     }
 
-    public function findVoteByPropriety(string $propriety, string $value): ?Vote
-    {
-        $vote = $this->entityManager->getRepository(Vote::class)->findOneBy([$propriety => $value]);
-
-        return $vote;
-    }
-
     public function findVoteByProprieties(string $propriety1, int $value1, string $propriety2, int $value2): ?Vote
     {
         $vote = $this->entityManager->getRepository(Vote::class)->findOneBy([$propriety1 => $value1, $propriety2 => $value2]);
@@ -39,20 +32,6 @@ class VoteService
 
         return $vote;
     }
-
-    // public function votesMapping($votes): array
-    // {
-    //     $mappedData = [];
-
-    //     foreach ($votes as $vote) {
-    //         $mappedData[] = [
-    //             'vision_disorder' => $vote->getVisionDisorder()->getDisorderName(),
-    //             'result' => $vote->getResult(),
-    //         ];
-    //     }
-
-    //     return $mappedData;
-    // }
 
     public function persistAndFlush(Vote $vote): void
     {
