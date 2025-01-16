@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useApiContext } from "../../../../components/ApiProvider";
 import axios from "axios";
-import { faSpinner } from "@fortawesome/free-solid-svg-icons";
+import { faLock, faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 interface ModifyPopupProps {
@@ -197,6 +197,9 @@ export default function ModifyPopup({
 							className="has-value"
 							placeholder="Ancien mot de passe"
 						/>
+						<div className="inputIconModify">
+							<FontAwesomeIcon icon={faLock} />
+						</div>
 					</div>
 					<div className="popupField">
 						<input
@@ -207,6 +210,7 @@ export default function ModifyPopup({
 							className="has-value"
 							placeholder="Nouveau mot de passe"
 						/>
+						<FontAwesomeIcon icon={faLock} />
 					</div>
 					<div className="popupField">
 						<input
@@ -217,6 +221,7 @@ export default function ModifyPopup({
 							className="has-value"
 							placeholder="Vérification nouveau mot de passe"
 						/>
+						<FontAwesomeIcon icon={faLock} />
 					</div>
 
 					{/* Message d'erreur global */}

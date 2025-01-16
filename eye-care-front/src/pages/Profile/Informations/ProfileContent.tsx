@@ -2,7 +2,12 @@ import { useEffect, useState } from "react";
 import ModifyPopup from "./PopUp/ModifyPopup";
 import DeletePopup from "./PopUp/DeletePopup";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheck } from "@fortawesome/free-solid-svg-icons";
+import {
+	faAddressCard,
+	faCheck,
+	faEnvelope,
+	faLock,
+} from "@fortawesome/free-solid-svg-icons";
 
 type UserData = {
 	email: string;
@@ -54,16 +59,19 @@ export default function ProfileContent({
 			<div className="userInformationsContent">
 				<h2 className="titleInformations">VOS INFORMATIONS</h2>
 				<div className="userInformations">
+					<FontAwesomeIcon icon={faAddressCard} />
 					<p>
 						Nom d'utilisateur : <strong>{userData?.username}</strong>
 					</p>
 				</div>
 				<div className="userInformations">
+					<FontAwesomeIcon icon={faEnvelope} />
 					<p>
 						Email : <strong>{userData?.email || "Utilisateur inconnu"}</strong>
 					</p>
 				</div>
 				<div className="userInformations last">
+					<FontAwesomeIcon icon={faLock} />
 					<p>
 						Mot de passe : <strong>*********</strong>
 					</p>

@@ -56,6 +56,13 @@
 	.popupField {
 		margin-bottom: 10px;
 
+		.inputIconModify {
+			position: absolute;
+			transform: translateY(-50%);
+			color: #a6a6a6;
+			pointer-events: none;
+		}
+
 		.has-value {
 			font-family: $fontTextNormal;
 			font-size: 1em;
