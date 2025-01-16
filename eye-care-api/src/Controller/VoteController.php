@@ -27,7 +27,7 @@ class VoteController extends AbstractController
     }
 
     #[Route('/user/vote', name: 'vote', methods: ['POST'])]
-    public function createVote(Request $request): JsonResponse
+    public function createOrUpdateVote(Request $request): JsonResponse
     {        
         $requestData = json_decode($request->getContent(), true);
         $postId = $requestData['post_id'];
