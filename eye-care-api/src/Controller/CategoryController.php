@@ -42,46 +42,60 @@ class CategoryController extends AbstractController
         return new JsonResponse(['message' => 'Category created'], Response::HTTP_CREATED);
     }
 
-    // #[Route('/user/category', name: 'get_categories', methods: ['GET'])]
-    // public function getCategories(): JsonResponse
-    // {
-    //     $categories = $this->categoryService->getAllCategories();
-    //     if (!$categories) {
-    //         return new JsonResponse(['message' => 'Categories not found'], Response::HTTP_NOT_FOUND);
-    //     }
+    #[Route('/user/category', name: 'get_categories', methods: ['GET'])]
+    public function getCategories(): JsonResponse
+    {
+        $categories = $this->categoryService->getAllCategories();
+        if (!$categories) {
+            return new JsonResponse(['message' => 'Categories not found'], Response::HTTP_NOT_FOUND);
+        }
 
-    //     $data = $this->categoryService->mapCategories($categories);
+        $filteredCategories = $this->categoryService->filterCategories($categories);
 
-    //     return new JsonResponse($data, Response::HTTP_OK);
-    // }
+        $data = $this->categoryService->mapCategories($filteredCategories);
 
-    // #[Route('/user/category/{id}', name: 'update_category', methods: ['PUT'])]
-    // public function updateCategory(Request $request, $id): JsonResponse
-    // {        
-    //     $requestData = json_decode($request->getContent(), true);
-    //     $subject = $requestData['subject'];
+        return new JsonResponse($data, Response::HTTP_OK);
+    }
+
+    #[Route('/user/category/{id}', name: 'update_category', methods: ['PUT'])]
+    public function updateCategory(Request $request, $id): JsonResponse
+    {        
+        $requestData = json_decode($request->getContent(), true);
+        $subject = $requestData['subject'];
+
+        $apiToken = $request->headers->get('auth-token');
+        $user = $this->userService->findUserByPropriety("apiToken", $apiToken);
         
-    //     $category = $this->categoryService->findCategoryByPropriety("id", $id);
-    //     if (!$category) {
-    //         return new JsonResponse(['message' => 'Category not found'], Response::HTTP_NOT_FOUND);
-    //     }
+        $category = $this->categoryService->findCategoryByPropriety("id", $id);
+        if (!$category) {
+            return new JsonResponse(['message' => 'Category not found'], Response::HTTP_NOT_FOUND);
+        }
+        if ($category->getAuthor() != $user) {
+            return new JsonResponse(['message' => 'You are not the Author of this category'], Response::HTTP_NOT_FOUND);
+        }
 
-    //     $category = $this->categoryService->updateCategory($category, $subject);
-    //     $this->categoryService->persistAndFlush($category);
+        $category = $this->categoryService->updateCategory($category, $subject);
+        $this->categoryService->persistAndFlush($category);
 
-    //     return new JsonResponse(['message' => 'Category updated'], Response::HTTP_CREATED);
-    // }
+        return new JsonResponse(['message' => 'Category updated'], Response::HTTP_CREATED);
+    }
 
-    // #[Route('/user/category/{id}', name: 'delete_category', methods: ['DELETE'])]
-    // public function deleteCategory($id): JsonResponse
-    // {        
-    //     $category = $this->categoryService->findCategoryByPropriety("id", $id);
-    //     if (!$category) {
-    //         return new JsonResponse(['message' => 'Category not found'], Response::HTTP_NOT_FOUND);
-    //     }
+    #[Route('/user/category/{id}', name: 'delete_category', methods: ['DELETE'])]
+    public function deleteCategory(Request $request, $id): JsonResponse
+    {        
+        $apiToken = $request->headers->get('auth-token');
+        $user = $this->userService->findUserByPropriety("apiToken", $apiToken);
 
-    //     $this->categoryService->removeAndFlush($category);
+        $category = $this->categoryService->findCategoryByPropriety("id", $id);
+        if (!$category) {
+            return new JsonResponse(['message' => 'Category not found'], Response::HTTP_NOT_FOUND);
+        }
+        if ($category->getAuthor() != $user) {
+            return new JsonResponse(['message' => 'You are not the Author of this category'], Response::HTTP_NOT_FOUND);
+        }
 
-    //     return new JsonResponse(['message' => 'Category deleted'], Response::HTTP_CREATED);
-    // }
+        $this->categoryService->removeAndFlush($category);
+
+        return new JsonResponse(['message' => 'Category deleted'], Response::HTTP_CREATED);
+    }
 }

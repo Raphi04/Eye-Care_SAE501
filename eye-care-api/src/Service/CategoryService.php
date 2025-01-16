@@ -61,10 +61,21 @@ class CategoryService
         foreach ($categories as $category) {
             $data[] = [
                 'id' => $category->getId(),
-                'subject' => $category->getSubject()
+                'subject' => $category->getSubject(),
+                'author' => $category->getAuthor()->getUsername()
             ];
         }
         return $data;
+    }
+
+    public function filterCategories(array $categories): array
+    {
+        foreach ($categories as $category) {
+            if($category->getAuthor()){
+                $filteredCategories[] = $category;
+            }
+        }
+        return $filteredCategories;
     }
 
     public function removeAndFlush(Category $category): void
