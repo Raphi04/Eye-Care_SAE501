@@ -66,6 +66,16 @@
 			}
 		}
 
+		.showPassword {
+			position: absolute;
+			transform: translate(2070%, -150%);
+			cursor: pointer;
+
+			&.show {
+				transform: translate(2305%, -150%);
+			}
+		}
+
 		.has-value {
 			font-family: $fontTextNormal;
 			font-size: 1em;
