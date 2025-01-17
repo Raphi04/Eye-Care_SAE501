@@ -21,7 +21,7 @@ class Category
     /**
      * @var Collection<int, Post>
      */
-    #[ORM\OneToMany(targetEntity: Post::class, mappedBy: 'category')]
+    #[ORM\OneToMany(targetEntity: Post::class, mappedBy: 'category', cascade: ['remove'])]
     private Collection $posts;
 
     #[ORM\ManyToOne(inversedBy: 'categories')]
