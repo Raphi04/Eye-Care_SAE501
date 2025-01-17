@@ -3,6 +3,8 @@ import { useApiContext } from "../../../../components/ApiProvider";
 import axios from "axios";
 import {
 	faEnvelope,
+	faEye,
+	faEyeSlash,
 	faLock,
 	faSpinner,
 	faUser,
@@ -47,6 +49,9 @@ export default function ModifyPopup({
 	const { connectedUser, refreshConnectedUser } = useApiContext();
 	const [loadingState, setLoadingState] = useState<boolean>(false);
 	const [globalErrors, setGlobalErrors] = useState<string[]>([]);
+	const [showPreviousPassword, setShowPreviousPassword] = useState(false);
+	const [showNewPassword, setShowNewPassword] = useState(false);
+	const [showVerifNewPassword, setShowVerifNewPassword] = useState(false);
 
 	// Mise à jour des champs
 	useEffect(() => {
@@ -164,6 +169,18 @@ export default function ModifyPopup({
 		}
 	};
 
+	const onToggleShowPreviousPassword = () => {
+		setShowPreviousPassword(!showPreviousPassword);
+	};
+
+	const onToggleShowNewPassword = () => {
+		setShowNewPassword(!showNewPassword);
+	};
+
+	const onToggleShowVerifNewPassword = () => {
+		setShowVerifNewPassword(!showVerifNewPassword);
+	};
+
 	if (!isOpen) return null;
 
 	return (
@@ -201,7 +218,7 @@ export default function ModifyPopup({
 					</div>
 					<div className="popupField">
 						<input
-							type="password"
+							type={showPreviousPassword ? "text" : "password"}
 							name="previousPassword"
 							value={previousPassword}
 							onChange={(e) => setPreviousPassword(e.target.value)}
@@ -211,10 +228,20 @@ export default function ModifyPopup({
 						<div className="inputIconModify">
 							<FontAwesomeIcon icon={faLock} />
 						</div>
+						<p
+							onClick={onToggleShowPreviousPassword}
+							className={`showPassword` + (showPreviousPassword ? " show" : "")}
+						>
+							{showPreviousPassword ? (
+								<FontAwesomeIcon icon={faEye} />
+							) : (
+								<FontAwesomeIcon icon={faEyeSlash} />
+							)}
+						</p>
 					</div>
 					<div className="popupField">
 						<input
-							type="password"
+							type={showNewPassword ? "text" : "password"}
 							name="newPassword"
 							value={newPassword}
 							onChange={(e) => setNewPassword(e.target.value)}
@@ -224,10 +251,20 @@ export default function ModifyPopup({
 						<div className="inputIconModify">
 							<FontAwesomeIcon icon={faLock} />
 						</div>
+						<p
+							onClick={onToggleShowNewPassword}
+							className={`showPassword` + (showNewPassword ? " show" : "")}
+						>
+							{showNewPassword ? (
+								<FontAwesomeIcon icon={faEye} />
+							) : (
+								<FontAwesomeIcon icon={faEyeSlash} />
+							)}
+						</p>
 					</div>
 					<div className="popupField">
 						<input
-							type="password"
+							type={showVerifNewPassword ? "text" : "password"}
 							name="verifNewPassword"
 							value={verifNewPassword}
 							onChange={(e) => setVerifNewPassword(e.target.value)}
@@ -237,6 +274,16 @@ export default function ModifyPopup({
 						<div className="inputIconModify">
 							<FontAwesomeIcon icon={faLock} />
 						</div>
+						<p
+							onClick={onToggleShowVerifNewPassword}
+							className={`showPassword` + (showVerifNewPassword ? " show" : "")}
+						>
+							{showVerifNewPassword ? (
+								<FontAwesomeIcon icon={faEye} />
+							) : (
+								<FontAwesomeIcon icon={faEyeSlash} />
+							)}
+						</p>
 					</div>
 
 					{/* Message d'erreur global */}
