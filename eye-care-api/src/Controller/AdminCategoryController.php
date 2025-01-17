@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use App\Service\CategoryService;
 
-
+//exemple
 class AdminCategoryController extends AbstractController
 {
     private CategoryService $categoryService;
