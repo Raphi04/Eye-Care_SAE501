@@ -58,9 +58,12 @@
 
 		.inputIconModify {
 			position: absolute;
-			transform: translateY(-50%);
+			transform: translate(880%, -155%);
 			color: #a6a6a6;
-			pointer-events: none;
+
+			&.email {
+				transform: translate(765%, -150%);
+			}
 		}
 
 		.has-value {
@@ -71,6 +74,7 @@
 		input {
 			width: 60%;
 			padding: 8px;
+			padding-left: 30px;
 			margin-top: 5px;
 			border: 3px solid $blueBlack;
 			border-radius: 8px;

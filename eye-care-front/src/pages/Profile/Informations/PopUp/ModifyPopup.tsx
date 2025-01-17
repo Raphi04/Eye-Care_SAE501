@@ -1,7 +1,12 @@
 import { useEffect, useState } from "react";
 import { useApiContext } from "../../../../components/ApiProvider";
 import axios from "axios";
-import { faLock, faSpinner } from "@fortawesome/free-solid-svg-icons";
+import {
+	faEnvelope,
+	faLock,
+	faSpinner,
+	faUser,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 interface ModifyPopupProps {
@@ -177,6 +182,9 @@ export default function ModifyPopup({
 							className="has-value"
 							placeholder="Nom d'utilisateur"
 						/>
+						<div className="inputIconModify">
+							<FontAwesomeIcon icon={faUser} />
+						</div>
 					</div>
 					<div className="popupField">
 						<input
@@ -187,6 +195,9 @@ export default function ModifyPopup({
 							className="has-value"
 							placeholder="Email"
 						/>
+						<div className="inputIconModify email">
+							<FontAwesomeIcon icon={faEnvelope} />
+						</div>
 					</div>
 					<div className="popupField">
 						<input
@@ -210,7 +221,9 @@ export default function ModifyPopup({
 							className="has-value"
 							placeholder="Nouveau mot de passe"
 						/>
-						<FontAwesomeIcon icon={faLock} />
+						<div className="inputIconModify">
+							<FontAwesomeIcon icon={faLock} />
+						</div>
 					</div>
 					<div className="popupField">
 						<input
@@ -221,7 +234,9 @@ export default function ModifyPopup({
 							className="has-value"
 							placeholder="Vérification nouveau mot de passe"
 						/>
-						<FontAwesomeIcon icon={faLock} />
+						<div className="inputIconModify">
+							<FontAwesomeIcon icon={faLock} />
+						</div>
 					</div>
 
 					{/* Message d'erreur global */}
