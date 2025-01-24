@@ -30,19 +30,34 @@
 	display: flex;
 
 	.initialsCard {
-		width: 10em;
-		height: 10em;
+		position: relative;
+		width: 11em;
+		height: 11em;
 		background-color: $white;
 		line-height: 10em;
 		text-align: center;
 		border-radius: 15px;
+		border: none;
 		margin-left: auto;
 		margin-right: auto;
+		cursor: pointer;
 
 		.initials {
 			font-size: 5em;
 			font-family: $fontTextBold;
 		}
+	}
+
+	.edit {
+		position: absolute;
+		font-size: 3em;
+		color: $white;
+		transform: translate(100%, 100%);
+		pointer-events: none;
+		mix-blend-mode: normal;
+		z-index: 2;
+		filter: none !important;
+		opacity: 1 !important;
 	}
 
 	.usernameText {
@@ -247,10 +262,6 @@
 						z-index: -1;
 						opacity: 0;
 						transition: opacity 0.3s ease-out;
-					}
-
-					&:hover::before {
-						opacity: 1;
 					}
 
 					&:hover::before {

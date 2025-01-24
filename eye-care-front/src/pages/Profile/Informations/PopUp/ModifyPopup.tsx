@@ -49,9 +49,11 @@ export default function ModifyPopup({
 	const { connectedUser, refreshConnectedUser } = useApiContext();
 	const [loadingState, setLoadingState] = useState<boolean>(false);
 	const [globalErrors, setGlobalErrors] = useState<string[]>([]);
+	const [profilePicture, setProfilePicture] = useState<File | null>(null);
 	const [showPreviousPassword, setShowPreviousPassword] = useState(false);
 	const [showNewPassword, setShowNewPassword] = useState(false);
 	const [showVerifNewPassword, setShowVerifNewPassword] = useState(false);
+	// const [edit, setEdit] = useState<boolean>(false);
 
 	// Mise à jour des champs
 	useEffect(() => {
@@ -59,6 +61,56 @@ export default function ModifyPopup({
 		setUsername(connectedUser?.username || "");
 	}, [connectedUser, setEmail, setUsername]);
 
+	const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		if (e.target.files && e.target.files[0]) {
+			setProfilePicture(e.target.files[0]);
+		}
+	};
+
+	// Envoi de la nouvelle image de profil
+	const handleSubmitImage = async (e: React.FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+
+		const form = e.target as HTMLFormElement;
+		const formData = new FormData(form);
+
+		if (profilePicture) {
+			formData.append("image", profilePicture);
+		} else {
+			console.error("Aucune image à envoyer.");
+		}
+
+		console.log("caca", formData);
+
+		setGlobalErrors([]);
+		setLoadingState(true);
+
+		try {
+			const token = localStorage.getItem("token");
+
+			if (!token) {
+				setGlobalErrors(["Token d'authentification manquant."]);
+			}
+
+			const response = await axios.post(
+				`${APIURL}/user/profile_image`,
+				formData,
+				{
+					headers: {
+						"Content-Type": "application/json",
+						"auth-token": token,
+					},
+				}
+			);
+			console.log("Image envoyée avec succès :", response.data);
+		} catch (error: unknown) {
+			setGlobalErrors(["Une erreur inattendue s'est produite : " + error]);
+		} finally {
+			setLoadingState(false);
+		}
+	};
+
+	// Envoi des données utilisateur à remplacer
 	const handleSubmitModify = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 
@@ -134,7 +186,6 @@ export default function ModifyPopup({
 				return;
 			}
 
-			// Envoi d'une requête POST au serveur pour la connexion
 			const response = await axios.put(`${APIURL}/user/user`, payload, {
 				headers: {
 					"Content-Type": "application/json",
@@ -152,7 +203,6 @@ export default function ModifyPopup({
 				const status = error.response?.status;
 				const message = error.response?.data?.message;
 
-				// Traitement des erreurs spécifiques à l'API
 				if (status === 400) {
 					setGlobalErrors([`Erreur : ${message || "Données invalides."}`]);
 				} else if (status === 401) {
@@ -169,6 +219,8 @@ export default function ModifyPopup({
 		}
 	};
 
+	// Fonctions pour afficher/masquer les mots de passe
+
 	const onToggleShowPreviousPassword = () => {
 		setShowPreviousPassword(!showPreviousPassword);
 	};
@@ -181,6 +233,16 @@ export default function ModifyPopup({
 		setShowVerifNewPassword(!showVerifNewPassword);
 	};
 
+	// Fonctions pour afficher la modification de l'image de profil
+
+	// const handleMouseOver = () => {
+	// 	setEdit(true);
+	// };
+
+	// const handleMouseLeave = () => {
+	// 	setEdit(false);
+	// };
+
 	if (!isOpen) return null;
 
 	return (
@@ -188,6 +250,42 @@ export default function ModifyPopup({
 			<div className="popupContent">
 				<h1>Vos informations</h1>
 				<h3>Vous pouvez modifier vos informations ci-dessous</h3>
+				<form onSubmit={handleSubmitImage}>
+					<div className="popupFileField">
+						<label htmlFor="images">
+							<div className="fileField">
+								<h4>Modifier la photo de profil</h4>
+								{profilePicture ? (
+									<img
+										src={URL.createObjectURL(profilePicture)}
+										alt="Prévisualisation"
+										id="images"
+										className="previewImage"
+										onClick={() => setProfilePicture(null)}
+									/>
+								) : (
+									<span>Sélectionnez une image</span>
+								)}
+							</div>
+							<input
+								type="file"
+								id="images"
+								name="profilePicture"
+								onChange={handleFileChange}
+								className="has-value"
+								placeholder="Nom d'utilisateur"
+							/>
+							{/* <button
+								onMouseOver={handleMouseOver}
+								onMouseLeave={handleMouseLeave}
+							></button> */}
+							{/* {edit ? <FontAwesomeIcon className="edit" icon={faPen} /> : null} */}
+						</label>
+						{/* {profilePicture && (
+							<p>Fichier sélectionné : {profilePicture.name}</p>
+						)} */}
+					</div>
+				</form>
 				<form onSubmit={handleSubmitModify}>
 					{/* --- Champs de modification --- */}
 					<div className="popupField">

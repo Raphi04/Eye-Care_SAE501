@@ -34,7 +34,6 @@ export default function Profile() {
 			return onlyInitials.join("");
 		}
 	}
-
 	// Fonction pour récupérer les données utilisateur
 	const fetchUser = useCallback(async () => {
 		if (token) {
@@ -70,9 +69,9 @@ export default function Profile() {
 			{!loadingState && connectedUser && (
 				<>
 					<div className="usernameContent">
-						<div className="initialsCard">
+						<button className="initialsCard">
 							<h1 className="initials">{getInitials()}</h1>
-						</div>
+						</button>
 						<div className="usernameText">
 							<p className="hello">
 								Bonjour, <br />

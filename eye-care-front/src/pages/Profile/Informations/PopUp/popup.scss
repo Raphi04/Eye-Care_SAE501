@@ -30,64 +30,107 @@
 			font-family: $fontTextBold;
 			font-size: 1.2em;
 		}
-	}
 
-	.error-container {
-		width: 320px;
-		padding: 10px;
-		margin-top: 20px;
-		margin-left: auto;
-		margin-right: auto;
-		background-color: $red;
-		border-radius: 10px;
-		text-align: center;
-		display: flex;
-		flex-direction: column;
+		.error-container {
+			width: 320px;
+			padding: 10px;
+			margin-top: 20px;
+			margin-left: auto;
+			margin-right: auto;
+			background-color: $red;
+			border-radius: 10px;
+			text-align: center;
+			display: flex;
+			flex-direction: column;
 
-		.error-message {
-			font-family: $fontTextBold;
-			color: $white;
-			font-size: 1rem;
-			margin: 0;
-			line-height: 1.5;
-		}
-	}
-
-	.popupField {
-		margin-bottom: 10px;
-
-		.inputIconModify {
-			position: absolute;
-			transform: translate(880%, -155%);
-			color: #a6a6a6;
-
-			&.email {
-				transform: translate(765%, -150%);
+			.error-message {
+				font-family: $fontTextBold;
+				color: $white;
+				font-size: 1rem;
+				margin: 0;
+				line-height: 1.5;
 			}
 		}
 
-		.showPassword {
-			position: absolute;
-			transform: translate(2070%, -150%);
-			cursor: pointer;
+		.popupField {
+			margin-bottom: 10px;
 
-			&.show {
-				transform: translate(2305%, -150%);
+			.inputIconModify {
+				position: absolute;
+				transform: translate(880%, -155%);
+				color: #a6a6a6;
+
+				&.email {
+					transform: translate(765%, -150%);
+				}
+			}
+
+			.showPassword {
+				position: absolute;
+				transform: translate(2070%, -150%);
+				cursor: pointer;
+
+				&.show {
+					transform: translate(2305%, -150%);
+				}
+			}
+
+			.has-value {
+				font-family: $fontTextNormal;
+				font-size: 1em;
+			}
+
+			input {
+				width: 60%;
+				padding: 8px;
+				padding-left: 30px;
+				margin-top: 5px;
+				border: 3px solid $blueBlack;
+				border-radius: 8px;
 			}
 		}
 
-		.has-value {
-			font-family: $fontTextNormal;
-			font-size: 1em;
-		}
+		.popupFileField {
+			margin-bottom: 10px;
 
-		input {
-			width: 60%;
-			padding: 8px;
-			padding-left: 30px;
-			margin-top: 5px;
-			border: 3px solid $blueBlack;
-			border-radius: 8px;
+			.previewImage {
+				object-fit: cover;
+				width: 100px;
+				height: 100px;
+				border-radius: 15px;
+				background-color: $white;
+				cursor: pointer;
+
+				&:hover {
+					filter: brightness(50%);
+					opacity: 0.8;
+				}
+			}
+
+			input[type="file"] {
+				display: none;
+			}
+
+			label {
+				display: flex;
+				height: fit-content;
+				width: fit-content;
+				margin-left: auto;
+				margin-right: auto;
+				border-radius: 15px;
+				padding: 10px 20px;
+				background-color: $blueBlack;
+				color: $white;
+
+				.fileField {
+					cursor: pointers;
+				}
+
+				h4 {
+					font-family: $fontTextBolder;
+					margin-bottom: 10px;
+				}
+			}
 		}
 	}
 }
