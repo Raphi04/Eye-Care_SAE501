@@ -22,7 +22,59 @@ export default function Profile() {
 			vision_disorder: string;
 		}[];
 	} | null>(null);
+	const [profilePicture, setProfilePicture] = useState<File | null>(null);
+	const [globalErrors, setGlobalErrors] = useState<string[]>([]);
+	// const [edit, setEdit] = useState<boolean>(false);
 	const token = localStorage.getItem("token");
+
+	// Envoi de la nouvelle image de profil
+	const handleSubmitImage = async (e: React.FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+
+		const form = e.target as HTMLFormElement;
+		const formData = new FormData(form);
+
+		if (profilePicture) {
+			formData.append("image", profilePicture);
+		} else {
+			console.error("Aucune image à envoyer.");
+		}
+
+		console.log("caca", formData);
+
+		setGlobalErrors([]);
+		setLoadingState(true);
+
+		try {
+			const token = localStorage.getItem("token");
+
+			if (!token) {
+				setGlobalErrors(["Token d'authentification manquant."]);
+			}
+
+			const response = await axios.post(
+				`${APIURL}/user/profile_image`,
+				formData,
+				{
+					headers: {
+						"Content-Type": "application/json",
+						"auth-token": token,
+					},
+				}
+			);
+			console.log("Image envoyée avec succès :", response.data);
+		} catch (error: unknown) {
+			setGlobalErrors(["Une erreur inattendue s'est produite : " + error]);
+		} finally {
+			setLoadingState(false);
+		}
+	};
+
+	const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		if (e.target.files && e.target.files[0]) {
+			setProfilePicture(e.target.files[0]);
+		}
+	};
 
 	function getInitials() {
 		if (userData?.username) {
@@ -34,6 +86,7 @@ export default function Profile() {
 			return onlyInitials.join("");
 		}
 	}
+
 	// Fonction pour récupérer les données utilisateur
 	const fetchUser = useCallback(async () => {
 		if (token) {
@@ -69,9 +122,52 @@ export default function Profile() {
 			{!loadingState && connectedUser && (
 				<>
 					<div className="usernameContent">
-						<button className="initialsCard">
-							<h1 className="initials">{getInitials()}</h1>
-						</button>
+						<div className="photoProfileContent">
+							<div className="initialsCard">
+								<h1 className="initials">{getInitials()}</h1>
+							</div>
+							<form onSubmit={handleSubmitImage}>
+								<button className="photoProfileButton">
+									<label htmlFor="images">
+										<div className="fileField">
+											<h4>Modifier la photo de profil</h4>
+											{profilePicture ? (
+												<img
+													src={URL.createObjectURL(profilePicture)}
+													alt="Prévisualisation"
+													id="images"
+													className="previewImage"
+													onClick={() => setProfilePicture(null)}
+												/>
+											) : (
+												<span>Sélectionnez une image</span>
+											)}
+										</div>
+										<input
+											type="file"
+											id="images"
+											name="profilePicture"
+											onChange={handleFileChange}
+											className="has-value"
+											placeholder="Nom d'utilisateur"
+										/>
+									</label>
+									{/* {profilePicture && (
+												<p>Fichier sélectionné : {profilePicture.name}</p>
+											)} */}
+								</button>
+								{/* Message d'erreur global */}
+								{globalErrors.length > 0 && (
+									<div className="error-container">
+										{globalErrors.map((err, index) => (
+											<p key={index} className="error-message">
+												{err}
+											</p>
+										))}
+									</div>
+								)}
+							</form>
+						</div>
 						<div className="usernameText">
 							<p className="hello">
 								Bonjour, <br />

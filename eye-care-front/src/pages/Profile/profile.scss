@@ -31,8 +31,8 @@
 
 	.initialsCard {
 		position: relative;
-		width: 11em;
-		height: 11em;
+		width: 10em;
+		height: 10em;
 		background-color: $white;
 		line-height: 10em;
 		text-align: center;
@@ -40,7 +40,6 @@
 		border: none;
 		margin-left: auto;
 		margin-right: auto;
-		cursor: pointer;
 
 		.initials {
 			font-size: 5em;
