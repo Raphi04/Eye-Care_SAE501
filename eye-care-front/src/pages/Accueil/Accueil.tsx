@@ -9,7 +9,7 @@ import { faArrowRight } from "@fortawesome/free-solid-svg-icons/faArrowRight";
 import "./accueil.scss";
 
 //Assets
-import articleImage from "../../assets/myopie.png";
+import testImage from "../../assets/phoroptere.png";
 import grosYeux from "../../assets/bigEyes.png";
 import testDeVue from "../../assets/testVue.png";
 import male from "../../assets/pere.png";
@@ -20,9 +20,9 @@ export default function Accueil() {
     <>
       <Header active={"accueil"} />
       <main className="accueil">
-        <h1>BIENVENUE</h1>
         <section className="welcomeContainer">
           <article className="textContainer">
+            <h1>BIENVENUE</h1>
             <h2>Qu'est ce qu'Eye-Care ?</h2>
             <p>
               Dans le cadre d’un projet universitaire, nous avions pour objectif
@@ -39,12 +39,13 @@ export default function Accueil() {
             </p>
           </article>
 
-          <Link to="/articles">
-            <article className="articleContainer">
-              <h2>Se renseigner sur la myopie</h2>
-              <img src={articleImage} />
-            </article>
-          </Link>
+          <article className="articleContainer">
+            <img src={testImage} className="testVisionImg" />
+            <Link to="/tests/acuite">
+              <button className="testVisionButton">Testez votre vue</button>
+            </Link>
+          </article>
+
         </section>
 
         <section className="fonctionnementOeil">
