@@ -7,7 +7,7 @@ main.accueil {
 
   h1 {
     display: block;
-    margin: 0 0 0 94px;
+    margin: 0;
     font-size: 9rem;
     font-family: $fontBolder;
     color: $blueBlack;
@@ -65,37 +65,80 @@ main.accueil {
     }
 
     .articleContainer {
+      position: relative;
       padding: 25px 35px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 15px;
-      border-radius: 25px;
-      background-color: $blueBlack;
-      box-shadow: $boxShadow;
       transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 
-      body.dark & {
-        background-color: $blueLight;
-        box-shadow: $boxShadowBlue;
+      .testVisionImg {
+        width: 100%;
+        margin-bottom: -70px;
       }
 
-      &:hover {
-        background-color: $blueStrong;
+      .testVisionButton {
+        display: flex;
+        align-items: center;
+        margin-left: auto;
+        margin-right: auto;
+        position: relative;
+        width: fit-content;
+        padding: 18px 90px;
+        border-radius: 20px;
+        font-size: 2.5rem;
+        font-family: $fontBolder;
+        overflow: hidden;
+        background: $blueBlack;
+        box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+        color: $white;
+        z-index: 1;
+        border: none;
+        cursor: pointer;
+    
+        &::before {
+          content: "";
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: $black;
+          z-index: -1;
+          opacity: 0;
+          transition: opacity 0.6s ease-out;
+        }
+    
+        &:hover::before {
+          opacity: 1;
+        }
+        &::before {
+          content: "";
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          z-index: -1;
+          opacity: 0;
+          transition: opacity 0.3s ease-out;
+        }
+    
+        &:hover::before {
+          opacity: 1;
+        }
+
+        body.dark & {
+          background-color: $white;
+          color: $blueBlack;
+          &::before {
+            background: $white;
+          }
+        }
       }
 
       @media (max-width: 1440px) {
         width: fit-content;
-      }
-
-      h2 {
-        font-size: 2.4rem;
-        font-family: $fontBold;
-        color: $white;
-
-        body.dark & {
-          color: $blueBlack;
-        }
       }
     }
   }
