@@ -1,0 +1,22 @@
+@import url("datatables.net-dt");
+@import url("datatables.net-responsive-dt");
+
+main.administration {
+  .categorie {
+    padding: 25px;
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: center;
+    background-color: $blueBlack;
+    color: $white;
+
+    h2 {
+      font-weight: 600;
+    }
+  }
+
+  .dataTableContainer {
+    padding: 0 25px;
+    background-color: $white;
+  }
+}

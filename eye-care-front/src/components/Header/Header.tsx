@@ -8,185 +8,171 @@ import EyeCareLogo from "../../assets/Eye_care_proposition_finale.svg?react";
 import "./header.scss";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-	faArrowRightFromBracket,
-	faSpinner,
-} from "@fortawesome/free-solid-svg-icons";
+import { faArrowRightFromBracket, faSpinner } from "@fortawesome/free-solid-svg-icons";
 
 import { useApiContext } from "../ApiProvider";
 
 interface HeaderProps {
-	active?: string;
+  active?: string;
 }
 
 export default function Header({ active }: HeaderProps) {
-	//Utilisation de ApiContext pour récuperer les données de l'utilisateur connecté
-	const { connectedUser, loadingState } = useApiContext();
-	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-	const { logoutUser } = useApiContext();
+  //Utilisation de ApiContext pour récuperer les données de l'utilisateur connecté
+  const { connectedUser, loadingState } = useApiContext();
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const { logoutUser } = useApiContext();
 
-	//Gestion des hovers et des clicks de la barre de navigation
-	const [onProfileClick, setOnProfileClick] = useState<boolean>(false);
-	const profileRef = useRef<HTMLDivElement | null>(null);
-	//const [onArticleHover, setOnArticleHover] = useState<boolean>(false);
+  //Gestion des hovers et des clicks de la barre de navigation
+  const [onProfileClick, setOnProfileClick] = useState<boolean>(false);
+  const profileRef = useRef<HTMLDivElement | null>(null);
+  //const [onArticleHover, setOnArticleHover] = useState<boolean>(false);
 
-	function handleOnProfileDisplay() {
-		let newState = !onProfileClick;
-		setOnProfileClick(newState);
-	}
-	function handleOnArticleDisplay() {
-		let newState = !isDropdownOpen;
-		setIsDropdownOpen(newState);
-	}
+  function handleOnProfileDisplay() {
+    let newState = !onProfileClick;
+    setOnProfileClick(newState);
+  }
+  function handleOnArticleDisplay() {
+    let newState = !isDropdownOpen;
+    setIsDropdownOpen(newState);
+  }
 
-	useEffect(() => {
-		function handleClickOutside(event: MouseEvent) {
-			if (
-				profileRef.current &&
-				!profileRef.current.contains(event.target as Node)
-			) {
-				setOnProfileClick(false);
-			}
-		}
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (profileRef.current && !profileRef.current.contains(event.target as Node)) {
+        setOnProfileClick(false);
+      }
+    }
 
-		document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
 
-		return () => {
-			document.removeEventListener("mousedown", handleClickOutside);
-		};
-	}, []);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
-	/* function handleOnArticleHover() {
+  /* function handleOnArticleHover() {
     let newState = !onArticleHover;
     setOnArticleHover(newState);
   }*/
 
-	function getInitials() {
-		if (connectedUser.username) {
-			let usernameSplited = connectedUser.username.split(" ");
+  function getInitials() {
+    if (connectedUser.username) {
+      let usernameSplited = connectedUser.username.split(" ");
 
-			let onlyInitials = usernameSplited.map((word: string) => {
-				return word.charAt(0).toUpperCase();
-			});
+      let onlyInitials = usernameSplited.map((word: string) => {
+        return word.charAt(0).toUpperCase();
+      });
 
-			return onlyInitials.join("");
-		}
-	}
+      return onlyInitials.join("");
+    }
+  }
 
-	return (
-		<>
-			<header>
-				<div className="headerContainer">
-					<Link to="/">
-						<EyeCareLogo className="logo" />
-					</Link>
+  return (
+    <>
+      <header>
+        <div className="headerContainer">
+          <Link to="/">
+            <EyeCareLogo className="logo" />
+          </Link>
 
-					<nav>
-						<Link
-							to="/"
-							className={
-								"linkContainer " + (active == "accueil" ? "isActive" : "")
-							}
-						>
-							<p>Accueil</p>
-						</Link>
+          <nav>
+            <Link to="/" className={"linkContainer " + (active == "accueil" ? "isActive" : "")}>
+              <p>Accueil</p>
+            </Link>
 
-						<Link
-							to="/blog"
-							className={
-								"linkContainer " + (active == "blog" ? "isActive" : "")
-							}
-						>
-							<p>Blog</p>
-						</Link>
+            <Link to="/blog" className={"linkContainer " + (active == "blog" ? "isActive" : "")}>
+              <p>Blog</p>
+            </Link>
 
-						<div
-							className={
-								"linkContainer linkArticles " +
-								(active == "articles" ? "isActive" : "") +
-								(isDropdownOpen ? "isActive" : "")
-							}
-							onClick={handleOnArticleDisplay}
-						>
-							<p>Articles</p>
-							{isDropdownOpen && (
-								<div className="dropDownArticle">
-									<Link to="/articles/myopie" className="linkMenu">
-										Myopie
-									</Link>
-									<Link to="/articles/presbytie" className="linkMenu">
-										Presbytie
-									</Link>
-									<Link to="/articles/astigmatisme" className="linkMenu">
-										Astigmatisme
-									</Link>
-									<Link to="/articles/dmla" className="linkMenu">
-										DMLA
-									</Link>
-									<Link to="/articles/daltonisme" className="linkMenu">
-										Daltonisme
-									</Link>
-									<Link to="/articles/hypermetropie" className="linkMenu">
-										Hypermétropie
-									</Link>
-								</div>
-							)}
-						</div>
+            <div
+              className={
+                "linkContainer linkArticles " +
+                (active == "articles" ? "isActive" : "") +
+                (isDropdownOpen ? "isActive" : "")
+              }
+              onClick={handleOnArticleDisplay}
+            >
+              <p>Articles</p>
+              {isDropdownOpen && (
+                <div className="dropDownArticle">
+                  <Link to="/articles/myopie" className="linkMenu">
+                    Myopie
+                  </Link>
+                  <Link to="/articles/presbytie" className="linkMenu">
+                    Presbytie
+                  </Link>
+                  <Link to="/articles/astigmatisme" className="linkMenu">
+                    Astigmatisme
+                  </Link>
+                  <Link to="/articles/dmla" className="linkMenu">
+                    DMLA
+                  </Link>
+                  <Link to="/articles/daltonisme" className="linkMenu">
+                    Daltonisme
+                  </Link>
+                  <Link to="/articles/hypermetropie" className="linkMenu">
+                    Hypermétropie
+                  </Link>
+                </div>
+              )}
+            </div>
 
-						<Link
-							to="/tests/acuite"
-							className={
-								"linkContainer " + (active == "tests" ? "isActive" : "")
-							}
-						>
-							<p>Tests</p>
-						</Link>
-					</nav>
+            <Link
+              to="/tests/acuite"
+              className={"linkContainer " + (active == "tests" ? "isActive" : "")}
+            >
+              <p>Tests</p>
+            </Link>
+          </nav>
 
-					<div className="headers-side">
-						<DayNightMode />
-						<div className="separator"></div>
+          <div className="headers-side">
+            <DayNightMode />
+            <div className="separator"></div>
 
-						{loadingState && (
-							<Link to="/login" className="seConnecter">
-								<p>
-									<FontAwesomeIcon icon={faSpinner} spin /> Chargement...
-								</p>
-							</Link>
-						)}
+            {loadingState && (
+              <Link to="/login" className="seConnecter">
+                <p>
+                  <FontAwesomeIcon icon={faSpinner} spin /> Chargement...
+                </p>
+              </Link>
+            )}
 
-						{!loadingState && !connectedUser && (
-							<Link to="/authentification/login" className="seConnecter">
-								<p>Se connecter</p>
-							</Link>
-						)}
+            {!loadingState && !connectedUser && (
+              <Link to="/authentification/login" className="seConnecter">
+                <p>Se connecter</p>
+              </Link>
+            )}
 
-						{!loadingState && connectedUser && (
-							<div className="userProfile" onClick={handleOnProfileDisplay}>
-								<div className="icon">
-									<p>{getInitials()}</p>
-								</div>
-								<p className="username">{connectedUser.username}</p>
+            {!loadingState && connectedUser && (
+              <div className="userProfile" onClick={handleOnProfileDisplay}>
+                <div className="icon">
+                  <p>{getInitials()}</p>
+                </div>
+                <p className="username">{connectedUser.username}</p>
 
-								{onProfileClick && (
-									<div className="dropDown" ref={profileRef}>
-										<Link to="/profile" className="link">
-											<p>Mon profile</p>
-										</Link>
-										<div onClick={logoutUser} className="link">
-											<FontAwesomeIcon
-												icon={faArrowRightFromBracket}
-												className="exit"
-											/>
-											<p>Déconnexion</p>
-										</div>
-									</div>
-								)}
-							</div>
-						)}
-					</div>
-				</div>
-			</header>
-		</>
-	);
+                {onProfileClick && (
+                  <div className="dropDown" ref={profileRef}>
+                    <Link to="/profile" className="link">
+                      <p>Mon profile</p>
+                    </Link>
+
+                    {connectedUser.roles[0] == "ROLE_ADMIN" && (
+                      <Link to="/administration" className="link">
+                        <p>Administration</p>
+                      </Link>
+                    )}
+
+                    <div onClick={logoutUser} className="link">
+                      <FontAwesomeIcon icon={faArrowRightFromBracket} className="exit" />
+                      <p>Déconnexion</p>
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+        </div>
+      </header>
+    </>
+  );
 }
