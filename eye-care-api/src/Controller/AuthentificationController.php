@@ -11,27 +11,30 @@ use App\Entity\User;
 use App\Service\TokenService;
 use App\Service\UserService;
 use App\Service\AuthentificationService;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class AuthentificationController extends AbstractController
 {
     private AuthentificationService $authentificationService;
     private TokenService $tokenService;
     private UserService $userService;
+    private ParameterBagInterface $params;
 
-    public function __construct(AuthentificationService $authentificationService, TokenService $tokenService, UserService $userService)
+    public function __construct(AuthentificationService $authentificationService, TokenService $tokenService, UserService $userService, ParameterBagInterface $params)
     {
         $this->authentificationService = $authentificationService;
         $this->tokenService = $tokenService;
         $this->userService = $userService;
+        $this->params = $params;
     }
 
     #[Route('/register', name: 'register', methods: ['POST'])]
     public function register(Request $request): JsonResponse
     {
-        $requestData = json_decode($request->getContent(), true);
-        $email = $requestData['email'];
-        $username = $requestData['username'];
-        $password = $requestData['password'];
+        $certificate = $request->files->get('certificate');
+        $email = $request->request->get('email');
+        $username = $request->request->get('username');
+        $password = $request->request->get('password');
 
         $userByEmail = $this->userService->findUserByPropriety("email", $email);
         if ($userByEmail) {
@@ -40,6 +43,17 @@ class AuthentificationController extends AbstractController
 
         $user = $this->userService->createUser($email, $username, $password);
         $this->tokenService->setUserTokenAndExpiration($user, false);
+        
+        if ($certificate) {
+            if (!$certificate->isValid() || $certificate->getMimeType() !== 'application/pdf') {
+                return new JsonResponse(['message' => 'Invalid file type or upload error'], Response::HTTP_BAD_REQUEST);
+            }
+            $uploadDir = $this->params->get('certificate_upload_dir');
+            $certificateName = uniqid() . '.' . $certificate->guessExtension();
+            $certificate->move($uploadDir, $certificateName);
+            $user->setCertificate($certificateName);
+        }
+
         $this->userService->persistAndFlush($user);
 
         $data = $this->authentificationService->getUserIdentifiers($user);
