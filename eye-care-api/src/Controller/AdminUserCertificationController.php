@@ -80,4 +80,27 @@ class AdminUserCertificationController extends AbstractController
 
         return new JsonResponse(['message' => 'User certified'], Response::HTTP_OK);
     }
+
+    #[Route('/admin/user_certify/{id}', name: 'user_refuse_certification', methods: ['DELETE'])]
+    public function refuseCertificationUser(string $id): JsonResponse
+    {
+        $user = $this->userService->findUserByPropriety("id",$id);
+        if(!$user){
+            return new JsonResponse(['message' => 'User not found'], Response::HTTP_NOT_FOUND);
+        }
+
+        $certificate = $user->getCertificate();
+        $uploadDir = $this->params->get('certificate_upload_dir');
+        if($certificate){
+            $oldCertificat = $uploadDir . '/' . $certificate;
+            if (file_exists($oldCertificat)) {
+                unlink($oldCertificat);
+            }
+        }
+
+        $user->setCertificate(null);
+        $this->userService->persistAndFlush($user);
+
+        return new JsonResponse(['message' => 'Certification refused'], Response::HTTP_OK);
+    }
 }
