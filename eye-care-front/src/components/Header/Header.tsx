@@ -162,7 +162,7 @@ export default function Header({ active }: HeaderProps) {
                       </Link>
                     )}
 
-                    <div onClick={logoutUser} className="link">
+                    <div onClick={logoutUser} className="link deconexion">
                       <FontAwesomeIcon icon={faArrowRightFromBracket} className="exit" />
                       <p>Déconnexion</p>
                     </div>
