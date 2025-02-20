@@ -40,7 +40,7 @@ export default function Profile() {
 			console.error("Aucune image à envoyer.");
 		}
 
-		console.log("caca", formData);
+		console.log("caca", profilePicture);
 
 		setGlobalErrors([]);
 		setLoadingState(true);
@@ -124,24 +124,23 @@ export default function Profile() {
 					<div className="usernameContent">
 						<div className="photoProfileContent">
 							<div className="initialsCard">
-								<h1 className="initials">{getInitials()}</h1>
+								{profilePicture ? (
+									<img
+										src={URL.createObjectURL(profilePicture)}
+										alt="photo de profil"
+										id="images"
+										className="previewImage"
+										onClick={() => setProfilePicture(null)}
+									/>
+								) : (
+									<h1 className="initials">{getInitials()}</h1>
+								)}
 							</div>
 							<form onSubmit={handleSubmitImage}>
 								<button className="photoProfileButton">
 									<label htmlFor="images">
 										<div className="fileField">
 											<h4>Modifier la photo de profil</h4>
-											{profilePicture ? (
-												<img
-													src={URL.createObjectURL(profilePicture)}
-													alt="Prévisualisation"
-													id="images"
-													className="previewImage"
-													onClick={() => setProfilePicture(null)}
-												/>
-											) : (
-												<span>Sélectionnez une image</span>
-											)}
 										</div>
 										<input
 											type="file"
