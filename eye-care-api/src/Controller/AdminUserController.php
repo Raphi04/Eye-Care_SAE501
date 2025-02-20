@@ -54,4 +54,18 @@ class AdminUserController extends AbstractController
 
         return new JsonResponse($data, Response::HTTP_OK);
     }
+
+    #[Route('/admin/user/{id}', name: 'admin_delete_user', methods: ['DELETE'])]
+    public function adminDeleteUser(string $id): JsonResponse
+    {
+        $user = $this->userService->findUserByPropriety("id", $id);
+        if(!$user){
+            return new JsonResponse(['message' => 'User not found'], Response::HTTP_NOT_FOUND);
+        }
+
+        $this->entityManager->remove($user);
+        $this->entityManager->flush();
+
+        return new JsonResponse(['message' => 'User deleted'], Response::HTTP_OK);
+    }
 }
