@@ -9,7 +9,6 @@ import language from "datatables.net-plugins/i18n/fr-FR.mjs";
 DataTable.use(DT);
 
 import "./administration.scss";
-import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons/faSpinner";
@@ -112,12 +111,63 @@ export default function Administration() {
         throw new Error(`Erreur HTTP : ${response.status}`);
       }
 
-      const newAllUsersToCertificate = allUserToCertificate.filter((user: any) => {
-        user.id !== id;
-      });
+      const newAllUsersToCertificate = allUserToCertificate.filter((user: any) => user.id !== id);
       setAllUserToCertificate(newAllUsersToCertificate);
 
-      console.log(newAllUsersToCertificate);
+      setAllUsers((prevUsers: any[]) =>
+        prevUsers.map((user) => {
+          if (user.id == id) {
+            return { ...user, roles: ["ROLE_CERTIFIED"] };
+          } else {
+            return user;
+          }
+        })
+      );
+    } catch (error: any) {
+      console.log("Erreur lors de l'envoie : " + error);
+    }
+  }
+
+  async function refuseCertificate(id: number) {
+    try {
+      const requestOptions = {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json", "auth-token": token },
+      };
+
+      const response = await fetch(`${APIURL}/admin/user_certify/${id}`, requestOptions);
+
+      if (!response.ok) {
+        throw new Error(`Erreur HTTP : ${response.status}`);
+      }
+
+      const newAllUserToCertificate = allUserToCertificate.filter((user: any) => user.id !== id);
+      setAllUserToCertificate(newAllUserToCertificate);
+    } catch (error: any) {
+      console.log("Erreur lors de l'envoie : " + error);
+    }
+  }
+
+  async function deleteUser(id: number) {
+    try {
+      const requestOptions = {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json", "auth-token": token },
+      };
+
+      const response = await fetch(`${APIURL}/admin/user/${id}`, requestOptions);
+
+      if (!response.ok) {
+        throw new Error(`Erreur HTTP : ${response.status}`);
+      }
+
+      const newAllUsers = allUsers.filter((user: any) => user.id !== id);
+      setAllUsers(newAllUsers);
+
+      const newAllUserToCertificate = allUserToCertificate.filter((user: any) => {
+        user.id !== id;
+      });
+      setAllUserToCertificate(newAllUserToCertificate);
     } catch (error: any) {
       console.log("Erreur lors de l'envoie : " + error);
     }
@@ -143,7 +193,7 @@ export default function Administration() {
         const buttonRefuse = document.createElement("button");
         buttonRefuse.textContent = "REFUSER";
         buttonRefuse.className = "button refuse";
-        buttonRefuse.onclick = () => downloadCertificate(rowData.id);
+        buttonRefuse.onclick = () => refuseCertificate(rowData.id);
 
         td.innerHTML = "";
         td.appendChild(buttonSee);
@@ -166,6 +216,19 @@ export default function Administration() {
         } else {
           return "Utilisateur";
         }
+      },
+    },
+    {
+      data: null,
+      responsivePriority: 1,
+      createdCell: function (td: HTMLElement, rowData: any) {
+        const buttonDelete = document.createElement("button");
+        buttonDelete.textContent = "SUPPRIMER";
+        buttonDelete.className = "button refuse";
+        buttonDelete.onclick = () => deleteUser(rowData.id);
+
+        td.innerHTML = "";
+        td.appendChild(buttonDelete);
       },
     },
   ];
@@ -224,6 +287,7 @@ export default function Administration() {
                     <th>Email</th>
                     <th>Nom</th>
                     <th>Rôle</th>
+                    <th>Actions</th>
                   </tr>
                 </thead>
               </DataTable>
