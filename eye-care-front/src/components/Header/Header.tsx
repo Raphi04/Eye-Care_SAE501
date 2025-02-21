@@ -8,6 +8,7 @@ import EyeCareLogo from "../../assets/Eye_care_proposition_finale.svg?react";
 import "./header.scss";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 import { faArrowRightFromBracket, faSpinner } from "@fortawesome/free-solid-svg-icons";
 
 import { useApiContext } from "../ApiProvider";
@@ -38,6 +39,7 @@ export default function Header({ active }: HeaderProps) {
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
+
       if (profileRef.current && !profileRef.current.contains(event.target as Node)) {
         setOnProfileClick(false);
       }
@@ -76,14 +78,14 @@ export default function Header({ active }: HeaderProps) {
           </Link>
 
           <nav>
-            <Link to="/" className={"linkContainer " + (active == "accueil" ? "isActive" : "")}>
+            <Link
+              to="/"
+              className={
+                "linkContainer " + (active == "accueil" ? "isActive" : "")
+              }
+            >
               <p>Accueil</p>
             </Link>
-
-            <Link to="/blog" className={"linkContainer " + (active == "blog" ? "isActive" : "")}>
-              <p>Blog</p>
-            </Link>
-
             <div
               className={
                 "linkContainer linkArticles " +
@@ -155,7 +157,6 @@ export default function Header({ active }: HeaderProps) {
                     <Link to="/profile" className="link">
                       <p>Mon profile</p>
                     </Link>
-
                     {connectedUser.roles[0] == "ROLE_ADMIN" && (
                       <Link to="/administration" className="link">
                         <p>Administration</p>
