@@ -6,6 +6,7 @@ $green: rgb(0, 222, 0);
 $yellow: rgb(255, 247, 0);
 $orange: rgb(255, 140, 0);
 $red: rgb(255, 0, 0);
+$redHover: rgb(185, 2, 2);
 $darkOrange: rgb(173, 114, 3);
 
 $blueLight: rgb(180, 202, 221);
@@ -17,6 +18,7 @@ $blueBlack: #182026;
 $blueBlackHover: #0b0707;
 
 $green: rgb(72, 165, 65);
+$greenHover: rgb(61, 138, 54);
 $darkMagenta: rgb(165, 65, 118);
 
 $sunDegrade: linear-gradient(359.43deg, #b14114 0.49%, #dab514 99.51%);
@@ -39,88 +41,88 @@ $fontTextNormal: "Helvetica Medium";
 $fontTextLight: "Helvetica Thin";
 
 @font-face {
-	font-family: "Helvetica Thin";
-	src: url("/font/Helvetica-Thin.ttf") format("truetype");
-	font-style: normal;
+  font-family: "Helvetica Thin";
+  src: url("/font/Helvetica-Thin.ttf") format("truetype");
+  font-style: normal;
 }
 
 @font-face {
-	font-family: "Helvetica Medium";
-	font-style: normal;
-	src: url("/font/Helvetica-Medium.ttf") format("truetype");
+  font-family: "Helvetica Medium";
+  font-style: normal;
+  src: url("/font/Helvetica-Medium.ttf") format("truetype");
 }
 
 @font-face {
-	font-family: "Helvetica Bold";
-	font-style: normal;
-	src: url("/font/Helvetica-Bold.ttf") format("truetype");
+  font-family: "Helvetica Bold";
+  font-style: normal;
+  src: url("/font/Helvetica-Bold.ttf") format("truetype");
 }
 
 @font-face {
-	font-family: "Helvetica Rounded Bold";
-	font-style: normal;
-	src: url("/font/Helvetica-Rounded-Bold.otf") format("truetype");
+  font-family: "Helvetica Rounded Bold";
+  font-style: normal;
+  src: url("/font/Helvetica-Rounded-Bold.otf") format("truetype");
 }
 
 @font-face {
-	font-family: "Korolev Thin";
-	font-style: normal;
-	font-weight: lighter;
-	src: url("/font/Korolev-Thin.woff") format("woff");
+  font-family: "Korolev Thin";
+  font-style: normal;
+  font-weight: lighter;
+  src: url("/font/Korolev-Thin.woff") format("woff");
 }
 
 @font-face {
-	font-family: "Korolev Light";
-	font-style: normal;
-	font-weight: lighter;
-	src: url("/font/Korolev-Light.woff") format("woff");
+  font-family: "Korolev Light";
+  font-style: normal;
+  font-weight: lighter;
+  src: url("/font/Korolev-Light.woff") format("woff");
 }
 
 @font-face {
-	font-family: "Korolev Light";
-	font-style: italic;
-	font-weight: lighter;
-	src: url("/font/Korolev-Light-Italic.woff") format("woff");
+  font-family: "Korolev Light";
+  font-style: italic;
+  font-weight: lighter;
+  src: url("/font/Korolev-Light-Italic.woff") format("woff");
 }
 
 @font-face {
-	font-family: "Korolev Medium";
-	font-style: normal;
-	font-weight: normal;
-	src: url("/font/Korolev-Medium.woff") format("woff");
+  font-family: "Korolev Medium";
+  font-style: normal;
+  font-weight: normal;
+  src: url("/font/Korolev-Medium.woff") format("woff");
 }
 
 @font-face {
-	font-family: "Korolev Medium";
-	font-style: italic;
-	font-weight: normal;
-	src: url("/font/Korolev-Medium-Italic.woff") format("woff");
+  font-family: "Korolev Medium";
+  font-style: italic;
+  font-weight: normal;
+  src: url("/font/Korolev-Medium-Italic.woff") format("woff");
 }
 
 @font-face {
-	font-family: "Korolev Bold";
-	font-style: normal;
-	font-weight: bold;
-	src: url("/font/Korolev-Bold.woff") format("woff");
+  font-family: "Korolev Bold";
+  font-style: normal;
+  font-weight: bold;
+  src: url("/font/Korolev-Bold.woff") format("woff");
 }
 
 @font-face {
-	font-family: "Korolev Bold";
-	font-style: italic;
-	font-weight: bold;
-	src: url("/font/Korolev-Bold-Italic.woff") format("woff");
+  font-family: "Korolev Bold";
+  font-style: italic;
+  font-weight: bold;
+  src: url("/font/Korolev-Bold-Italic.woff") format("woff");
 }
 
 @font-face {
-	font-family: "Korolev Heavy";
-	font-style: normal;
-	font-weight: bolder;
-	src: url("/font/Korolev-Heavy.woff") format("woff");
+  font-family: "Korolev Heavy";
+  font-style: normal;
+  font-weight: bolder;
+  src: url("/font/Korolev-Heavy.woff") format("woff");
 }
 
 @font-face {
-	font-family: "Korolev Heavy";
-	font-style: italic;
-	font-weight: bolder;
-	src: url("/font/Korolev-Heavy-Italic.woff") format("woff");
+  font-family: "Korolev Heavy";
+  font-style: italic;
+  font-weight: bolder;
+  src: url("/font/Korolev-Heavy-Italic.woff") format("woff");
 }
