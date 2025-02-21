@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import ModelViewer from "../../components/ModelViewer";
 
-import Model from "../../assets/3D_Model/Phoropter_final2.glb";
+import Model from "../../assets/3D_Model/Phoropter_final.glb";
 import Glasses from "../../assets/glasses.svg?react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

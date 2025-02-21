@@ -113,6 +113,9 @@ export default function Header({ active }: HeaderProps) {
                   <Link to="/articles/hypermetropie" className="linkMenu">
                     Hypermétropie
                   </Link>
+                  <Link to="/articles/oeil" className="linkMenu">
+                    Oeil
+                  </Link>
                 </div>
               )}
             </div>
