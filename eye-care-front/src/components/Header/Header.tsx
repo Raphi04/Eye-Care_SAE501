@@ -8,10 +8,8 @@ import EyeCareLogo from "../../assets/Eye_care_proposition_finale.svg?react";
 import "./header.scss";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faArrowRightFromBracket,
-  faSpinner,
-} from "@fortawesome/free-solid-svg-icons";
+
+import { faArrowRightFromBracket, faSpinner } from "@fortawesome/free-solid-svg-icons";
 
 import { useApiContext } from "../ApiProvider";
 
@@ -41,10 +39,8 @@ export default function Header({ active }: HeaderProps) {
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
-      if (
-        profileRef.current &&
-        !profileRef.current.contains(event.target as Node)
-      ) {
+
+      if (profileRef.current && !profileRef.current.contains(event.target as Node)) {
         setOnProfileClick(false);
       }
     }
@@ -90,7 +86,6 @@ export default function Header({ active }: HeaderProps) {
             >
               <p>Accueil</p>
             </Link>
-
             <div
               className={
                 "linkContainer linkArticles " +
@@ -126,9 +121,7 @@ export default function Header({ active }: HeaderProps) {
 
             <Link
               to="/tests/acuite"
-              className={
-                "linkContainer " + (active == "tests" ? "isActive" : "")
-              }
+              className={"linkContainer " + (active == "tests" ? "isActive" : "")}
             >
               <p>Tests</p>
             </Link>
@@ -164,11 +157,14 @@ export default function Header({ active }: HeaderProps) {
                     <Link to="/profile" className="link">
                       <p>Mon profile</p>
                     </Link>
-                    <div onClick={logoutUser} className="link">
-                      <FontAwesomeIcon
-                        icon={faArrowRightFromBracket}
-                        className="exit"
-                      />
+                    {connectedUser.roles[0] == "ROLE_ADMIN" && (
+                      <Link to="/administration" className="link">
+                        <p>Administration</p>
+                      </Link>
+                    )}
+
+                    <div onClick={logoutUser} className="link deconexion">
+                      <FontAwesomeIcon icon={faArrowRightFromBracket} className="exit" />
                       <p>Déconnexion</p>
                     </div>
                   </div>

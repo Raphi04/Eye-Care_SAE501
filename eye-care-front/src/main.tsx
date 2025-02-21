@@ -1,11 +1,7 @@
 //Dependencies
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import {
-  createBrowserRouter,
-  RouterProvider,
-  Navigate,
-} from "react-router-dom";
+import { createBrowserRouter, RouterProvider, Navigate } from "react-router-dom";
 
 //AUTHENTIFICATION
 import Authentification from "./pages/Authentification/Authentification.tsx";
@@ -36,6 +32,7 @@ import Dmla from "./pages/Articles/Dmla.tsx";
 import "./global.scss";
 import Hypermetropie from "./pages/Articles/Hypermetropie.tsx";
 import DmlaTest from "./pages/Tests/DmlaTest.tsx";
+import Administration from "./pages/Administration/Administration.tsx";
 
 const router = createBrowserRouter([
   {
@@ -132,6 +129,11 @@ const router = createBrowserRouter([
             element: <DmlaTest />,
           },
         ],
+      },
+      {
+
+        path: "administration",
+        element: <Administration />,
       },
       {
         path: "/profile",
