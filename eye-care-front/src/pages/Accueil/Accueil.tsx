@@ -12,8 +12,6 @@ import "./accueil.scss";
 import testImage from "../../assets/phoroptere.png";
 import grosYeux from "../../assets/bigEyes.png";
 import testDeVue from "../../assets/testVue.png";
-import male from "../../assets/pere.png";
-import female from "../../assets/femelle.png";
 
 export default function Accueil() {
   return (
@@ -45,7 +43,6 @@ export default function Accueil() {
               <button className="testVisionButton">Testez votre vue</button>
             </Link>
           </article>
-
         </section>
 
         <section className="fonctionnementOeil">
@@ -130,57 +127,6 @@ export default function Accueil() {
               <article>DMLA</article>
             </Link>
           </section>
-        </section>
-
-        <section className="blogDiscussion">
-          <h2>Blog</h2>
-          <article className="discussion1">
-            <div>
-              <p>
-                Bonjour, j’ai remarqué que depuis quelques jours, lorsque je me
-                réveille, je suis totalement aveugle pendant quelques minutes.
-                Cela dure plusieurs minutes avant que ma vision commence à
-                revenir. Je dors souvent sur le ventre, est-ce que cela pourrait
-                en être la cause ?
-              </p>
-              <div className="username">
-                <p>Sara C.</p>
-              </div>
-            </div>
-            <img src={female}></img>
-          </article>
-
-          <article className="discussion2">
-            <div>
-              <p>
-                Bonjour ! Ce type de problème peut parfois être lié à une
-                pression exercée sur vos yeux pendant que vous dormez. Dormir
-                sur le ventre peut comprimer vos globes oculaires, ce qui
-                pourrait expliquer cette perte de vision temporaire au réveil.
-                Je vous recommande d’essayer de changer de position pour dormir
-                et de surveiller si cela s’améliore. Toutefois, ce problème
-                mérite d’être examiné de plus près par un professionnel si les
-                symptômes persistent. Vous avez des doutes ou souhaitez d’autres
-                conseils ?{" "}
-                <b>
-                  Rejoignez notre forum pour poser toutes vos questions.
-                  D’autres utilisateurs ou professionnels pourront également
-                  partager leurs expériences et vous guider !
-                </b>
-              </p>
-              <div className="username">
-                <p>Dr. Eggman</p>
-              </div>
-            </div>
-            <img src={male}></img>
-          </article>
-          <Link to="/blog" className="button button-blue end">
-            ACCEDER AU BLOG
-            <FontAwesomeIcon
-              icon={faArrowRight}
-              className="arrow"
-            ></FontAwesomeIcon>
-          </Link>
         </section>
       </main>
       <Footer />

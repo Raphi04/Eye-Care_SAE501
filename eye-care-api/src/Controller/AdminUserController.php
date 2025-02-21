@@ -35,7 +35,14 @@ class AdminUserController extends AbstractController
             return new JsonResponse(['message' => 'User not found'], Response::HTTP_NOT_FOUND);
         }
 
-        $mappedUsers = $this->userService->usersMapping($users);
+        $filteredUser = [];
+        foreach($users as $user) {
+            if(!in_array("ROLE_ADMIN", $user->getRoles())) {
+                $filteredUser[] = $user;
+            }
+        }
+
+        $mappedUsers = $this->userService->usersMapping($filteredUser);
         $data = $mappedUsers;
 
         return new JsonResponse($data, Response::HTTP_OK);
