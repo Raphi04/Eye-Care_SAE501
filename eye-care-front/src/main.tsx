@@ -2,9 +2,9 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import {
-	createBrowserRouter,
-	RouterProvider,
-	Navigate,
+  createBrowserRouter,
+  RouterProvider,
+  Navigate,
 } from "react-router-dom";
 
 //AUTHENTIFICATION
@@ -17,8 +17,6 @@ import RegisterForm from "./pages/Authentification/Register/RegisterForm/Registe
 //MAIN CONTENT
 import App from "./App.tsx";
 import Accueil from "./pages/Accueil/Accueil.tsx";
-
-import Blog from "./pages/Blog/Blog.tsx";
 
 import Profile from "./pages/Profile/Profile.tsx";
 
@@ -40,120 +38,116 @@ import Hypermetropie from "./pages/Articles/Hypermetropie.tsx";
 import DmlaTest from "./pages/Tests/DmlaTest.tsx";
 
 const router = createBrowserRouter([
-	{
-		path: "/authentification",
-		element: <Authentification />,
-		children: [
-			{
-				path: "login",
-				element: <Login />,
-			},
-			{
-				path: "register",
-				element: <Register />,
-				children: [
-					{
-						path: "issues-form",
-						element: <IssuesForm />,
-					},
-					{
-						path: "register-form",
-						element: <RegisterForm />,
-					},
-				],
-			},
-		],
-	},
-	{
-		path: "/",
-		element: <App />,
-		children: [
-			{
-				path: "/",
-				element: <Accueil />,
-			},
-			{
-				path: "/blog",
-				element: <Blog />,
-			},
-			{
-				path: "/mentionslegales",
-				element: <MentionsLegales />,
-			},
-			{
-				path: "/articles",
-				element: <Articles />,
-				children: [
-					{
-						path: "",
-						element: <Navigate to="myopie" replace />,
-					},
-					{
-						path: "myopie",
-						element: <Myopie />,
-					},
+  {
+    path: "/authentification",
+    element: <Authentification />,
+    children: [
+      {
+        path: "login",
+        element: <Login />,
+      },
+      {
+        path: "register",
+        element: <Register />,
+        children: [
+          {
+            path: "issues-form",
+            element: <IssuesForm />,
+          },
+          {
+            path: "register-form",
+            element: <RegisterForm />,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    path: "/",
+    element: <App />,
+    children: [
+      {
+        path: "/",
+        element: <Accueil />,
+      },
+      {
+        path: "/mentionslegales",
+        element: <MentionsLegales />,
+      },
+      {
+        path: "/articles",
+        element: <Articles />,
+        children: [
+          {
+            path: "",
+            element: <Navigate to="myopie" replace />,
+          },
+          {
+            path: "myopie",
+            element: <Myopie />,
+          },
 
-					{
-						path: "presbytie",
-						element: <Presbytie />,
-					},
+          {
+            path: "presbytie",
+            element: <Presbytie />,
+          },
 
-					{
-						path: "daltonisme",
-						element: <Daltonisme />,
-					},
+          {
+            path: "daltonisme",
+            element: <Daltonisme />,
+          },
 
-					{
-						path: "astigmatisme",
-						element: <Astigmatisme />,
-					},
-					{
-						path: "dmla",
-						element: <Dmla />,
-					},
-					{
-						path: "hypermetropie",
-						element: <Hypermetropie />,
-					},
-				],
-			},
-			{
-				path: "/tests",
-				element: <Tests />,
-				children: [
-					{
-						path: "",
-						element: <Navigate to="acuite" replace />,
-					},
-					{
-						path: "acuite",
-						element: <Acuite />,
-					},
-					{
-						path: "ishihara",
-						element: <Ishihara />,
-					},
-					{
-						path: "dmla",
-						element: <DmlaTest />,
-					},
-				],
-			},
-			{
-				path: "/profile",
-				element: <Profile />,
-			},
-			{
-				path: "*",
-				element: <Navigate to="/" />,
-			},
-		],
-	},
+          {
+            path: "astigmatisme",
+            element: <Astigmatisme />,
+          },
+          {
+            path: "dmla",
+            element: <Dmla />,
+          },
+          {
+            path: "hypermetropie",
+            element: <Hypermetropie />,
+          },
+        ],
+      },
+      {
+        path: "/tests",
+        element: <Tests />,
+        children: [
+          {
+            path: "",
+            element: <Navigate to="acuite" replace />,
+          },
+          {
+            path: "acuite",
+            element: <Acuite />,
+          },
+          {
+            path: "ishihara",
+            element: <Ishihara />,
+          },
+          {
+            path: "dmla",
+            element: <DmlaTest />,
+          },
+        ],
+      },
+      {
+        path: "/profile",
+        element: <Profile />,
+      },
+      {
+        path: "*",
+        element: <Navigate to="/" />,
+      },
+    ],
+  },
 ]);
 
 //Use router
 createRoot(document.getElementById("root")!).render(
-	<StrictMode>
-		<RouterProvider router={router} />
-	</StrictMode>
+  <StrictMode>
+    <RouterProvider router={router} />
+  </StrictMode>
 );
