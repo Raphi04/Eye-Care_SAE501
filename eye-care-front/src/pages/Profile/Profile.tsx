@@ -52,12 +52,12 @@ export default function Profile() {
 		setLoadingState(true);
 
 		try {
-			const token = localStorage.getItem("token");
-
 			if (!token) {
 				setGlobalErrors(["Token d'authentification manquant."]);
 				return;
 			}
+
+			localStorage.setItem("profileImageName", file.name);
 
 			const response = await axios.post(
 				`${APIURL}/user/profile_image`,
@@ -69,7 +69,7 @@ export default function Profile() {
 				}
 			);
 
-			localStorage.setItem("profileImageUrl", response.data.profile_image);
+			console.log("Réponse du serveur :", response.data);
 		} catch (error) {
 			setGlobalErrors(["Une erreur inattendue s'est produite : " + error]);
 		} finally {
@@ -105,17 +105,23 @@ export default function Profile() {
 		}
 	}, [token, APIURL]);
 
-	const fetchImageUser = useCallback(() => {
+	const fetchImageUser = useCallback(async () => {
 		if (token) {
-			const storedImage = localStorage.getItem("profileImageUrl");
-			if (storedImage && storedImage !== "null") {
-				setProfilePicture(storedImage);
-			} else {
-				setProfilePicture(null);
+			setLoadingState(true);
+			try {
+				const response = await axios.get(`${APIURL}/user/user_info`, {
+					headers: { "auth-token": token },
+				});
+				setProfilePicture(`${APIURL}/${response.data.profile_image}`);
+
+				console.log("Réponse complète de l'API :", response.data);
+			} catch (error: unknown) {
+				console.error("Erreur lors de la récupération de l'image : ", error);
+			} finally {
+				setLoadingState(false);
 			}
-			console.log("Image récupérée avec succès :", storedImage);
 		}
-	}, [token]);
+	}, [token, APIURL]);
 
 	// Chargement initial des données utilisateur
 	useEffect(() => {
@@ -145,7 +151,7 @@ export default function Profile() {
 								{profilePicture ? (
 									<img
 										src={profilePicture}
-										alt="photo de profil"
+										alt={`${profilePicture}`}
 										id="images"
 										className="previewImage"
 									/>
