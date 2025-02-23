@@ -22,25 +22,31 @@ export default function Profile() {
 			vision_disorder: string;
 		}[];
 	} | null>(null);
-	const [profilePicture, setProfilePicture] = useState<File | null>(null);
+	const [profilePicture, setProfilePicture] = useState<string | null>(null);
 	const [globalErrors, setGlobalErrors] = useState<string[]>([]);
-	// const [edit, setEdit] = useState<boolean>(false);
 	const token = localStorage.getItem("token");
 
 	// Envoi de la nouvelle image de profil
-	const handleSubmitImage = async (e: React.FormEvent<HTMLFormElement>) => {
-		e.preventDefault();
-
-		const form = e.target as HTMLFormElement;
-		const formData = new FormData(form);
-
-		if (profilePicture) {
-			formData.append("image", profilePicture);
-		} else {
-			console.error("Aucune image à envoyer.");
+	const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		if (e.target.files && e.target.files[0]) {
+			const file = e.target.files[0];
+			const allowedTypes = ["image/jpeg", "image/jpg", "image/png"];
+			if (!allowedTypes.includes(file.type)) {
+				alert(
+					"Format de fichier non valide. Veuillez choisir un fichier JPG ou PNG."
+				);
+				return;
+			}
+			const imageUrl = URL.createObjectURL(file);
+			setProfilePicture(imageUrl);
+			handleSubmitImage(file);
+			e.target.value = "";
 		}
+	};
 
-		console.log("caca", profilePicture);
+	const handleSubmitImage = async (file: File) => {
+		const formData = new FormData();
+		formData.append("image", file);
 
 		setGlobalErrors([]);
 		setLoadingState(true);
@@ -50,6 +56,7 @@ export default function Profile() {
 
 			if (!token) {
 				setGlobalErrors(["Token d'authentification manquant."]);
+				return;
 			}
 
 			const response = await axios.post(
@@ -57,22 +64,16 @@ export default function Profile() {
 				formData,
 				{
 					headers: {
-						"Content-Type": "application/json",
 						"auth-token": token,
 					},
 				}
 			);
-			console.log("Image envoyée avec succès :", response.data);
-		} catch (error: unknown) {
+
+			localStorage.setItem("profileImageUrl", response.data.profile_image);
+		} catch (error) {
 			setGlobalErrors(["Une erreur inattendue s'est produite : " + error]);
 		} finally {
 			setLoadingState(false);
-		}
-	};
-
-	const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		if (e.target.files && e.target.files[0]) {
-			setProfilePicture(e.target.files[0]);
 		}
 	};
 
@@ -87,7 +88,7 @@ export default function Profile() {
 		}
 	}
 
-	// Fonction pour récupérer les données utilisateur
+	// Fonction pour rafraichir les données utilisateur
 	const fetchUser = useCallback(async () => {
 		if (token) {
 			setLoadingState(true);
@@ -104,10 +105,27 @@ export default function Profile() {
 		}
 	}, [token, APIURL]);
 
+	const fetchImageUser = useCallback(() => {
+		if (token) {
+			const storedImage = localStorage.getItem("profileImageUrl");
+			if (storedImage && storedImage !== "null") {
+				setProfilePicture(storedImage);
+			} else {
+				setProfilePicture(null);
+			}
+			console.log("Image récupérée avec succès :", storedImage);
+		}
+	}, [token]);
+
 	// Chargement initial des données utilisateur
 	useEffect(() => {
 		fetchUser();
 	}, [fetchUser]);
+
+	// Chargement initial de l'image utilisateur
+	useEffect(() => {
+		fetchImageUser();
+	}, [fetchImageUser, token]);
 
 	return (
 		<>
@@ -126,46 +144,38 @@ export default function Profile() {
 							<div className="initialsCard">
 								{profilePicture ? (
 									<img
-										src={URL.createObjectURL(profilePicture)}
+										src={profilePicture}
 										alt="photo de profil"
 										id="images"
 										className="previewImage"
-										onClick={() => setProfilePicture(null)}
 									/>
 								) : (
 									<h1 className="initials">{getInitials()}</h1>
 								)}
 							</div>
-							<form onSubmit={handleSubmitImage}>
-								<button className="photoProfileButton">
-									<label htmlFor="images">
-										<div className="fileField">
-											<h4>Modifier la photo de profil</h4>
-										</div>
-										<input
-											type="file"
-											id="images"
-											name="profilePicture"
-											onChange={handleFileChange}
-											className="has-value"
-											placeholder="Nom d'utilisateur"
-										/>
-									</label>
-									{/* {profilePicture && (
-												<p>Fichier sélectionné : {profilePicture.name}</p>
-											)} */}
-								</button>
-								{/* Message d'erreur global */}
-								{globalErrors.length > 0 && (
-									<div className="error-container">
-										{globalErrors.map((err, index) => (
-											<p key={index} className="error-message">
-												{err}
-											</p>
-										))}
-									</div>
-								)}
-							</form>
+
+							<label className="photoProfileButton" htmlFor="images">
+								<span>MODIFIER LA PHOTO</span>
+								<input
+									type="file"
+									id="images"
+									name="profilePicture"
+									onChange={handleFileChange}
+									placeholder="Nom d'utilisateur"
+									accept="image/png, image/jpeg, image/jpg"
+								/>
+							</label>
+
+							{/* Message d'erreur global */}
+							{globalErrors.length > 0 && (
+								<div className="error-container">
+									{globalErrors.map((err, index) => (
+										<p key={index} className="error-message">
+											{err}
+										</p>
+									))}
+								</div>
+							)}
 						</div>
 						<div className="usernameText">
 							<p className="hello">

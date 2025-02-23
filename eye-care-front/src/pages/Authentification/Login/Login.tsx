@@ -35,10 +35,7 @@ export default function Login() {
 		};
 
 		try {
-			// Envoi d'une requête POST au serveur pour la connexion
 			const response = await axios.post(`${APIURL}/login`, payload);
-
-			// Si la connexion réussit, stockage du token et du username dans le localStorage
 			const token = response.data.api_token;
 			const username = response.data.username;
 			localStorage.setItem("token", token);
@@ -49,7 +46,6 @@ export default function Login() {
 				const status = error.response?.status;
 				const message = error.response?.data?.message;
 
-				// Traitement des erreurs spécifiques à l'API
 				if (status === 404) {
 					setGlobalErrors(["L'utilisateur que vous avez fourni n'existe pas."]);
 				} else if (status === 401) {
