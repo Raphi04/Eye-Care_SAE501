@@ -2,6 +2,7 @@ import {
 	faArrowRight,
 	faLock,
 	faEnvelope,
+	faSpinner,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
@@ -12,11 +13,13 @@ import { useNavigate } from "react-router-dom";
 
 export default function Login() {
 	const navigate = useNavigate();
+	const [loadingState, setLoadingState] = useState<boolean>(false);
 	const [globalErrors, setGlobalErrors] = useState<string[]>([]);
 	const [showPassword, setShowPassword] = useState(false);
 
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
+		setLoadingState(true);
 
 		const form = e.target as HTMLFormElement;
 		const formData = new FormData(form);
@@ -58,6 +61,8 @@ export default function Login() {
 				console.error("Erreur inattendue :", error);
 				setGlobalErrors(["Une erreur inattendue s'est produite."]);
 			}
+		} finally {
+			setLoadingState(false);
 		}
 
 		form.reset();
@@ -97,8 +102,18 @@ export default function Login() {
 					)}
 				</div>
 				<button type="submit" className="formButton">
-					<p>SE CONNECTER</p>
-					<FontAwesomeIcon icon={faArrowRight} className="arrow" />
+					{loadingState ? (
+						<div>
+							<p>
+								<FontAwesomeIcon icon={faSpinner} spin /> Chargement...
+							</p>
+						</div>
+					) : (
+						<>
+							<p>SE CONNECTER</p>
+							<FontAwesomeIcon icon={faArrowRight} className="arrow" />
+						</>
+					)}
 				</button>
 			</form>
 			<Link to="../register/register-form" className="redirection">

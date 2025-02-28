@@ -14,7 +14,6 @@
 	font-weight: bold;
 
 	body.dark & {
-		background-color: $blueBlack;
 		color: $white;
 	}
 }
@@ -50,6 +49,10 @@
 		margin-left: auto;
 		margin-right: auto;
 
+		body.dark & {
+			color: $white;
+		}
+
 		.hello {
 			font-size: 1.5em;
 			font-weight: bold;
@@ -84,6 +87,10 @@
 				margin-bottom: 20px;
 			}
 
+			body.dark & {
+				color: $white;
+			}
+
 			.titleInformations {
 				font-size: 2em;
 				font-family: $fontBolder;
@@ -111,8 +118,17 @@
 					height: 22px;
 					border-radius: 15px;
 
+					body.dark & {
+						border: solid 3px $white;
+						color: $blueBlack;
+					}
+
 					&.done {
 						background-color: $blueBlack;
+
+						body.dark & {
+							background-color: $white;
+						}
 					}
 				}
 
@@ -125,8 +141,17 @@
 					height: 22px;
 					border-radius: 15px;
 
+					body.dark & {
+						border: solid 3px $white;
+						color: $blueBlack;
+					}
+
 					&.done {
 						background-color: $blueBlack;
+
+						body.dark & {
+							background-color: $white;
+						}
 					}
 				}
 
@@ -139,8 +164,17 @@
 					height: 22px;
 					border-radius: 15px;
 
+					body.dark & {
+						border: solid 3px $white;
+						color: $blueBlack;
+					}
+
 					&.done {
 						background-color: $blueBlack;
+
+						body.dark & {
+							background-color: $white;
+						}
 					}
 				}
 			}
@@ -229,125 +263,192 @@
 
 	// Résumé problèmes oculaires
 
-	.ocularIssuesContent {
-		width: 35vw;
-		background-color: $blueBlack;
-		border-radius: 1em;
+	.ocularIssuesContentPlus {
 		display: flex;
 		flex-direction: column;
-		height: fit-content;
-		padding-bottom: 0.3rem;
 
-		.titleIssues {
-			text-align: center;
-			font-family: $fontBolder;
-			font-size: 2em;
-			color: $white;
-			margin-top: 20px;
-			margin-bottom: 20px;
-		}
-
-		.ocularIssues {
-			background-color: $white;
-			margin: 0 5px;
-			padding: 20px;
-			border-radius: 0 0 0.9em 0.9em;
+		.ocularIssuesContent {
+			width: 35vw;
+			background-color: $blueBlack;
+			border-radius: 1em;
 			display: flex;
 			flex-direction: column;
-			gap: 15px;
+			height: fit-content;
+			padding-bottom: 0.3rem;
 
-			.ocularIssue {
+			body.dark & {
+				background-color: $blueLight;
+				box-shadow: $boxShadowBlue;
+			}
+
+			.titleIssues {
+				text-align: center;
+				font-family: $fontBolder;
+				font-size: 2em;
+				color: $white;
+				margin-top: 20px;
+				margin-bottom: 20px;
+
+				body.dark & {
+					color: $blueBlack;
+				}
+			}
+
+			.ocularIssues {
+				background-color: $white;
+				margin: 0 5px;
+				padding: 20px;
+				border-radius: 0 0 0.9em 0.9em;
 				display: flex;
-				justify-content: space-between;
-				background-color: $blueBlack;
-				border-radius: 15px;
-				padding: 10px 15px;
-				align-items: center;
-				box-shadow: $white 0px 0px 10px;
-				z-index: 3;
-				cursor: pointer;
+				flex-direction: column;
+				gap: 15px;
 
-				.ocularIssueMain {
+				body.dark & {
+					background-color: $blueBlack;
+				}
+
+				.ocularIssue {
 					display: flex;
-					gap: 10px;
+					justify-content: space-between;
+					background-color: $blueBlack;
+					border-radius: 15px;
+					padding: 10px 15px;
 					align-items: center;
+					box-shadow: $white 0px 0px 10px;
+					z-index: 3;
+					cursor: pointer;
 
-					.ocularIssueIndicator {
-						width: 1em;
-						height: 1em;
-						border-radius: 100%;
-						font-size: 1.2em;
+					body.dark & {
+						background-color: $blueLight;
+						box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+					}
 
-						&.danger {
-							background-color: $red;
+					.ocularIssueMain {
+						display: flex;
+						gap: 10px;
+						align-items: center;
+
+						.ocularIssueIndicator {
+							width: 1em;
+							height: 1em;
+							border-radius: 100%;
+							font-size: 1.2em;
+
+							&.danger {
+								background-color: $red;
+							}
+
+							&.warning {
+								background-color: $orange;
+							}
+
+							&.medium {
+								background-color: $yellow;
+							}
+
+							&.good {
+								background-color: $green;
+							}
 						}
+					}
 
-						&.warning {
-							background-color: $orange;
-						}
+					.chevron {
+						color: $white;
+						font-size: 1.5em;
 
-						&.medium {
-							background-color: $yellow;
-						}
-
-						&.good {
-							background-color: $green;
+						body.dark & {
+							color: $blueBlack;
 						}
 					}
 				}
 
-				.chevron {
-					color: $white;
-					font-size: 1.5em;
-				}
-			}
-
-			.ocularIssuesTextNoTest {
-				text-align: center;
-				font-family: $fontTextBolder;
-				font-size: 1.2em;
-			}
-
-			.ocularIssueDetails {
-				width: 90%;
-				margin: 0 auto;
-				background-color: $blueBlack;
-				border-radius: 0 0 10px 10px;
-				padding: 15px;
-				color: $white;
-				overflow: hidden;
-				max-height: 0;
-				transition: max-height 1s ease-in-out;
-				display: none;
-
-				.ocularIssueNote {
-					font-family: $fontNormal;
+				.ocularIssuesTextNoTest {
+					text-align: center;
+					font-family: $fontTextBolder;
 					font-size: 1.2em;
+
+					body.dark & {
+						color: $white;
+					}
+				}
+
+				.ocularIssueDetails {
+					width: 90%;
+					margin: 0 auto;
+					background-color: $blueBlack;
+					border-radius: 0 0 10px 10px;
+					padding: 15px;
 					color: $white;
+					overflow: hidden;
+					max-height: 0;
+					transition: max-height 1s ease-in-out;
+					display: none;
+
+					.ocularIssueNote {
+						font-family: $fontNormal;
+						font-size: 1.2em;
+						color: $white;
+
+						body.dark & {
+							color: $blueBlack;
+						}
+					}
+
+					.ocularIssueText {
+						margin-top: 10px;
+						font-family: $fontTextNormal;
+						font-size: 1.1em;
+						color: $white;
+
+						body.dark & {
+							color: $blueBlack;
+						}
+					}
+
+					&.openMyopie {
+						display: block;
+						max-height: 300px;
+
+						body.dark & {
+							background-color: $blueLight;
+							color: $blueBlack;
+							box-shadow: none;
+						}
+					}
+
+					&.openDaltonisme {
+						display: block;
+						max-height: 300px;
+
+						body.dark & {
+							background-color: $blueLight;
+							color: $blueBlack;
+							box-shadow: none;
+						}
+					}
 				}
 
-				.ocularIssueText {
-					margin-top: 10px;
-					font-family: $fontTextNormal;
-					font-size: 1.1em;
+				.ocularIssuesTitle {
+					font-family: $fontBolder;
 					color: $white;
-				}
+					font-size: 1.4em;
 
-				&.openMyopie {
-					display: block;
-					max-height: 300px;
-				}
-
-				&.openDaltonisme {
-					display: block;
-					max-height: 300px;
+					body.dark & {
+						color: $blueBlack;
+					}
 				}
 			}
+		}
 
-			.ocularIssuesTitle {
-				font-family: $fontBolder;
+		.ocularIssuesTextWarning {
+			margin-top: 20px;
+			width: 35vw;
+			text-align: center;
+			font-family: $fontTextBolder;
+			font-size: 1.2em;
+
+			body.dark & {
 				color: $white;
-				font-size: 1.4em;
 			}
 		}
 	}

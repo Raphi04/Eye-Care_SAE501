@@ -7,6 +7,7 @@ import {
 	useState,
 } from "react";
 import { disconnectUser } from "../utils/logout";
+import { useNavigate } from "react-router-dom";
 
 interface ApiContextTyping {
 	connectedUser: any;
@@ -20,7 +21,6 @@ const ApiContext = createContext<ApiContextTyping | undefined>(undefined);
 export function useApiContext() {
 	const context = useContext(ApiContext);
 
-	// Si le composant n'est pas dans le contexte de ApiProvider, renvoyer une erreur.
 	if (!context) {
 		throw new Error(
 			"useApiContext doit être utilisé à l'intérieur d'un ApiProvider"
@@ -38,8 +38,9 @@ export default function ApiProvider({ children }: { children: ReactNode }) {
 	const [loadingState, setLoadingState] = useState<boolean>(false);
 	const token = localStorage.getItem("token");
 	const alreadyGotInformations = useRef(false);
+	const navigate = useNavigate();
 
-	const getConnectedUser = async () => {
+	const fetchUserData = async () => {
 		if (!token) return;
 		alreadyGotInformations.current = true;
 		setLoadingState(true);
@@ -70,6 +71,7 @@ export default function ApiProvider({ children }: { children: ReactNode }) {
 		if (token) {
 			try {
 				await disconnectUser(token);
+				navigate("/");
 			} catch (error) {
 				console.error("Erreur lors de la déconnexion :", error);
 			}
@@ -79,9 +81,10 @@ export default function ApiProvider({ children }: { children: ReactNode }) {
 
 	useEffect(() => {
 		if (token && !alreadyGotInformations.current) {
-			getConnectedUser();
+			alreadyGotInformations.current = true;
+			fetchUserData();
 		}
-	}, []);
+	}, [token]);
 
 	return (
 		<>

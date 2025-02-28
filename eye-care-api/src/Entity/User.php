@@ -73,12 +73,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $certificate = null;
 
+    /**
+     * @var Collection<int, Category>
+     */
+    #[ORM\OneToMany(targetEntity: Category::class, mappedBy: 'author', cascade: ['remove'])]
+    private Collection $categories;
+
     public function __construct()
     {
         $this->userVisionDisorderResults = new ArrayCollection();
         $this->user_vision_disorder = new ArrayCollection();
         $this->posts = new ArrayCollection();
         $this->votes = new ArrayCollection();
+        $this->categories = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -342,6 +349,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setCertificate(?string $certificate): static
     {
         $this->certificate = $certificate;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Category>
+     */
+    public function getCategories(): Collection
+    {
+        return $this->categories;
+    }
+
+    public function addCategory(Category $category): static
+    {
+        if (!$this->categories->contains($category)) {
+            $this->categories->add($category);
+            $category->setAuthor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCategory(Category $category): static
+    {
+        if ($this->categories->removeElement($category)) {
+            // set the owning side to null (unless already changed)
+            if ($category->getAuthor() === $this) {
+                $category->setAuthor(null);
+            }
+        }
 
         return $this;
     }

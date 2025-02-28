@@ -21,8 +21,11 @@ class Category
     /**
      * @var Collection<int, Post>
      */
-    #[ORM\OneToMany(targetEntity: Post::class, mappedBy: 'category')]
+    #[ORM\OneToMany(targetEntity: Post::class, mappedBy: 'category', cascade: ['remove'])]
     private Collection $posts;
+
+    #[ORM\ManyToOne(inversedBy: 'categories')]
+    private ?user $author = null;
 
     public function __construct()
     {
@@ -72,6 +75,18 @@ class Category
                 $post->setCategory(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getAuthor(): ?user
+    {
+        return $this->author;
+    }
+
+    public function setAuthor(?user $author): static
+    {
+        $this->author = $author;
 
         return $this;
     }

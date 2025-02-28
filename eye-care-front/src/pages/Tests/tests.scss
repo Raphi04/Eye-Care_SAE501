@@ -52,6 +52,16 @@ main.tests {
           color: $blueBlack;
           transition: color 0.3s ease-out;
 
+          @media (max-width: 992px) {
+            font-size: 2.3rem;
+          }
+          @media (max-width: 768px) {
+            font-size: 1.9rem;
+          }
+          @media (max-width: 576px) {
+            font-size: 1.5rem;
+          }
+
           body.dark & {
             color: $white;
           }
@@ -63,6 +73,16 @@ main.tests {
           text-align: justify;
           color: $blueBlack;
           transition: color 0.3s ease-out;
+
+          @media (max-width: 992px) {
+            font-size: 1.3rem;
+          }
+          @media (max-width: 768px) {
+            font-size: 1.1rem;
+          }
+          @media (max-width: 576px) {
+            font-size: 0.9rem;
+          }
 
           body.dark & {
             color: $white;
@@ -76,6 +96,11 @@ main.tests {
           align-items: center;
           gap: 1rem;
 
+          @media (max-width: 1300px) {
+            flex-direction: column;
+            align-items: center;
+          }
+
           > div {
             display: flex;
             flex-direction: column;
@@ -86,6 +111,16 @@ main.tests {
               font-size: 2rem;
               color: $blueBlack;
               transition: color 0.3s ease-out;
+
+              @media (max-width: 992px) {
+                font-size: 1.7rem;
+              }
+              @media (max-width: 768px) {
+                font-size: 1.4rem;
+              }
+              @media (max-width: 576px) {
+                font-size: 1.1rem;
+              }
 
               body.dark & {
                 color: $white;
@@ -107,6 +142,12 @@ main.tests {
 
           img {
             width: 375px;
+
+            @media (max-width: 1300px) {
+              width: 80%;
+              max-width: 500px;
+              height: auto;
+            }
           }
         }
       }
@@ -131,6 +172,19 @@ main.tests {
           color: $white;
           transition: background-color 0.3s ease-out;
 
+          @media (max-width: 992px) {
+            font-size: 1.3rem;
+            padding: 10px 65px;
+          }
+          @media (max-width: 768px) {
+            font-size: 1.1rem;
+            padding: 8px 50px;
+          }
+          @media (max-width: 576px) {
+            font-size: 0.9rem;
+            padding: 6px 40px;
+          }
+
           body.dark & {
             background-color: $white;
             color: $blueBlack;
@@ -151,6 +205,16 @@ main.tests {
           transform: translateY(100%);
           font-size: 1.2rem;
           transition: color 0.3s ease-out;
+
+          @media (max-width: 992px) {
+            font-size: 1.1rem;
+          }
+          @media (max-width: 768px) {
+            font-size: 1rem;
+          }
+          @media (max-width: 576px) {
+            font-size: 0.9rem;
+          }
 
           body.dark & {
             color: $white;

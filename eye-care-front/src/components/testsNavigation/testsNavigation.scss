@@ -28,6 +28,20 @@
       color: $blueBlack;
       transition: background-color 0.3s ease-out;
 
+      @media (max-width: 992px) {
+        font-size: 1.25rem;
+      }
+      @media (max-width: 768px) {
+        font-size: 1.1rem;
+      }
+      @media (max-width: 576px) {
+        font-size: 0.95rem;
+      }
+
+      body.dark & {
+        color: $blueBlack;
+      }
+
       body.dark & {
         color: $white;
       }

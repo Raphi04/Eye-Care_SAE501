@@ -71,10 +71,6 @@ class AppFixtures extends Fixture
         $manager->persist($cecite);
 
         //Categories
-        $accueilCategory = new Category();
-        $accueilCategory->setSubject("accueil");
-        $manager->persist($accueilCategory);
-
         $myopieCategory = new Category();
         $myopieCategory->setSubject("myopie");
         $manager->persist($myopieCategory);

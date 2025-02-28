@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import { faArrowRight, faSpinner } from "@fortawesome/free-solid-svg-icons";
 import IssuesChoiceGroup from "../../../../components/Authentification/Choices/IssuesChoiceGroup";
 import { useState } from "react";
 import axios from "axios";
@@ -10,6 +10,7 @@ export default function IssuesForm() {
 		/*Déclaration des variables d'état}*/
 	}
 	const [selectedNames, setSelectedNames] = useState<string[]>([]);
+	const [loadingState, setLoadingState] = useState<boolean>(false);
 	const navigate = useNavigate();
 
 	// Fonction de soumission du formulaire
@@ -24,12 +25,12 @@ export default function IssuesForm() {
 			return;
 		}
 
+		setLoadingState(true);
+
 		const payload = {
 			vision_disorders: selectedNames,
 		};
-		{
-			/*Envoi du token dans les headers de la requête}*/
-		}
+
 		try {
 			const response = await axios.post(
 				`${APIURL}/user/user_vision_disorder`,
@@ -44,6 +45,8 @@ export default function IssuesForm() {
 			navigate("/accueil");
 		} catch (error: unknown) {
 			console.error("Erreur inattendue :", error);
+		} finally {
+			setLoadingState(false);
 		}
 	};
 
@@ -58,7 +61,18 @@ export default function IssuesForm() {
 				/>
 			</div>
 			<button onClick={handleSubmit} className="formButton">
-				CONTINUER <FontAwesomeIcon icon={faArrowRight} className="arrow" />
+				{loadingState ? (
+					<div>
+						<p>
+							<FontAwesomeIcon icon={faSpinner} spin /> Chargement...
+						</p>
+					</div>
+				) : (
+					<>
+						<p>CONTINUER</p>{" "}
+						<FontAwesomeIcon icon={faArrowRight} className="arrow" />
+					</>
+				)}
 			</button>
 		</div>
 	);

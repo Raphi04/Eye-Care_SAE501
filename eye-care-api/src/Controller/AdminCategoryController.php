@@ -19,8 +19,8 @@ class AdminCategoryController extends AbstractController
         $this->categoryService = $categoryService;
     }
 
-    #[Route('/admin/category', name: 'create_category', methods: ['POST'])]
-    public function createCategory(Request $request): JsonResponse
+    #[Route('/admin/category', name: 'create_category_admin', methods: ['POST'])]
+    public function createAdminCategory(Request $request): JsonResponse
     {        
         $requestData = json_decode($request->getContent(), true);
         $subject = $requestData['subject'];
@@ -30,14 +30,14 @@ class AdminCategoryController extends AbstractController
             return new JsonResponse(['message' => 'Category already exist'], Response::HTTP_CONFLICT);
         }
 
-        $category = $this->categoryService->createCategory($subject);
+        $category = $this->categoryService->createAdminCategory($subject);
         $this->categoryService->persistAndFlush($category);
 
         return new JsonResponse(['message' => 'Category created'], Response::HTTP_CREATED);
     }
 
-    #[Route('/admin/category', name: 'get_categories', methods: ['GET'])]
-    public function getCategories(): JsonResponse
+    #[Route('/admin/category', name: 'get_admin_categories', methods: ['GET'])]
+public function getAdminCategories(): JsonResponse
     {
         $categories = $this->categoryService->getAllCategories();
         if (!$categories) {
@@ -49,8 +49,8 @@ class AdminCategoryController extends AbstractController
         return new JsonResponse($data, Response::HTTP_OK);
     }
 
-    #[Route('/admin/category/{id}', name: 'update_category', methods: ['PUT'])]
-    public function updateCategory(Request $request, $id): JsonResponse
+    #[Route('/admin/category/{id}', name: 'update_admin_category', methods: ['PUT'])]
+    public function updateAdminCategory(Request $request, $id): JsonResponse
     {        
         $requestData = json_decode($request->getContent(), true);
         $subject = $requestData['subject'];
@@ -66,8 +66,8 @@ class AdminCategoryController extends AbstractController
         return new JsonResponse(['message' => 'Category updated'], Response::HTTP_CREATED);
     }
 
-    #[Route('/admin/category/{id}', name: 'delete_category', methods: ['DELETE'])]
-    public function deleteCategory($id): JsonResponse
+    #[Route('/admin/category/{id}', name: 'delete_admin_category', methods: ['DELETE'])]
+    public function deleteAdminCategory($id): JsonResponse
     {        
         $category = $this->categoryService->findCategoryByPropriety("id", $id);
         if (!$category) {
