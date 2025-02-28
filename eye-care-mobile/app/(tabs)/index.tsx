@@ -9,6 +9,7 @@ import {
 import projectColors from "../colors";
 import { useEffect, useState } from "react";
 import { useThemeContext } from "../context/themeContext";
+import CustomButton from "../components/customButton";
 
 export default function Index() {
   const { currentTheme, changeTheme } = useThemeContext();
@@ -88,6 +89,15 @@ export default function Index() {
               de vos yeux dès aujourd'hui !
             </Text>
 
+            <CustomButton
+              text="Testez votre vue"
+              textColor="white"
+              textColorHover="white"
+              baseColor={projectColors.blueButton}
+              baseColorHover={projectColors.blueButtonHover}
+              nextScreen="test"
+            ></CustomButton>
+
             <TouchableOpacity onPress={changeTheme}>
               <Text style={styles.texte}>{currentTheme}</Text>
             </TouchableOpacity>
@@ -121,6 +131,7 @@ const basicStyle = StyleSheet.create({
 
   texteContainer: {
     flexDirection: "column",
+    alignItems: "center",
     gap: 25,
     paddingVertical: 55,
     paddingHorizontal: 35,
