@@ -11,84 +11,19 @@ import { useApiContext } from "../../components/ApiProvider";
 
 export default function Profile() {
 	const APIURL = import.meta.env.VITE_API_URL;
-	const [loadingState, setLoadingState] = useState<boolean>(false);
-	const { connectedUser } = useApiContext();
+	const { connectedUser, profilePicture, refreshConnectedUser } =
+		useApiContext();
 	const [userData, setUserData] = useState<{
 		email: string;
 		username: string;
 		vision_disorder: { vision_disorder: string }[];
-		vision_disorder_result: {
-			result: number;
-			vision_disorder: string;
-		}[];
+		vision_disorder_result: { result: number; vision_disorder: string }[];
 	} | null>(null);
-	const [profilePicture, setProfilePicture] = useState<string | null>(null);
+	const [loadingState, setLoadingState] = useState<boolean>(false);
 	const [globalErrors, setGlobalErrors] = useState<string[]>([]);
 	const token = localStorage.getItem("token");
 
-	// Envoi de la nouvelle image de profil
-	const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		if (e.target.files && e.target.files[0]) {
-			const file = e.target.files[0];
-			const allowedTypes = ["image/jpeg", "image/jpg", "image/png"];
-			if (!allowedTypes.includes(file.type)) {
-				alert(
-					"Format de fichier non valide. Veuillez choisir un fichier JPG ou PNG."
-				);
-				return;
-			}
-			const imageUrl = URL.createObjectURL(file);
-			setProfilePicture(imageUrl);
-			handleSubmitImage(file);
-			e.target.value = "";
-		}
-	};
-
-	const handleSubmitImage = async (file: File) => {
-		const formData = new FormData();
-		formData.append("image", file);
-
-		setGlobalErrors([]);
-		setLoadingState(true);
-
-		try {
-			if (!token) {
-				setGlobalErrors(["Token d'authentification manquant."]);
-				return;
-			}
-
-			localStorage.setItem("profileImageName", file.name);
-
-			const response = await axios.post(
-				`${APIURL}/user/profile_image`,
-				formData,
-				{
-					headers: {
-						"auth-token": token,
-					},
-				}
-			);
-
-			console.log("Réponse du serveur :", response.data);
-		} catch (error) {
-			setGlobalErrors(["Une erreur inattendue s'est produite : " + error]);
-		} finally {
-			setLoadingState(false);
-		}
-	};
-
-	function getInitials() {
-		if (userData?.username) {
-			const usernameSplited = userData.username.split(" ");
-			const onlyInitials = usernameSplited.map((word: string) => {
-				return word.charAt(0).toUpperCase();
-			});
-
-			return onlyInitials.join("");
-		}
-	}
-
-	// Fonction pour rafraichir les données utilisateur
+	// Récupération des données utilisateur
 	const fetchUser = useCallback(async () => {
 		if (token) {
 			setLoadingState(true);
@@ -98,45 +33,60 @@ export default function Profile() {
 				});
 				setUserData(response.data);
 			} catch (error: unknown) {
-				console.error("Erreur lors de l'envoi : " + error);
+				setGlobalErrors(["Une erreur inattendue s'est produite : " + error]);
 			} finally {
 				setLoadingState(false);
 			}
 		}
 	}, [token, APIURL]);
 
-	const fetchImageUser = useCallback(async () => {
-		if (token) {
-			setLoadingState(true);
-			try {
-				const response = await axios.get(`${APIURL}/user/user_info`, {
-					headers: { "auth-token": token },
-				});
-				setProfilePicture(`${APIURL}/${response.data.profile_image}`);
-
-				console.log("Réponse complète de l'API :", response.data);
-			} catch (error: unknown) {
-				console.error("Erreur lors de la récupération de l'image : ", error);
-			} finally {
-				setLoadingState(false);
-			}
-		}
-	}, [token, APIURL]);
-
-	// Chargement initial des données utilisateur
 	useEffect(() => {
 		fetchUser();
 	}, [fetchUser]);
 
-	// Chargement initial de l'image utilisateur
-	useEffect(() => {
-		fetchImageUser();
-	}, [fetchImageUser, token]);
+	// Upload d'une nouvelle image
+	const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+		if (e.target.files && e.target.files[0]) {
+			const file = e.target.files[0];
+			const allowedTypes = ["image/jpeg", "image/jpg", "image/png"];
+			if (!allowedTypes.includes(file.type)) {
+				alert(
+					"Format de fichier non valide. Veuillez choisir un fichier JPG ou PNG."
+				);
+				return;
+			}
+			const formData = new FormData();
+			formData.append("image", file);
+			setLoadingState(true);
+			try {
+				await axios.post(`${APIURL}/user/profile_image`, formData, {
+					headers: { "auth-token": token },
+				});
+				await refreshConnectedUser();
+			} catch (error) {
+				setGlobalErrors(["Une erreur inattendue s'est produite : " + error]);
+			} finally {
+				setLoadingState(false);
+			}
+			e.target.value = "";
+		}
+	};
+
+	// Fonction pour obtenir les initiales de l'utilisateur
+	const getInitials = () => {
+		if (userData?.username) {
+			return userData.username
+				.split(" ")
+				.map((word) => word[0].toUpperCase())
+				.join("");
+		}
+		return "?";
+	};
 
 	return (
 		<>
 			<Header />
-			{loadingState && (
+			{loadingState && connectedUser && (
 				<div className="loading">
 					<p>
 						<FontAwesomeIcon icon={faSpinner} spin /> Chargement...
@@ -151,7 +101,7 @@ export default function Profile() {
 								{profilePicture ? (
 									<img
 										src={profilePicture}
-										alt={`${profilePicture}`}
+										alt="Photo de profil"
 										id="images"
 										className="previewImage"
 									/>
@@ -159,7 +109,6 @@ export default function Profile() {
 									<h1 className="initials">{getInitials()}</h1>
 								)}
 							</div>
-
 							<label className="photoProfileButton" htmlFor="images">
 								<span>MODIFIER LA PHOTO</span>
 								<input
@@ -167,11 +116,9 @@ export default function Profile() {
 									id="images"
 									name="profilePicture"
 									onChange={handleFileChange}
-									placeholder="Nom d'utilisateur"
 									accept="image/png, image/jpeg, image/jpg"
 								/>
 							</label>
-
 							{/* Message d'erreur global */}
 							{globalErrors.length > 0 && (
 								<div className="error-container">
