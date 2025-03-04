@@ -6,13 +6,13 @@ import "./header.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import {
-  faArrowRightFromBracket,
-  faSpinner,
+	faArrowRightFromBracket,
+	faSpinner,
 } from "@fortawesome/free-solid-svg-icons";
 import { useApiContext } from "../ApiProvider";
 
 interface HeaderProps {
-  active?: string;
+	active?: string;
 }
 
 export default function Header({ active }: HeaderProps) {
@@ -69,13 +69,6 @@ export default function Header({ active }: HeaderProps) {
 						}
 					>
 						<p>Accueil</p>
-					</Link>
-
-					<Link
-						to="/blog"
-						className={"linkContainer " + (active == "blog" ? "isActive" : "")}
-					>
-						<p>Blog</p>
 					</Link>
 
 					<div
