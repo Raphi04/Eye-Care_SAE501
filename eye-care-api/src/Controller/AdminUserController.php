@@ -35,7 +35,14 @@ class AdminUserController extends AbstractController
             return new JsonResponse(['message' => 'User not found'], Response::HTTP_NOT_FOUND);
         }
 
-        $mappedUsers = $this->userService->usersMapping($users);
+        $filteredUser = [];
+        foreach($users as $user) {
+            if(!in_array("ROLE_ADMIN", $user->getRoles())) {
+                $filteredUser[] = $user;
+            }
+        }
+
+        $mappedUsers = $this->userService->usersMapping($filteredUser);
         $data = $mappedUsers;
 
         return new JsonResponse($data, Response::HTTP_OK);
@@ -53,5 +60,19 @@ class AdminUserController extends AbstractController
         $data = $mappedUsers;
 
         return new JsonResponse($data, Response::HTTP_OK);
+    }
+
+    #[Route('/admin/user/{id}', name: 'admin_delete_user', methods: ['DELETE'])]
+    public function adminDeleteUser(string $id): JsonResponse
+    {
+        $user = $this->userService->findUserByPropriety("id", $id);
+        if(!$user){
+            return new JsonResponse(['message' => 'User not found'], Response::HTTP_NOT_FOUND);
+        }
+
+        $this->entityManager->remove($user);
+        $this->entityManager->flush();
+
+        return new JsonResponse(['message' => 'User deleted'], Response::HTTP_OK);
     }
 }

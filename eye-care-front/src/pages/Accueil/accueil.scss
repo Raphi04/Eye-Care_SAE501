@@ -7,21 +7,33 @@ main.accueil {
 
   h1 {
     display: block;
-    margin: 0 0 0 94px;
+    margin: 0 0 0 0;
     font-size: 9rem;
     font-family: $fontBolder;
     color: $blueBlack;
     transition: color 0.3s ease-out;
 
+    @media (max-width: 1200px) {
+      font-size: 7.5rem;
+    }
     body.dark & {
       color: $white;
+    }
+    @media (max-width: 992px) {
+      font-size: 6rem;
+    }
+    @media (max-width: 768px) {
+      font-size: 4.5rem;
+    }
+    @media (max-width: 576px) {
+      font-size: 3rem;
     }
   }
 
   .welcomeContainer {
     width: 100%;
     margin-top: 3.5rem;
-    padding: 0 100px 0px 100px;
+    padding: 0 9%;
     display: flex;
     justify-content: space-between;
     gap: 75px;
@@ -47,6 +59,16 @@ main.accueil {
         color: $blueBlack;
         transition: color 0.3s ease-out;
 
+        @media (max-width: 992px) {
+          font-size: 2.3rem;
+        }
+        @media (max-width: 768px) {
+          font-size: 1.9rem;
+        }
+        @media (max-width: 576px) {
+          font-size: 1.5rem;
+        }
+
         body.dark & {
           color: $white;
         }
@@ -58,6 +80,16 @@ main.accueil {
         line-height: 2rem;
         transition: color 0.3s ease-out;
 
+        @media (max-width: 992px) {
+          font-size: 1.4rem;
+        }
+        @media (max-width: 768px) {
+          font-size: 1.2rem;
+        }
+        @media (max-width: 576px) {
+          font-size: 1rem;
+        }
+
         body.dark & {
           color: $white;
         }
@@ -65,37 +97,81 @@ main.accueil {
     }
 
     .articleContainer {
-      padding: 25px 35px;
+      position: relative;
+      padding: 3% 5%;
+      margin-top: 10%;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 15px;
-      border-radius: 25px;
-      background-color: $blueBlack;
-      box-shadow: $boxShadow;
       transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 
-      body.dark & {
-        background-color: $blueLight;
-        box-shadow: $boxShadowBlue;
+      .testVisionImg {
+        width: 500px;
+        margin-bottom: -70px;
       }
 
-      &:hover {
-        background-color: $blueStrong;
+      .testVisionButton {
+        display: flex;
+        align-items: center;
+        margin-left: auto;
+        margin-right: auto;
+        position: relative;
+        width: fit-content;
+        padding: 18px 90px;
+        border-radius: 20px;
+        font-size: clamp(1.7rem, 2vw, 2.5rem);
+        font-family: $fontBolder;
+        overflow: hidden;
+        background: $blueBlack;
+        box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+        color: $white;
+        z-index: 1;
+        border: none;
+        cursor: pointer;
+
+        &::before {
+          content: "";
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: $black;
+          z-index: -1;
+          opacity: 0;
+          transition: opacity 0.6s ease-out;
+        }
+
+        &:hover::before {
+          opacity: 1;
+        }
+        &::before {
+          content: "";
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          z-index: -1;
+          opacity: 0;
+          transition: opacity 0.3s ease-out;
+        }
+
+        &:hover::before {
+          opacity: 1;
+        }
+
+        body.dark & {
+          background-color: $white;
+          color: $blueBlack;
+          &::before {
+            background: $white;
+          }
+        }
       }
 
       @media (max-width: 1440px) {
         width: fit-content;
-      }
-
-      h2 {
-        font-size: 2.4rem;
-        font-family: $fontBold;
-        color: $white;
-
-        body.dark & {
-          color: $blueBlack;
-        }
       }
     }
   }
@@ -103,7 +179,7 @@ main.accueil {
   .fonctionnementOeil {
     width: 100%;
     margin-top: 5rem;
-    padding: 65px 165px 65px 165px;
+    padding: 4% 9%;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -114,7 +190,11 @@ main.accueil {
       background-color: $blueLight;
       box-shadow: $boxShadowBlue;
     }
-
+    @media (max-width: 1100px) {
+      .bigEyes {
+        display: none;
+      }
+    }
     .textContainer {
       display: flex;
       flex-direction: column;
@@ -130,6 +210,16 @@ main.accueil {
         font-family: $fontBold;
         color: $white;
 
+        @media (max-width: 992px) {
+          font-size: 2.3rem;
+        }
+        @media (max-width: 768px) {
+          font-size: 1.9rem;
+        }
+        @media (max-width: 576px) {
+          font-size: 1.5rem;
+        }
+
         body.dark & {
           color: $blueBlack;
         }
@@ -141,22 +231,43 @@ main.accueil {
         line-height: 2rem;
         color: $white;
 
+        @media (max-width: 992px) {
+          font-size: 1.4rem;
+        }
+        @media (max-width: 768px) {
+          font-size: 1.2rem;
+        }
+        @media (max-width: 576px) {
+          font-size: 1rem;
+        }
+
         body.dark & {
           color: $blueBlack;
         }
       }
+      .bigEyes {
+        width: 3rem;
+      }
     }
   }
-
   .testDeVue {
     width: 100%;
     margin-top: 5rem;
-    padding: 0 100px 0 100px;
+    padding: 0 9%;
     display: flex;
     justify-content: space-between;
 
-    .imgTest {
+    @media (max-width: 1100px) {
       img {
+        display: none;
+      }
+    }
+    .imgTest {
+      display: flex;
+      align-items: center;
+      padding-right: 6%;
+      img {
+        border-radius: 1rem;
         box-shadow: $boxShadow;
       }
     }
@@ -177,6 +288,16 @@ main.accueil {
         color: $blueBlack;
         transition: color 0.3s ease-out;
 
+        @media (max-width: 992px) {
+          font-size: 2.3rem;
+        }
+        @media (max-width: 768px) {
+          font-size: 1.9rem;
+        }
+        @media (max-width: 576px) {
+          font-size: 1.5rem;
+        }
+
         body.dark & {
           color: $white;
         }
@@ -188,6 +309,16 @@ main.accueil {
         line-height: 2rem;
         color: $blueBlack;
         transition: color 0.3s ease-out;
+
+        @media (max-width: 992px) {
+          font-size: 1.4rem;
+        }
+        @media (max-width: 768px) {
+          font-size: 1.2rem;
+        }
+        @media (max-width: 576px) {
+          font-size: 1rem;
+        }
 
         body.dark & {
           color: $white;
@@ -202,8 +333,8 @@ main.accueil {
 
   .lesArticles {
     width: 100%;
-    margin-top: 5rem;
-    padding: 65px 165px 65px 165px;
+    margin: 5rem 0;
+    padding: 4% 9%;
     display: flex;
     flex-direction: column;
     gap: 3rem;
@@ -219,6 +350,16 @@ main.accueil {
       font-size: 2.7rem;
       font-family: $fontBold;
       color: $white;
+
+      @media (max-width: 992px) {
+        font-size: 2.3rem;
+      }
+      @media (max-width: 768px) {
+        font-size: 1.9rem;
+      }
+      @media (max-width: 576px) {
+        font-size: 1.5rem;
+      }
 
       body.dark & {
         color: $blueBlack;
@@ -247,7 +388,7 @@ main.accueil {
   .blogDiscussion {
     width: 100%;
     margin: 5rem 0;
-    padding: 0 100px 0 100px;
+    padding: 0 9%;
     display: flex;
     flex-direction: column;
     gap: 3rem;
@@ -256,6 +397,16 @@ main.accueil {
       font-size: 2.7rem;
       font-family: $fontBold;
       transition: color 0.3s ease-out;
+
+      @media (max-width: 992px) {
+        font-size: 2.3rem;
+      }
+      @media (max-width: 768px) {
+        font-size: 1.9rem;
+      }
+      @media (max-width: 576px) {
+        font-size: 1.5rem;
+      }
 
       body.dark & {
         color: $white;
@@ -327,6 +478,16 @@ main.accueil {
           font-size: 1.6rem;
           line-height: 2rem;
           text-align: justify;
+
+          @media (max-width: 992px) {
+            font-size: 1.4rem;
+          }
+          @media (max-width: 768px) {
+            font-size: 1.2rem;
+          }
+          @media (max-width: 576px) {
+            font-size: 1rem;
+          }
         }
       }
 
