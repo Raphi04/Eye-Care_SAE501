@@ -60,7 +60,6 @@ export default function ApiProvider({ children }: { children: ReactNode }) {
 			}
 			const result = await response.json();
 			setConnectedUser(result);
-			// Met à jour la photo de profil dans le contexte
 			if (result.profile_image) {
 				setProfilePicture(`${APIURL}/${result.profile_image}`);
 			} else {
