@@ -17,7 +17,7 @@ interface CommentSectionProps {
 
 export default function CommentsSection({ subject }: CommentSectionProps) {
 	//Variable de l'utilisateur actuellement connecté
-	const { connectedUser, loadingState } = useApiContext();
+	const { connectedUser, loadingState, profilePicture } = useApiContext();
 	const token = localStorage.getItem("token") || "";
 
 	//Variable listant tous les commentaires de l'article et leurs réponses
@@ -260,7 +260,15 @@ export default function CommentsSection({ subject }: CommentSectionProps) {
 						<div className="writeCommentContainer">
 							<div className="writeComment">
 								<div className="userIcon">
-									<p>{getConnectedUserInitials()}</p>
+									{profilePicture ? (
+										<img
+											src={profilePicture}
+											alt="Photo de profil"
+											className="previewImage"
+										/>
+									) : (
+										<p>{getConnectedUserInitials()}</p>
+									)}
 								</div>
 								<textarea
 									onChange={handleChangeWritedComment}
