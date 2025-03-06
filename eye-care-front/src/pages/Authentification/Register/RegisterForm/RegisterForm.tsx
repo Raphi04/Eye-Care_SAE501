@@ -35,6 +35,16 @@ export default function RegisterForm() {
 		const email = formData.get("email")?.toString().trim();
 		const password = formData.get("password")?.toString().trim();
 		const verifPassword = formData.get("verifPassword")?.toString().trim();
+		const certificateFile = formData.get("certificate");
+
+		formData.set("username", username || "");
+		formData.set("email", email || "");
+		formData.set("password", password || "");
+		const certificate =
+			certificateFile instanceof File ? certificateFile : null;
+		if (certificate) {
+			formData.append("certificate", certificate);
+		}
 
 		const errors: string[] = [];
 
@@ -80,17 +90,22 @@ export default function RegisterForm() {
 
 		setLoadingState(true);
 
-		const payload = {
-			username,
-			email,
-			password,
-		};
+		// const payload = {
+		// 	username: username,
+		// 	email: email,
+		// 	password: password,
+		// 	certificate: isPro ? certificate : null,
+		// };
 
 		const APIURL = import.meta.env.VITE_API_URL;
 
 		try {
 			console.log(`${APIURL}/register`);
-			const response = await axios.post(`${APIURL}/register`, payload);
+			const response = await axios.post(`${APIURL}/register`, formData, {
+				headers: {
+					"Content-Type": "multipart/form-data",
+				},
+			});
 			const token = response.data.api_token;
 			const username = response.data.username;
 			localStorage.setItem("token", token);
@@ -199,7 +214,7 @@ export default function RegisterForm() {
 				</form>
 			)}
 			{isPro && (
-				<form>
+				<form onSubmit={handleSubmit}>
 					<div className="fields">
 						<div className="fieldsFlex">
 							<Field
@@ -211,7 +226,7 @@ export default function RegisterForm() {
 							/>
 							<Field
 								name="email"
-								type="email"
+								type="text"
 								placeholder="Prénom"
 								className="field"
 								img={<FontAwesomeIcon icon={faUser} />}
@@ -252,7 +267,7 @@ export default function RegisterForm() {
 									<div className="customFileButton">
 										<input
 											id="fileInput"
-											name="file"
+											name="certificate"
 											type="file"
 											className="fileInput"
 										/>
