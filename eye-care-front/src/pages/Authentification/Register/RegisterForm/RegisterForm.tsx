@@ -1,7 +1,6 @@
 import {
 	faArrowRight,
 	faEnvelope,
-	faFile,
 	faLock,
 	faSpinner,
 	faUser,
@@ -12,6 +11,7 @@ import Field from "../../../../components/Authentification/Fields/Field";
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import FieldCertificate from "../../../../components/Authentification/Fields/FieldCertificate";
 
 export default function RegisterForm() {
 	const navigate = useNavigate();
@@ -20,6 +20,12 @@ export default function RegisterForm() {
 	const [showPassword, setShowPassword] = useState(false);
 	const [showPasswordVerif, setShowPasswordVerif] = useState(false);
 	const [loadingState, setLoadingState] = useState<boolean>(false);
+	const [selectedFile, setSelectedFile] = useState<File | null>(null);
+
+	function handleFileSelection(file: File | null) {
+		setSelectedFile(file);
+		console.log("Fichier sélectionné :", file);
+	}
 
 	const toggleCheck = () => {
 		setIsPro(!isPro);
@@ -31,15 +37,24 @@ export default function RegisterForm() {
 		const form = e.target as HTMLFormElement;
 		const formData = new FormData(form);
 
-		const username = formData.get("username")?.toString().trim();
+		let username = "";
+
+		if (!isPro) {
+			username = formData.get("username")?.toString().trim() || "";
+		} else {
+			const name = formData.get("name")?.toString().trim() || "";
+			const firstName = formData.get("firstName")?.toString().trim() || "";
+			username = `${name} ${firstName}`;
+		}
+
 		const email = formData.get("email")?.toString().trim();
 		const password = formData.get("password")?.toString().trim();
 		const verifPassword = formData.get("verifPassword")?.toString().trim();
-		const certificateFile = formData.get("certificate");
+		const certificateFile = selectedFile;
 
-		formData.set("username", username || "");
 		formData.set("email", email || "");
 		formData.set("password", password || "");
+		formData.set("username", username);
 		const certificate =
 			certificateFile instanceof File ? certificateFile : null;
 		if (certificate) {
@@ -89,13 +104,6 @@ export default function RegisterForm() {
 		}
 
 		setLoadingState(true);
-
-		// const payload = {
-		// 	username: username,
-		// 	email: email,
-		// 	password: password,
-		// 	certificate: isPro ? certificate : null,
-		// };
 
 		const APIURL = import.meta.env.VITE_API_URL;
 
@@ -218,14 +226,14 @@ export default function RegisterForm() {
 					<div className="fields">
 						<div className="fieldsFlex">
 							<Field
-								name="username"
+								name="name"
 								type="text"
 								placeholder="NOM"
 								className="field"
 								img={<FontAwesomeIcon icon={faUser} />}
 							/>
 							<Field
-								name="email"
+								name="firstName"
 								type="text"
 								placeholder="Prénom"
 								className="field"
@@ -246,6 +254,7 @@ export default function RegisterForm() {
 									type="password"
 									placeholder="Mot de passe"
 									className="field"
+									password
 									img={<FontAwesomeIcon icon={faLock} />}
 									show={showPassword}
 									onToggleShow={() => setShowPassword(!showPassword)}
@@ -255,26 +264,17 @@ export default function RegisterForm() {
 									type="password"
 									placeholder="Vérification mot de passe"
 									className="field"
+									password
 									img={<FontAwesomeIcon icon={faLock} />}
-									show={showPassword}
-									onToggleShow={() => setShowPassword(!showPassword)}
+									show={showPasswordVerif}
+									onToggleShow={() => setShowPasswordVerif(!showPasswordVerif)}
 								/>
 							</div>
-							<div className="containerFileAndImg">
-								<FontAwesomeIcon className="fileImg" icon={faFile} />
-								<div className="containerFieldFile">
-									<p>Déposer un certificat</p>
-									<div className="customFileButton">
-										<input
-											id="fileInput"
-											name="certificate"
-											type="file"
-											className="fileInput"
-										/>
-										<label htmlFor="fileInput">Parcourir</label>
-									</div>
-								</div>
-							</div>
+							<FieldCertificate
+								name="certificate"
+								type="file"
+								onFileSelect={handleFileSelection}
+							/>
 						</div>
 					</div>
 					<button type="submit" className="formButton">

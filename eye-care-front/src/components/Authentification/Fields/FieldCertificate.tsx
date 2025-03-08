@@ -34,7 +34,6 @@ export default function FieldCertificate({
 							type={type}
 							className="fileInput"
 							onChange={handleFileChange}
-							accept=".pdf"
 						/>
 						<label htmlFor="fileInput">Parcourir</label>
 					</div>
