@@ -23,8 +23,21 @@ export default function RegisterForm() {
 	const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
 	function handleFileSelection(file: File | null) {
+		setGlobalErrors([]);
+		if (file?.type !== "application/pdf") {
+			setGlobalErrors(["Le fichier doit être un PDF."]);
+			setSelectedFile(null);
+			return;
+		}
+
+		const maxFileSize = 2 * 1024 * 1024;
+		if (file.size > maxFileSize) {
+			setGlobalErrors(["Le fichier ne doit pas dépasser 2 Mo."]);
+			setSelectedFile(null);
+			return;
+		}
+
 		setSelectedFile(file);
-		console.log("Fichier sélectionné :", file);
 	}
 
 	const toggleCheck = () => {
@@ -42,9 +55,9 @@ export default function RegisterForm() {
 		if (!isPro) {
 			usernamePro = formData.get("username")?.toString().trim() || "";
 		} else {
-			const name = formData.get("name")?.toString().trim() || null;
-			const firstName = formData.get("firstName")?.toString().trim() || null;
-			usernamePro = `${name} ${firstName}`;
+			const name = (formData.get("name") || "").toString().trim();
+			const firstName = (formData.get("firstName") || "").toString().trim();
+			usernamePro = `${name} ${firstName}`.trim();
 		}
 
 		const username = formData.get("username")?.toString().trim();
@@ -99,7 +112,7 @@ export default function RegisterForm() {
 
 		if (
 			(username && (username.match(/ /g) || []).length >= 2) ||
-			username?.startsWith(" ") ||
+			(username && username?.startsWith(" ")) ||
 			username?.endsWith(" ")
 		) {
 			errors.push(
@@ -109,7 +122,7 @@ export default function RegisterForm() {
 
 		if (
 			(usernamePro && (usernamePro.match(/ /g) || []).length >= 2) ||
-			usernamePro?.startsWith(" ") ||
+			(usernamePro && usernamePro?.startsWith(" ")) ||
 			usernamePro?.endsWith(" ")
 		) {
 			errors.push("Le nom et prénom ne peuvent pas contenir d'espace.");
@@ -133,13 +146,13 @@ export default function RegisterForm() {
 		const APIURL = import.meta.env.VITE_API_URL;
 
 		try {
-			console.log(`${APIURL}/register`);
 			const response = await axios.post(`${APIURL}/register`, formData);
 			const token = response.data.api_token;
 			const username = response.data.username;
 			localStorage.setItem("token", token);
 			localStorage.setItem("username", username);
 			setGlobalErrors([]);
+			form.reset();
 			navigate("/authentification/register/issues-form");
 		} catch (error: unknown) {
 			if (axios.isAxiosError(error)) {
@@ -165,8 +178,6 @@ export default function RegisterForm() {
 		} finally {
 			setLoadingState(false);
 		}
-
-		form.reset();
 	};
 
 	return (
