@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import { useApiContext } from "../../../../components/ApiProvider";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
-
 interface DeletePopupProps {
 	isOpen: boolean;
 	onClose: () => void;
@@ -41,7 +40,9 @@ export default function DeletePopup({ isOpen, onClose }: DeletePopupProps) {
 			});
 
 			if (response.status === 200) {
-				logoutUser();
+				logoutUser(false);
+				localStorage.removeItem("token");
+				localStorage.removeItem("username");
 				navigate("/");
 			}
 		} catch (error: unknown) {
