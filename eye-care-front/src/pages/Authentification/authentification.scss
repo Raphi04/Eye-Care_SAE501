@@ -117,12 +117,19 @@ main.login {
 			/* Message d'erreur register */
 
 			.error-container {
-				width: 320px;
 				padding: 10px;
 				margin-top: 10px;
 				background-color: $red;
 				border-radius: 10px;
 				text-align: center;
+
+				&.pro {
+					width: 665px;
+				}
+
+				&.user {
+					width: 320px;
+				}
 			}
 
 			.error-message {
