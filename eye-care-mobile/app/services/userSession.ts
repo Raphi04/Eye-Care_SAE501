@@ -12,7 +12,7 @@ const UserSession = {
         await SecureStore.setItemAsync("api_token", token);
     },
 
-    async logout() {
+    async clearSession() {
         await SecureStore.deleteItemAsync("username");
         await SecureStore.deleteItemAsync("api_token");
     }
