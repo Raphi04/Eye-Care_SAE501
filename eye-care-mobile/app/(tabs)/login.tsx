@@ -1,8 +1,10 @@
 import React from "react";
 import { Alert, Button, SafeAreaView, Text, TextInput } from "react-native";
 import UserSession from "../services/UserSession";
+import { useRouter } from "expo-router";
 
 export default function login() {
+    const navigation = useRouter();
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
 
@@ -29,8 +31,7 @@ export default function login() {
 
             const result = await response.json();
             UserSession.setSession(result.username, result.api_token);
-            Alert.alert("Connexion réussie", `Username: ${result.username}\nToken: ${result.api_token}`);
-            //const user = await UserSession.getSession();
+            navigation.navigate("profile" as any)
         } catch (error) {
             Alert.alert("Erreur", `${error}`);
         }
