@@ -303,6 +303,19 @@ header {
 						&:nth-child(2) {
 							border-top: 1px solid $blueBlack;
 
+							body.dark & {
+								border-top: 1px solid $white;
+
+								svg,
+								p {
+									color: $white;
+								}
+							}
+						}
+
+						&.deconnexion {
+							border-top: 1px solid $blueBlack;
+
 							p,
 							svg {
 								color: $red;
