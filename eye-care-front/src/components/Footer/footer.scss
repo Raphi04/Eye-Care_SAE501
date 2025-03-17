@@ -1,126 +1,126 @@
 footer {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  background-color: $white;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 100%;
+	background-color: $white;
 
-  .orga {
-    display: flex;
-    justify-content: space-between;
-    text-align: center;
-    width: 100%;
-    padding: 2rem 0rem 2rem 0rem;
-    transition: background-color 0.3s ease-out;
-    width: 95%;
+	.orga {
+		display: flex;
+		justify-content: space-between;
+		text-align: center;
+		width: 100%;
+		padding: 2rem 0rem 2rem 0rem;
+		transition: background-color 0.3s ease-out;
+		width: 100%;
 
-    body.dark & {
-      background-color: $blueBlack;
-    }
+		body.dark & {
+			background-color: $blueBlack;
+		}
 
-    div {
-      display: flex;
-      flex-direction: column;
-      gap: 2rem;
-      width: 33%;
+		div {
+			display: flex;
+			flex-direction: column;
+			gap: 2rem;
+			width: 33%;
 
-      h2 {
-        font-size: 2.2rem;
-        font-family: $fontBold;
-        transition: color 0.3s ease-out;
+			h2 {
+				font-size: 2.2rem;
+				font-family: $fontBold;
+				transition: color 0.3s ease-out;
 
-        @media (max-width: 1200px) {
-          font-size: 1.8rem;
-        }
-        @media (max-width: 992px) {
-          font-size: 1.6rem;
-        }
-        @media (max-width: 768px) {
-          font-size: 1.4rem;
-        }
-        @media (max-width: 576px) {
-          font-size: 1.3rem;
-        }
+				@media (max-width: 1200px) {
+					font-size: 1.8rem;
+				}
+				@media (max-width: 992px) {
+					font-size: 1.6rem;
+				}
+				@media (max-width: 768px) {
+					font-size: 1.4rem;
+				}
+				@media (max-width: 576px) {
+					font-size: 1.3rem;
+				}
 
-        body.dark & {
-          color: $white;
-        }
-      }
-    }
+				body.dark & {
+					color: $white;
+				}
+			}
+		}
 
-    p {
-      color: $blueBlack;
-      font-family: $fontLight;
-      font-size: 1.4rem;
-      transition: color 0.3s ease-out;
+		p {
+			color: $blueBlack;
+			font-family: $fontLight;
+			font-size: 1.4rem;
+			transition: color 0.3s ease-out;
 
-      @media (max-width: 1200px) {
-        font-size: 1.2rem;
-      }
-      @media (max-width: 992px) {
-        font-size: 1.1rem;
-      }
-      @media (max-width: 768px) {
-        font-size: 0.9rem;
-      }
-      @media (max-width: 576px) {
-        font-size: 0.8rem;
-      }
+			@media (max-width: 1200px) {
+				font-size: 1.2rem;
+			}
+			@media (max-width: 992px) {
+				font-size: 1.1rem;
+			}
+			@media (max-width: 768px) {
+				font-size: 0.9rem;
+			}
+			@media (max-width: 576px) {
+				font-size: 0.8rem;
+			}
 
-      body.dark & {
-        color: $white;
-      }
-    }
+			body.dark & {
+				color: $white;
+			}
+		}
 
-    .cr {
-      font-family: $fontBold;
-      font-size: 1.3rem;
+		.cr {
+			font-family: $fontBold;
+			font-size: 1.3rem;
 
-      @media (max-width: 1200px) {
-        font-size: 1.2rem;
-      }
-      @media (max-width: 992px) {
-        font-size: 1.1rem;
-      }
-      @media (max-width: 768px) {
-        font-size: 0.9rem;
-      }
-      @media (max-width: 576px) {
-        font-size: 0.8rem;
-      }
-    }
+			@media (max-width: 1200px) {
+				font-size: 1.2rem;
+			}
+			@media (max-width: 992px) {
+				font-size: 1.1rem;
+			}
+			@media (max-width: 768px) {
+				font-size: 0.9rem;
+			}
+			@media (max-width: 576px) {
+				font-size: 0.8rem;
+			}
+		}
 
-    a {
-      color: $blueBlack;
-      position: relative;
-      transition: color 0.3s ease-out;
+		a {
+			color: $blueBlack;
+			position: relative;
+			transition: color 0.3s ease-out;
 
-      body.dark & {
-        color: $white;
-      }
+			body.dark & {
+				color: $white;
+			}
 
-      &::after {
-        content: "";
-        position: absolute;
-        left: 0;
-        bottom: -0.1em;
-        width: 100%;
-        height: 0.1em;
-        background-color: $blueBlack;
-        transform: scaleX(0);
-        transform-origin: right;
-        transition: transform 0.4s;
+			&::after {
+				content: "";
+				position: absolute;
+				left: 0;
+				bottom: -0.1em;
+				width: 100%;
+				height: 0.1em;
+				background-color: $blueBlack;
+				transform: scaleX(0);
+				transform-origin: right;
+				transition: transform 0.4s;
 
-        body.dark & {
-          background-color: $white;
-        }
-      }
+				body.dark & {
+					background-color: $white;
+				}
+			}
 
-      &:hover::after,
-      &:focus::after {
-        transform: scaleX(1);
-        transform-origin: left;
-      }
-    }
-  }
+			&:hover::after,
+			&:focus::after {
+				transform: scaleX(1);
+				transform-origin: left;
+			}
+		}
+	}
 }
