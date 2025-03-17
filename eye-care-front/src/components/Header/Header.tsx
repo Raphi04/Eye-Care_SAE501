@@ -151,7 +151,7 @@ export default function Header({ active }: HeaderProps) {
 											<p>Administration</p>
 										</Link>
 									)}
-									<div onClick={logoutUser} className="link">
+									<div onClick={() => logoutUser(true)} className="link">
 										<FontAwesomeIcon
 											icon={faArrowRightFromBracket}
 											className="exit"
