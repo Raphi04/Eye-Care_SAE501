@@ -146,6 +146,11 @@ export default function Header({ active }: HeaderProps) {
 									<Link to="/profile" className="link">
 										<p>Mon profil</p>
 									</Link>
+									{connectedUser.roles[0] == "ROLE_ADMIN" && (
+										<Link to="/administration" className="link">
+											<p>Administration</p>
+										</Link>
+									)}
 									<div onClick={() => logoutUser(true)} className="link">
 										<FontAwesomeIcon
 											icon={faArrowRightFromBracket}
