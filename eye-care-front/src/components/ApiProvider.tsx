@@ -14,7 +14,7 @@ interface ApiContextTyping {
 	loadingState: boolean;
 	profilePicture: string | null;
 	refreshConnectedUser: () => Promise<void>;
-	logoutUser: () => void;
+	logoutUser: (shouldCallLogoutApi: boolean) => void;
 }
 
 const ApiContext = createContext<ApiContextTyping | undefined>(undefined);
@@ -77,8 +77,8 @@ export default function ApiProvider({ children }: { children: ReactNode }) {
 		await fetchUserData();
 	};
 
-	const logoutUser = async () => {
-		if (token) {
+	const logoutUser = async (shouldCallLogoutApi = true) => {
+		if (token && shouldCallLogoutApi) {
 			try {
 				await disconnectUser(token);
 				navigate("/");
