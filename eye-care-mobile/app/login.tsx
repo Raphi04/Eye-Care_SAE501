@@ -1,12 +1,18 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Alert, Button, SafeAreaView, Text, TextInput } from "react-native";
-import UserSession from "../services/UserSession";
-import { useRouter } from "expo-router";
+import { useRouter, useNavigation } from "expo-router";
+import UserSession from "./services/UserSession";
 
 export default function login() {
-    const navigation = useRouter();
+    const navigator = useRouter();
+    const navigation = useNavigation();
+
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
+
+    useEffect(() => {
+        navigation.setOptions({ headerShown: false });
+    }, [navigation]);
 
     const login = async () => {
         const url = "http://10.0.2.2:8000/login";
@@ -31,12 +37,11 @@ export default function login() {
 
             const result = await response.json();
             UserSession.setSession(result.username, result.api_token);
-            navigation.navigate("profile" as any)
+            navigator.navigate("profile" as any)
         } catch (error) {
             Alert.alert("Erreur", `${error}`);
         }
     };
-
 
     return (
         <SafeAreaView>
@@ -53,6 +58,7 @@ export default function login() {
                 secureTextEntry={true}
             />
             <Button title="Se connecter" onPress={login} />
+            <Button title="Vers Accueil" onPress={() => navigator.navigate("test" as any)} />
         </SafeAreaView>
     );
 }
