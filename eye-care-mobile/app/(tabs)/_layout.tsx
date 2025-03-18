@@ -1,10 +1,9 @@
 import { Tabs } from "expo-router";
-import React from "react";
-
+import React, { useEffect, useState } from "react";
 import { FontAwesome } from "@expo/vector-icons";
-
 import projectColors from "../colors";
 import { StyleSheet } from "react-native";
+import UserSession from "../services/UserSession";
 
 export default function _layout() {
   return (
@@ -40,22 +39,14 @@ export default function _layout() {
           headerShown: false,
         }}
       />
-      <Tabs.Screen
-        name="profile"
-        options={{
-          title: "Profile",
-          tabBarIcon: ({ color }) => <FontAwesome size={20} name="user" color={color} />,
-          headerShown: false,
-        }}
-      />
-      <Tabs.Screen
-        name="login"
-        options={{
-          title: "Login",
-          tabBarIcon: ({ color }) => <FontAwesome size={20} name="user" color={color} />,
-          headerShown: false,
-        }}
-      />
+        <Tabs.Screen
+            name="profile"
+            options={{
+                title: "Profile",
+                tabBarIcon: ({ color }) => <FontAwesome size={20} name="user" color={color} />,
+                headerShown: false,
+            }}
+        />
     </Tabs>
   );
 }
