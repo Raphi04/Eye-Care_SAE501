@@ -4,7 +4,7 @@ import UserSession from "../services/UserSession";
 import { useRouter } from "expo-router";
 
 export default function profile() {
-    const navigation = useRouter();
+    const navigator = useRouter();
     const [isAuthenticated, setIsAuthenticated] = useState(UserSession.isAuthenticated);
 
     useEffect(() => {
@@ -14,7 +14,7 @@ export default function profile() {
 
     useEffect(() => {
         if (!isAuthenticated) {
-            navigation.navigate("login" as any)
+            navigator.navigate("login" as any)
         }
     }, [isAuthenticated]);
 
