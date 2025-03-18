@@ -109,22 +109,22 @@ export default function Accueil() {
 					<h2>Les problèmes oculaires</h2>
 					<section className="allArticlesContainer">
 						<Link to="/articles/myopie" className="article">
-							<article>Myopie</article>
+							<article className="textArticle">Myopie</article>
 						</Link>
 						<Link to="/articles/presbytie" className="article">
-							<article>Presbytie</article>
+							<article className="textArticle">Presbytie</article>
 						</Link>
 						<Link to="/articles/daltonisme" className="article">
-							<article>Daltonisme</article>
+							<article className="textArticle">Daltonisme</article>
 						</Link>
 						<Link to="/articles/hypermetropie" className="article">
-							<article>Hypermétropie</article>
+							<article className="textArticle">Hypermétropie</article>
 						</Link>
 						<Link to="/articles/astigmatisme" className="article">
-							<article>Astigmatisme</article>
+							<article className="textArticle">Astigmatisme</article>
 						</Link>
 						<Link to="/articles/dmla" className="article">
-							<article>DMLA</article>
+							<article className="textArticle">DMLA</article>
 						</Link>
 					</section>
 				</section>

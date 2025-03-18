@@ -370,13 +370,25 @@ main.accueil {
 			gap: 2rem;
 
 			.article {
-				background-color: $white;
+				background-color: $blueBlack;
 				display: flex;
 				flex-direction: column;
 				align-items: center;
-				padding: 25px;
-				border-radius: 10px;
-				color: $blueBlack;
+				padding: 20px;
+				border-radius: 15px;
+				color: $white;
+				border: solid 3px $white;
+				transition: background-color 0.3s ease-out;
+
+				.textArticle {
+					font-size: 1.4rem;
+					font-family: $fontBold;
+				}
+
+				&:hover {
+					background-color: $white;
+					color: $blueBlack;
+				}
 			}
 		}
 	}
