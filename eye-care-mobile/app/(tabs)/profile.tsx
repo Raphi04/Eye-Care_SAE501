@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { SafeAreaView, Text, Button } from "react-native";
-import UserSession from "../services/UserSession";
+import UserSession from "../services/userSession";
 import { useRouter } from "expo-router";
 
 export default function profile() {

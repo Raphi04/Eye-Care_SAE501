@@ -1,14 +1,14 @@
-import React, { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Alert, Button, SafeAreaView, Text, TextInput } from "react-native";
 import { useRouter, useNavigation } from "expo-router";
-import UserSession from "./services/UserSession";
+import UserSession from "./services/userSession";
 
 export default function login() {
     const navigator = useRouter();
     const navigation = useNavigation();
 
-    const [email, setEmail] = React.useState('');
-    const [password, setPassword] = React.useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
 
     useEffect(() => {
         navigation.setOptions({ headerShown: false });
