@@ -151,6 +151,7 @@ export default function Header({ active }: HeaderProps) {
 											<p>Administration</p>
 										</Link>
 									)}
+
 									<div
 										onClick={() => logoutUser(true)}
 										className="link disconnect"
