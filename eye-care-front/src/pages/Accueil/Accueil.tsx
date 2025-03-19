@@ -12,6 +12,12 @@ import "./accueil.scss";
 import testImage from "../../assets/phoroptere.png";
 import grosYeux from "../../assets/bigEyes.png";
 import monoyer from "../../assets/monoyer.png";
+import myopie from "../../assets/DiseasesImages/myopie.png";
+import presbytie from "../../assets/DiseasesImages/presbytie.png";
+import astigmatisme from "../../assets/DiseasesImages/astigmatisme.png";
+import hypermetropie from "../../assets/DiseasesImages/hypermetropie.png";
+import dmla from "../../assets/DiseasesImages/dmla.png";
+import daltonisme from "../../assets/DiseasesImages/daltonisme.png";
 
 export default function Accueil() {
 	return (
@@ -110,21 +116,33 @@ export default function Accueil() {
 					<section className="allArticlesContainer">
 						<Link to="/articles/myopie" className="article">
 							<article className="textArticle">Myopie</article>
+							<img className="imageArticle-myopie" src={myopie}></img>
 						</Link>
 						<Link to="/articles/presbytie" className="article">
 							<article className="textArticle">Presbytie</article>
+							<img className="imageArticle-presbytie" src={presbytie}></img>
 						</Link>
 						<Link to="/articles/daltonisme" className="article">
 							<article className="textArticle">Daltonisme</article>
+							<img className="imageArticle-daltonisme" src={daltonisme}></img>
 						</Link>
 						<Link to="/articles/hypermetropie" className="article">
 							<article className="textArticle">Hypermétropie</article>
+							<img
+								className="imageArticle-hypermetropie"
+								src={hypermetropie}
+							></img>
 						</Link>
 						<Link to="/articles/astigmatisme" className="article">
 							<article className="textArticle">Astigmatisme</article>
+							<img
+								className="imageArticle-astigmatisme"
+								src={astigmatisme}
+							></img>
 						</Link>
 						<Link to="/articles/dmla" className="article">
 							<article className="textArticle">DMLA</article>
+							<img className="imageArticle-dmla" src={dmla}></img>
 						</Link>
 					</section>
 				</section>

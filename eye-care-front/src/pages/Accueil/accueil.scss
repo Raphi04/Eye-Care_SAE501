@@ -370,24 +370,63 @@ main.accueil {
 			gap: 2rem;
 
 			.article {
-				background-color: $blueBlack;
 				display: flex;
 				flex-direction: column;
-				align-items: center;
-				padding: 20px;
+				justify-content: space-between;
+				background-color: $blueBlack;
+				padding: 20px 20px 0 0;
 				border-radius: 15px;
 				color: $white;
-				border: solid 3px $white;
+				border: solid 4px $white;
 				transition: background-color 0.3s ease-out;
 
 				.textArticle {
-					font-size: 1.4rem;
+					display: flex;
+					justify-content: end;
+					font-size: 1.5rem;
 					font-family: $fontBold;
 				}
 
+				.imageArticle {
+					&-myopie {
+						width: 41vh;
+						margin-top: auto;
+						align-self: center;
+					}
+
+					&-presbytie {
+						width: 16vh;
+						margin-top: auto;
+						align-self: center;
+					}
+
+					&-daltonisme {
+						width: 42vh;
+						margin-top: auto;
+						align-self: center;
+					}
+
+					&-hypermetropie {
+						width: 35vh;
+						margin-top: auto;
+						align-self: center;
+					}
+
+					&-astigmatisme {
+						width: 42vh;
+						margin-top: auto;
+						align-self: center;
+					}
+
+					&-dmla {
+						width: 37vh;
+						margin-top: auto;
+						align-self: center;
+					}
+				}
+
 				&:hover {
-					background-color: $white;
-					color: $blueBlack;
+					background-color: rgba($color: #ffffff, $alpha: 0.15);
 				}
 			}
 		}
