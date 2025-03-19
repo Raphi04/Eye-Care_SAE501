@@ -50,6 +50,7 @@ header {
 					color: $blueStrong;
 				}
 			}
+
 			path:nth-child(3) {
 				color: $white;
 
@@ -57,6 +58,7 @@ header {
 					color: $black;
 				}
 			}
+
 			path:nth-child(4) {
 				color: $white;
 
@@ -64,6 +66,7 @@ header {
 					color: $black;
 				}
 			}
+
 			path:nth-child(5) {
 				color: $white;
 
@@ -71,6 +74,7 @@ header {
 					color: $black;
 				}
 			}
+
 			path:nth-child(6) {
 				color: $white;
 
@@ -78,6 +82,7 @@ header {
 					color: $black;
 				}
 			}
+
 			path:nth-child(7) {
 				color: $white;
 
@@ -85,6 +90,7 @@ header {
 					color: $black;
 				}
 			}
+
 			path:nth-child(8) {
 				color: $white;
 
@@ -92,6 +98,7 @@ header {
 					color: $black;
 				}
 			}
+
 			path:nth-child(9) {
 				color: $white;
 
@@ -163,7 +170,6 @@ header {
 			align-items: center;
 			gap: 25px;
 			transform: translateY(-50%);
-
 			/*&::after {
         content: "";
         position: absolute;
@@ -383,6 +389,7 @@ header {
 			}
 		}
 	}
+
 	.linkArticles {
 		position: relative;
 		cursor: pointer;
@@ -399,6 +406,7 @@ header {
 			display: flex;
 			flex-direction: column;
 			box-shadow: $boxShadowLight;
+
 			body.dark & {
 				box-shadow: $boxShadowBlue;
 			}
@@ -409,6 +417,7 @@ header {
 				justify-content: center;
 				padding: 15px 10px;
 				font-size: 1rem;
+				font-family: "Korolev Bold";
 				gap: 7px;
 				color: $blueBlack;
 				background-color: $white;
@@ -426,6 +435,10 @@ header {
 						background-color: $blueBlackHover;
 					}
 				}
+			}
+
+			.linkMenu:not(:first-child) {
+				border-top: 1px solid #182026;
 			}
 		}
 	}
