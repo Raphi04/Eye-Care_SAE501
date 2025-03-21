@@ -19,7 +19,9 @@ export default function _layout() {
         name="index"
         options={{
           title: "Accueil",
-          tabBarIcon: ({ color }) => <FontAwesome size={24} name="home" color={color} />,
+          tabBarIcon: ({ color }) => (
+            <FontAwesome size={24} name="home" color={color} />
+          ),
           headerShown: false,
         }}
       />
@@ -27,7 +29,9 @@ export default function _layout() {
         name="articles"
         options={{
           title: "Articles",
-          tabBarIcon: ({ color }) => <FontAwesome name="newspaper-o" size={20} color={color} />,
+          tabBarIcon: ({ color }) => (
+            <FontAwesome name="newspaper-o" size={20} color={color} />
+          ),
           headerShown: false,
         }}
       />
@@ -35,7 +39,9 @@ export default function _layout() {
         name="test"
         options={{
           title: "Tests",
-          tabBarIcon: ({ color }) => <FontAwesome name="list-alt" size={20} color={color} />,
+          tabBarIcon: ({ color }) => (
+            <FontAwesome name="list-alt" size={20} color={color} />
+          ),
           headerShown: false,
         }}
       />
