@@ -14,6 +14,7 @@ export const disconnectUser = async (token: string) => {
 		}
 		localStorage.removeItem("token");
 		localStorage.removeItem("username");
+		console.log("Déconnexion réussie");
 	} catch (error) {
 		console.log("Erreur lors de l'envoie : " + error);
 	}

@@ -1,9 +1,27 @@
-import { SafeAreaView, Text } from "react-native";
+import { useEffect, useState } from "react";
+import { SafeAreaView, Text, Button } from "react-native";
+import UserSession from "../services/userSession";
+import { useRouter } from "expo-router";
 
 export default function profile() {
+    const navigator = useRouter();
+    const [isAuthenticated, setIsAuthenticated] = useState(UserSession.isAuthenticated);
+
+    useEffect(() => {
+        UserSession.setAuthStateSetter(setIsAuthenticated);
+        UserSession.getSession();
+    }, []);
+
+    useEffect(() => {
+        if (!isAuthenticated) {
+            navigator.navigate("login" as any)
+        }
+    }, [isAuthenticated]);
+
   return (
     <SafeAreaView>
-      <Text>Je suis profile</Text>
+          <Text>Je suis profile</Text>
+          <Button title="Se deco" onPress={UserSession.clearSession} />
     </SafeAreaView>
   );
 }
