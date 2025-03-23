@@ -76,19 +76,22 @@ export default function login() {
                         value={email}
                         placeholder="Email"
                         keyboardType="email-address"
+                        style={styles.input}
                     />
                     <TextInput
                         onChangeText={setPassword}
                         value={password}
                         placeholder="Mot de passe"
                         secureTextEntry={true}
+                                                style={styles.input}
                     />
-                    <Button title="Se connecter" onPress={login} />
-                    <Link href="/">
-                        <Text> Retourner à l'Accueil </Text>
+                    <TouchableOpacity style={styles.button} onPress={login}>
+                        <Text style={styles.buttonText}>SE CONNECTER </Text>
+                    </TouchableOpacity>
+                    <Link href="/" style={styles.button2}>
+                        <Text style={styles.texte}> Retourner à l'Accueil </Text>
                     </Link>
-
-                    <TouchableOpacity onPress={changeTheme}>
+                    <TouchableOpacity onPress={changeTheme} style={styles.button2}>
                         <Text style={styles.texte}>{currentTheme}</Text>
                     </TouchableOpacity>
                 </View>
@@ -112,32 +115,57 @@ const basicStyle = StyleSheet.create({
         flex: 1,
         flexDirection: "column",
         alignItems: "center",
+        justifyContent: "center",
     },
 
     connexion: {
         textAlign: "center",
         fontSize: 50,
         fontFamily: "Korolev-Heavy",
+        marginBottom: 24,
     },
 
-    //texte: {
-    //    textAlign: "justify",
-    //    fontSize: 18,
-    //    fontFamily: "Korolev-Medium",
-    //},
+    texte: {
+        textAlign: "justify",
+        fontSize: 18,
+        fontFamily: "Korolev-Medium",
+    },
 
     whiteTexte: {
         color: "white",
     },
 
     input: {
-        //    fontSize: 18,
-        //    fontFamily: "Korolev-Medium",
-    }
+        fontSize: 18,
+        backgroundColor: "white",
+        borderRadius: 10,
+        width: 300,
+        paddingLeft: 12,
+        marginBottom: 24,
+    },
+
+    button: {
+        backgroundColor: projectColors.blueButtonHover,
+        borderRadius: 16,
+        paddingVertical: 12,
+        paddingHorizontal: 24,
+        marginBottom: 10,
+    },
+
+    buttonText: {
+        color: "white",
+        fontSize: 20,
+        fontFamily: "Korolev-Heavy",
+    },
+
+    button2: {
+        marginBottom: 5,
+    },
 });
 
 const darkModeStyle = StyleSheet.create({
     ...basicStyle,
     backgroundImage: { ...basicStyle.backgroundImage, backgroundColor: projectColors.blueBlack },
-    //texte: { ...basicStyle.texte, color: "white" },
+    connexion: { ...basicStyle.connexion, color: "white" },
+    texte: { ...basicStyle.texte, color: "white" },
 });
