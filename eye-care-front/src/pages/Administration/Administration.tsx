@@ -12,10 +12,16 @@ import "./administration.scss";
 import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons/faSpinner";
+import { useNavigate } from "react-router-dom";
+import { useApiContext } from "../../components/ApiProvider";
 
 export default function Administration() {
-  //GET user token
+  //Variable de l'utilisateur actuellement connecté
+  const { connectedUser, loadingState } = useApiContext();
   const token = localStorage.getItem("token") || "";
+
+  //Variable de navigation pour les redirections
+  const navigate = useNavigate();
 
   //Liste des utilisateur qui doivent être certifiés
   const [allUserToCertificate, setAllUserToCertificate] = useState<any>();
@@ -29,6 +35,10 @@ export default function Administration() {
   const APIURL = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
+    if (token == "") {
+      navigate("/");
+    }
+
     const getUsersCertificate = async () => {
       try {
         setLoadingStateUserCertificate(true);
@@ -76,6 +86,14 @@ export default function Administration() {
     getUsersCertificate();
     getUsersList();
   }, []);
+
+  useEffect(() => {
+    if (!loadingState && connectedUser) {
+      if (connectedUser.roles[0] !== "ROLE_ADMIN") {
+        navigate("/");
+      }
+    }
+  }, [loadingState]);
 
   async function downloadCertificate(id: number) {
     try {
@@ -242,60 +260,73 @@ export default function Administration() {
   return (
     <>
       <Header />
-      <main className="administration">
-        <div className="infosContainer">
-          <section className="categorie">
-            <h2>Certificats en attente</h2>
-          </section>
-          <div className="dataTableContainer">
-            {!loadingStateUserCertificate && (
-              <DataTable
-                data={allUserToCertificate}
-                columns={columnsCertificate}
-                options={options}
-                className="display"
-              >
-                <thead>
-                  <tr>
-                    <th>Email</th>
-                    <th>Nom</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-              </DataTable>
-            )}
+      {loadingState && (
+        <main className="administration">
+          <div className="loading">
+            <FontAwesomeIcon icon={faSpinner} spin />
+            <p>Chargement...</p>
           </div>
-          {loadingStateUserCertificate && (
-            <FontAwesomeIcon icon={faSpinner} spin className="speeeeeen" />
-          )}
-        </div>
+        </main>
+      )}
 
-        <div className="infosContainer">
-          <section className="categorie">
-            <h2>Liste des utilisateurs</h2>
-          </section>
-          <div className="dataTableContainer">
-            {!loadingStateUsersList && (
-              <DataTable
-                data={allUsers}
-                columns={columnsUsers}
-                options={options}
-                className="display"
-              >
-                <thead>
-                  <tr>
-                    <th>Email</th>
-                    <th>Nom</th>
-                    <th>Rôle</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-              </DataTable>
+      {!loadingState && (
+        <main className="administration">
+          <div className="infosContainer">
+            <section className="categorie">
+              <h2>Certificats en attente</h2>
+            </section>
+            <div className="dataTableContainer">
+              {!loadingStateUserCertificate && (
+                <DataTable
+                  data={allUserToCertificate}
+                  columns={columnsCertificate}
+                  options={options}
+                  className="display"
+                >
+                  <thead>
+                    <tr>
+                      <th>Email</th>
+                      <th>Nom</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                </DataTable>
+              )}
+            </div>
+            {loadingStateUserCertificate && (
+              <FontAwesomeIcon icon={faSpinner} spin className="speeeeeen" />
             )}
           </div>
-          {loadingStateUsersList && <FontAwesomeIcon icon={faSpinner} spin className="speeeeeen" />}
-        </div>
-      </main>
+
+          <div className="infosContainer">
+            <section className="categorie">
+              <h2>Liste des utilisateurs</h2>
+            </section>
+            <div className="dataTableContainer">
+              {!loadingStateUsersList && (
+                <DataTable
+                  data={allUsers}
+                  columns={columnsUsers}
+                  options={options}
+                  className="display"
+                >
+                  <thead>
+                    <tr>
+                      <th>Email</th>
+                      <th>Nom</th>
+                      <th>Rôle</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                </DataTable>
+              )}
+            </div>
+            {loadingStateUsersList && (
+              <FontAwesomeIcon icon={faSpinner} spin className="speeeeeen" />
+            )}
+          </div>
+        </main>
+      )}
       <Footer />
     </>
   );

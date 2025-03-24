@@ -1,7 +1,6 @@
 import {
 	faArrowRight,
 	faEnvelope,
-	faFile,
 	faLock,
 	faSpinner,
 	faUser,
@@ -12,6 +11,7 @@ import Field from "../../../../components/Authentification/Fields/Field";
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import FieldCertificate from "../../../../components/Authentification/Fields/FieldCertificate";
 
 export default function RegisterForm() {
 	const navigate = useNavigate();
@@ -20,6 +20,25 @@ export default function RegisterForm() {
 	const [showPassword, setShowPassword] = useState(false);
 	const [showPasswordVerif, setShowPasswordVerif] = useState(false);
 	const [loadingState, setLoadingState] = useState<boolean>(false);
+	const [selectedFile, setSelectedFile] = useState<File | null>(null);
+
+	function handleFileSelection(file: File | null) {
+		setGlobalErrors([]);
+		if (file?.type !== "application/pdf") {
+			setGlobalErrors(["Le fichier doit être un PDF."]);
+			setSelectedFile(null);
+			return;
+		}
+
+		const maxFileSize = 2 * 1024 * 1024;
+		if (file.size > maxFileSize) {
+			setGlobalErrors(["Le fichier ne doit pas dépasser 2 Mo."]);
+			setSelectedFile(null);
+			return;
+		}
+
+		setSelectedFile(file);
+	}
 
 	const toggleCheck = () => {
 		setIsPro(!isPro);
@@ -31,18 +50,50 @@ export default function RegisterForm() {
 		const form = e.target as HTMLFormElement;
 		const formData = new FormData(form);
 
+		let usernamePro = null;
+
+		if (!isPro) {
+			usernamePro = formData.get("username")?.toString().trim() || "";
+		} else {
+			const name = (formData.get("name") || "").toString().trim();
+			const firstName = (formData.get("firstName") || "").toString().trim();
+			usernamePro = `${name} ${firstName}`.trim();
+		}
+
 		const username = formData.get("username")?.toString().trim();
 		const email = formData.get("email")?.toString().trim();
 		const password = formData.get("password")?.toString().trim();
 		const verifPassword = formData.get("verifPassword")?.toString().trim();
+		const certificateFile = selectedFile;
+
+		formData.set("email", email || "");
+		formData.set("password", password || "");
+		formData.set("username", usernamePro || "");
+		const certificate =
+			certificateFile instanceof File ? certificateFile : null;
+		if (certificate) {
+			formData.append("certificate", certificate);
+		}
 
 		const errors: string[] = [];
 
-		if (!username || !email || !password || !verifPassword) {
+		if (
+			(!isPro && !username) ||
+			(isPro && !usernamePro) ||
+			!email ||
+			!password ||
+			!verifPassword ||
+			(isPro && !certificate)
+		) {
 			errors.push("Tous les champs doivent être remplis.");
 		}
 
-		if (username && (username.length < 2 || username.length > 20)) {
+		if (
+			(username && (username.length < 2 || username.length > 20) && !isPro) ||
+			(usernamePro &&
+				(usernamePro.length < 2 || usernamePro.length > 20) &&
+				isPro)
+		) {
 			errors.push(
 				"Le nom d'utilisateur doit contenir entre 2 et 20 caractères."
 			);
@@ -61,7 +112,7 @@ export default function RegisterForm() {
 
 		if (
 			(username && (username.match(/ /g) || []).length >= 2) ||
-			username?.startsWith(" ") ||
+			(username && username?.startsWith(" ")) ||
 			username?.endsWith(" ")
 		) {
 			errors.push(
@@ -69,8 +120,20 @@ export default function RegisterForm() {
 			);
 		}
 
+		if (
+			(usernamePro && (usernamePro.match(/ /g) || []).length >= 2) ||
+			(usernamePro && usernamePro?.startsWith(" ")) ||
+			usernamePro?.endsWith(" ")
+		) {
+			errors.push("Le nom et prénom ne peuvent pas contenir d'espace.");
+		}
+
 		if (password !== verifPassword) {
 			errors.push("Les mots de passe ne correspondent pas.");
+		}
+
+		if (isPro && !certificate) {
+			errors.push("Vous devez fournir un certificat.");
 		}
 
 		if (errors.length > 0) {
@@ -80,22 +143,16 @@ export default function RegisterForm() {
 
 		setLoadingState(true);
 
-		const payload = {
-			username,
-			email,
-			password,
-		};
-
 		const APIURL = import.meta.env.VITE_API_URL;
 
 		try {
-			console.log(`${APIURL}/register`);
-			const response = await axios.post(`${APIURL}/register`, payload);
+			const response = await axios.post(`${APIURL}/register`, formData);
 			const token = response.data.api_token;
 			const username = response.data.username;
 			localStorage.setItem("token", token);
 			localStorage.setItem("username", username);
 			setGlobalErrors([]);
+			form.reset();
 			navigate("/authentification/register/issues-form");
 		} catch (error: unknown) {
 			if (axios.isAxiosError(error)) {
@@ -121,8 +178,6 @@ export default function RegisterForm() {
 		} finally {
 			setLoadingState(false);
 		}
-
-		form.reset();
 	};
 
 	return (
@@ -173,7 +228,7 @@ export default function RegisterForm() {
 							onToggleShow={() => setShowPasswordVerif(!showPasswordVerif)}
 						/>
 						{globalErrors.length > 0 && (
-							<div className="error-container">
+							<div className="error-container user">
 								{globalErrors.map((err, index) => (
 									<p key={index} className="error-message">
 										{err}
@@ -199,19 +254,19 @@ export default function RegisterForm() {
 				</form>
 			)}
 			{isPro && (
-				<form>
+				<form onSubmit={handleSubmit}>
 					<div className="fields">
 						<div className="fieldsFlex">
 							<Field
-								name="username"
+								name="name"
 								type="text"
 								placeholder="NOM"
 								className="field"
 								img={<FontAwesomeIcon icon={faUser} />}
 							/>
 							<Field
-								name="email"
-								type="email"
+								name="firstName"
+								type="text"
 								placeholder="Prénom"
 								className="field"
 								img={<FontAwesomeIcon icon={faUser} />}
@@ -231,6 +286,7 @@ export default function RegisterForm() {
 									type="password"
 									placeholder="Mot de passe"
 									className="field"
+									password
 									img={<FontAwesomeIcon icon={faLock} />}
 									show={showPassword}
 									onToggleShow={() => setShowPassword(!showPassword)}
@@ -240,27 +296,27 @@ export default function RegisterForm() {
 									type="password"
 									placeholder="Vérification mot de passe"
 									className="field"
+									password
 									img={<FontAwesomeIcon icon={faLock} />}
-									show={showPassword}
-									onToggleShow={() => setShowPassword(!showPassword)}
+									show={showPasswordVerif}
+									onToggleShow={() => setShowPasswordVerif(!showPasswordVerif)}
 								/>
 							</div>
-							<div className="containerFileAndImg">
-								<FontAwesomeIcon className="fileImg" icon={faFile} />
-								<div className="containerFieldFile">
-									<p>Déposer un certificat</p>
-									<div className="customFileButton">
-										<input
-											id="fileInput"
-											name="file"
-											type="file"
-											className="fileInput"
-										/>
-										<label htmlFor="fileInput">Parcourir</label>
-									</div>
-								</div>
-							</div>
+							<FieldCertificate
+								name="certificate"
+								type="file"
+								onFileSelect={handleFileSelection}
+							/>
 						</div>
+						{globalErrors.length > 0 && (
+							<div className="error-container pro">
+								{globalErrors.map((err, index) => (
+									<p key={index} className="error-message">
+										{err}
+									</p>
+								))}
+							</div>
+						)}
 					</div>
 					<button type="submit" className="formButton">
 						{loadingState ? (

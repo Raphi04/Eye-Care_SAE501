@@ -117,12 +117,19 @@ main.login {
 			/* Message d'erreur register */
 
 			.error-container {
-				width: 320px;
 				padding: 10px;
 				margin-top: 10px;
 				background-color: $red;
 				border-radius: 10px;
 				text-align: center;
+
+				&.pro {
+					width: 665px;
+				}
+
+				&.user {
+					width: 320px;
+				}
 			}
 
 			.error-message {
@@ -241,20 +248,11 @@ main.login {
 					display: flex;
 					flex-direction: column;
 					justify-content: center;
+					text-align: center;
 					align-items: left;
 					width: 210px;
 					height: 100%;
 					border-radius: 10px;
-
-					.fieldFile {
-						margin-top: 10px;
-						margin-left: 30px;
-					}
-
-					.fieldButton {
-						margin-top: 10px;
-						margin-left: 50px;
-					}
 
 					p {
 						position: relative;
@@ -263,15 +261,35 @@ main.login {
 						color: #a6a6a6;
 						font-size: 1.3rem;
 					}
+
+					.containerFile {
+						display: flex;
+						flex-direction: column;
+						align-items: center;
+
+						.fieldFile {
+							margin-top: 10px;
+							margin-left: 30px;
+						}
+
+						.fieldButton {
+							margin-top: 10px;
+							margin-left: 50px;
+						}
+					}
 				}
 
 				.fileText {
 					font-family: $fontTextNormal;
 					color: #a6a6a6;
+
+					&-certificate {
+						font-size: 1rem !important;
+					}
 				}
 
 				.fileImg {
-					padding: 20px;
+					padding-left: 20px;
 					font-size: 100px;
 					color: #a6a6a6;
 				}

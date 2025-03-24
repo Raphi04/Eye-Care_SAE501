@@ -14,8 +14,6 @@ import RegisterForm from "./pages/Authentification/Register/RegisterForm/Registe
 import App from "./App.tsx";
 import Accueil from "./pages/Accueil/Accueil.tsx";
 
-import Blog from "./pages/Blog/Blog.tsx";
-
 import Profile from "./pages/Profile/Profile.tsx";
 
 import Articles from "./pages/Articles/Articles.tsx";
@@ -69,10 +67,6 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <Accueil />,
-      },
-      {
-        path: "/blog",
-        element: <Blog />,
       },
       {
         path: "/mentionslegales",
@@ -142,6 +136,7 @@ const router = createBrowserRouter([
         ],
       },
       {
+
         path: "administration",
         element: <Administration />,
       },

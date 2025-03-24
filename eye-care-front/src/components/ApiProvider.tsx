@@ -12,8 +12,9 @@ import { useNavigate } from "react-router-dom";
 interface ApiContextTyping {
 	connectedUser: any;
 	loadingState: boolean;
+	profilePicture: string | null;
 	refreshConnectedUser: () => Promise<void>;
-	logoutUser: () => void;
+	logoutUser: (shouldCallLogoutApi: boolean) => void;
 }
 
 const ApiContext = createContext<ApiContextTyping | undefined>(undefined);
@@ -31,11 +32,12 @@ export function useApiContext() {
 }
 
 export default function ApiProvider({ children }: { children: ReactNode }) {
-	//URL dynamique de l'API
+	// URL dynamique de l'API
 	const APIURL = import.meta.env.VITE_API_URL;
 
 	const [connectedUser, setConnectedUser] = useState<any>(null);
 	const [loadingState, setLoadingState] = useState<boolean>(false);
+	const [profilePicture, setProfilePicture] = useState<string | null>(null);
 	const token = localStorage.getItem("token");
 	const alreadyGotInformations = useRef(false);
 	const navigate = useNavigate();
@@ -47,7 +49,10 @@ export default function ApiProvider({ children }: { children: ReactNode }) {
 		try {
 			const response = await fetch(`${APIURL}/user/user_info`, {
 				method: "GET",
-				headers: { "Content-Type": "application/json", "auth-token": token },
+				headers: {
+					"Content-Type": "application/json",
+					"auth-token": token,
+				},
 			});
 
 			if (!response.ok) {
@@ -55,6 +60,11 @@ export default function ApiProvider({ children }: { children: ReactNode }) {
 			}
 			const result = await response.json();
 			setConnectedUser(result);
+			if (result.profile_image) {
+				setProfilePicture(`${APIURL}/${result.profile_image}`);
+			} else {
+				setProfilePicture(null);
+			}
 		} catch (error) {
 			console.error("Erreur lors de l'envoi : ", error);
 		} finally {
@@ -67,8 +77,8 @@ export default function ApiProvider({ children }: { children: ReactNode }) {
 		await fetchUserData();
 	};
 
-	const logoutUser = async () => {
-		if (token) {
+	const logoutUser = async (shouldCallLogoutApi = true) => {
+		if (token && shouldCallLogoutApi) {
 			try {
 				await disconnectUser(token);
 				navigate("/");
@@ -77,6 +87,7 @@ export default function ApiProvider({ children }: { children: ReactNode }) {
 			}
 		}
 		setConnectedUser(null);
+		setProfilePicture(null);
 	};
 
 	useEffect(() => {
@@ -87,17 +98,16 @@ export default function ApiProvider({ children }: { children: ReactNode }) {
 	}, [token]);
 
 	return (
-		<>
-			<ApiContext.Provider
-				value={{
-					connectedUser,
-					loadingState,
-					refreshConnectedUser,
-					logoutUser,
-				}}
-			>
-				{children}
-			</ApiContext.Provider>
-		</>
+		<ApiContext.Provider
+			value={{
+				connectedUser,
+				loadingState,
+				profilePicture,
+				refreshConnectedUser,
+				logoutUser,
+			}}
+		>
+			{children}
+		</ApiContext.Provider>
 	);
 }

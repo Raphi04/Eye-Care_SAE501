@@ -1,19 +1,18 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-
 import DayNightMode from "../DayNightMode/DayNightMode";
-
 import EyeCareLogo from "../../assets/Eye_care_proposition_finale.svg?react";
-
 import "./header.scss";
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowRightFromBracket, faSpinner } from "@fortawesome/free-solid-svg-icons";
 
+import {
+	faArrowRightFromBracket,
+	faSpinner,
+} from "@fortawesome/free-solid-svg-icons";
 import { useApiContext } from "../ApiProvider";
 
 interface HeaderProps {
-  active?: string;
+	active?: string;
 }
 
 export default function Header({ active }: HeaderProps) {

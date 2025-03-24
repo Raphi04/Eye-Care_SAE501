@@ -59,6 +59,7 @@ export default function ModifyPopup({
 		setUsername(connectedUser?.username || "");
 	}, [connectedUser, setEmail, setUsername]);
 
+	// Envoi des données utilisateur à remplacer
 	const handleSubmitModify = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 
@@ -134,7 +135,6 @@ export default function ModifyPopup({
 				return;
 			}
 
-			// Envoi d'une requête POST au serveur pour la connexion
 			const response = await axios.put(`${APIURL}/user/user`, payload, {
 				headers: {
 					"Content-Type": "application/json",
@@ -152,7 +152,6 @@ export default function ModifyPopup({
 				const status = error.response?.status;
 				const message = error.response?.data?.message;
 
-				// Traitement des erreurs spécifiques à l'API
 				if (status === 400) {
 					setGlobalErrors([`Erreur : ${message || "Données invalides."}`]);
 				} else if (status === 401) {
@@ -168,6 +167,8 @@ export default function ModifyPopup({
 			setLoadingState(false);
 		}
 	};
+
+	// Fonctions pour afficher/masquer les mots de passe
 
 	const onToggleShowPreviousPassword = () => {
 		setShowPreviousPassword(!showPreviousPassword);
