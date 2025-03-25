@@ -47,16 +47,16 @@ export default function _layout() {
 }
 
 const styles = StyleSheet.create({
-  navBarContainer: {
-    backgroundColor: projectColors.blueBlack,
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-  },
+	navBarContainer: {
+		backgroundColor: projectColors.blueBlack,
+		display: "flex",
+		flexDirection: "row",
+		alignItems: "center",
+	},
 
-  navBarItems: {
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-  },
+	navBarItems: {
+		display: "flex",
+		flexDirection: "row",
+		alignItems: "center",
+	},
 });
