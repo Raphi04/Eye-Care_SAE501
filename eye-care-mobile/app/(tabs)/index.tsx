@@ -9,7 +9,6 @@ import {
 import projectColors from "../colors";
 import { useEffect, useState } from "react";
 import { useThemeContext } from "../context/themeContext";
-import CustomButton from "../components/customButton";
 
 export default function Index() {
     const { currentTheme, changeTheme } = useThemeContext();
@@ -89,15 +88,6 @@ export default function Index() {
                                 consulter un professionnel. N'attendez pas que vos problèmes s'aggravent, prenez soin
                                 de vos yeux dès aujourd'hui !
                             </Text>
-
-                            <CustomButton
-                                text="Testez votre vue"
-                                textColor="white"
-                                textColorHover="white"
-                                baseColor={projectColors.blueButton}
-                                baseColorHover={projectColors.blueButtonHover}
-                                nextScreen="test"
-                            ></CustomButton>
                         </View>
                     </View>
                 </ImageBackground>
