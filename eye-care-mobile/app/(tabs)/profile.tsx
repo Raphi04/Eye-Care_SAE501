@@ -7,12 +7,19 @@ import {
 	ImageBackground,
 	StyleSheet,
 	View,
+	ScrollView,
+	TouchableOpacity,
 } from "react-native";
 import UserSession from "../services/userSession";
 import { useRouter } from "expo-router";
 import { useThemeContext } from "../context/themeContext";
 import projectColors from "../colors";
-import { AntDesign, Entypo, FontAwesome } from "@expo/vector-icons";
+import {
+	AntDesign,
+	Entypo,
+	FontAwesome,
+	MaterialIcons,
+} from "@expo/vector-icons";
 
 export default function profile() {
 	// Navigation et redirection
@@ -75,7 +82,7 @@ export default function profile() {
 	};
 
 	// Style and dark mode
-	const { currentTheme } = useThemeContext();
+	const { currentTheme, changeTheme } = useThemeContext();
 
 	const [styles, setStyles] = useState<any>(basicStyle);
 
@@ -95,50 +102,54 @@ export default function profile() {
 		}
 	}, [currentTheme]);
 
+	const iconColor = currentTheme === "light" ? "white" : "black";
+
 	const hasResults = (userData?.vision_disorder_result ?? []).length > 0;
 
 	return (
-		<SafeAreaView style={styles.safeContainer}>
+		<View style={styles.flex1}>
 			<ImageBackground
 				source={backgroundImage}
 				style={styles.backgroundImage}
 				resizeMode="cover"
 			>
-				<View style={styles.nameAndInitials}>
-					<View style={styles.initiales}>
-						<Text style={[styles.whiteTitre, styles.textInitiales]}>
-							{getInitials()}
-						</Text>
+				<ScrollView contentContainerStyle={styles.scrollViewContent}>
+					<View style={styles.nameAndInitials}>
+						<View style={styles.initiales}>
+							<Text style={styles.textInitiales}>{getInitials()}</Text>
+						</View>
+						<View style={styles.containerName}>
+							<Text style={styles.name}>{userData?.username}</Text>
+						</View>
 					</View>
-					<View style={styles.containerName}>
-						<Text style={styles.name}>{userData?.username}</Text>
-					</View>
-				</View>
-				<View style={styles.dataContainer}>
-					<View style={styles.textContainer}>
-						<Text style={styles.titre}>Vos informations</Text>
-						<Text style={[styles.texte, styles.data]}>
-							Nom : {userData?.username}
-						</Text>
-						<Text style={[styles.texte, styles.data]}>
-							Email : {userData?.email}
-						</Text>
-						<Text style={[styles.texte, styles.data]}>
-							Mot de passe : ********
-						</Text>
-					</View>
+					<View style={styles.dataContainer}>
+						<View style={styles.textContainer}>
+							<Text style={[styles.titre, { marginBottom: 10 }]}>
+								VOS INFORMATIONS
+							</Text>
+							<Text style={[styles.texte, styles.data]}>
+								Nom : {userData?.username}
+							</Text>
+							<Text style={[styles.texte, styles.data]}>
+								Email : {userData?.email}
+							</Text>
+							<Text style={[styles.texte, styles.data]}>
+								Mot de passe : ********
+							</Text>
+						</View>
 
-					<View style={styles.textContainer}>
-						<Text style={styles.titre}>FAIRE/REFAIRE LES TESTS</Text>
-						<View style={styles.checkAcuity}>
-							{hasResults &&
-								(userData?.vision_disorder_result.some(
+						<View style={styles.textContainer}>
+							<Text style={[styles.titre, { marginBottom: 10 }]}>
+								FAIRE/REFAIRE LES TESTS
+							</Text>
+							<View style={styles.checkAcuity}>
+								{userData?.vision_disorder_result.some(
 									(disorder) => disorder.vision_disorder === "myopie"
 								) ? (
 									<AntDesign
 										name="checkcircle"
 										size={18}
-										color="black"
+										color={iconColor}
 										style={{ marginRight: 10 }}
 									/>
 								) : (
@@ -146,21 +157,22 @@ export default function profile() {
 										style={{ marginRight: 10 }}
 										name="circle"
 										size={18}
-										color="black"
+										color={iconColor}
 									/>
-								))}
-							<Text style={styles.texte}>Faire le test d'acuité visuelle</Text>
-						</View>
+								)}
+								<Text style={styles.texte}>
+									Faire le test d'acuité visuelle
+								</Text>
+							</View>
 
-						<View style={styles.checkAcuity}>
-							{hasResults &&
-								(userData?.vision_disorder_result.some(
+							<View style={styles.checkAcuity}>
+								{userData?.vision_disorder_result.some(
 									(disorder) => disorder.vision_disorder === "DMLA"
 								) ? (
 									<AntDesign
 										name="checkcircle"
 										size={18}
-										color="black"
+										color={iconColor}
 										style={{ marginRight: 10 }}
 									/>
 								) : (
@@ -168,21 +180,20 @@ export default function profile() {
 										style={{ marginRight: 10 }}
 										name="circle"
 										size={18}
-										color="black"
+										color={iconColor}
 									/>
-								))}
-							<Text style={styles.texte}>Faire le test de DMLA</Text>
-						</View>
+								)}
+								<Text style={styles.texte}>Faire le test de DMLA</Text>
+							</View>
 
-						<View style={styles.checkAcuity}>
-							{hasResults &&
-								(userData?.vision_disorder_result.some(
+							<View style={styles.checkAcuity}>
+								{userData?.vision_disorder_result.some(
 									(disorder) => disorder.vision_disorder === "daltonisme"
 								) ? (
 									<AntDesign
 										name="checkcircle"
 										size={18}
-										color="black"
+										color={iconColor}
 										style={{ marginRight: 10 }}
 									/>
 								) : (
@@ -190,169 +201,212 @@ export default function profile() {
 										style={{ marginRight: 10 }}
 										name="circle"
 										size={18}
-										color="black"
+										color={iconColor}
 									/>
-								))}
-							<Text style={styles.texte}>Faire le test d'Ishihara</Text>
+								)}
+								<Text style={styles.texte}>Faire le test de d'Ishihara</Text>
+							</View>
 						</View>
-					</View>
-					<View style={styles.textContainer}>
-						<Text style={styles.titre}>Votre profil oculaire</Text>
-						<View>
-							{userData?.vision_disorder_result && hasResults ? (
-								userData.vision_disorder_result.map((disorder, index) => (
-									<View key={index} style={styles.ocularIssues}>
-										{disorder.vision_disorder === "myopie" ? (
-											<View key={index} style={styles.ocularIssue}>
-												<View style={styles.ocularIssueMain}>
-													{disorder.result >= 0 && disorder.result <= 12 ? (
-														<FontAwesome name="circle" size={18} color="red" />
-													) : disorder.result > 12 && disorder.result <= 25 ? (
-														<FontAwesome
-															name="circle"
-															size={18}
-															color="orange"
-														/>
-													) : disorder.result > 25 && disorder.result <= 37 ? (
-														<FontAwesome
-															name="circle"
-															size={18}
-															color="yellow"
-														/>
-													) : disorder.result > 37 ? (
-														<FontAwesome
-															name="circle"
-															size={18}
-															color="green"
-														/>
-													) : null}
-													<Text key={index} style={styles.ocularIssueTitle}>
-														{disorder.vision_disorder.charAt(0).toUpperCase() +
-															disorder.vision_disorder.slice(1)}
-													</Text>
-												</View>
-												<View
-													className={`ocularIssueDetails ${
-														disorder.vision_disorder === "myopie"
-															? "openMyopie"
-															: ""
-													}`}
-												>
-													<Text className="ocularIssueNote">
-														Résultat : {disorder.result}/50
-													</Text>
-													{disorder.vision_disorder === "myopie" ? (
-														disorder.result >= 0 && disorder.result <= 12 ? (
-															<Text className="ocularIssueText">
-																Nous avons repéré un problème, ne tardez pas à
-																prendre rendez-vous chez un ophtalmologue
-															</Text>
+						<View style={styles.textContainer}>
+							<Text style={[styles.titre, { marginBottom: 10 }]}>
+								VOTRE PROFIL OCULAIRE
+							</Text>
+							<View>
+								{userData?.vision_disorder_result && hasResults ? (
+									userData.vision_disorder_result.map((disorder, index) => (
+										<View key={index} style={styles.ocularIssues}>
+											{disorder.vision_disorder === "myopie" ? (
+												<View style={styles.ocularIssue}>
+													<View style={styles.ocularIssueMain}>
+														{disorder.result >= 0 && disorder.result <= 12 ? (
+															<FontAwesome
+																name="circle"
+																size={18}
+																color="red"
+															/>
 														) : disorder.result > 12 &&
 														  disorder.result <= 25 ? (
-															<Text className="ocularIssueText">
-																Nous avons repéré un problème, ne tardez pas à
-																prendre rendez-vous chez un ophtalmologue
-															</Text>
+															<FontAwesome
+																name="circle"
+																size={18}
+																color="orange"
+															/>
 														) : disorder.result > 25 &&
 														  disorder.result <= 37 ? (
-															<Text>
-																Vous avez peut être un problème de vue, prenez
-																rendez-vous chez un ophtalmologue
-															</Text>
+															<FontAwesome
+																name="circle"
+																size={18}
+																color="yellow"
+															/>
 														) : disorder.result > 37 ? (
-															<Text className="ocularIssueText">
-																Vous avez une très bonne vue, continuez à
-																prendre soin de vos yeux
-															</Text>
-														) : null
-													) : null}
+															<FontAwesome
+																name="circle"
+																size={18}
+																color="green"
+															/>
+														) : null}
+														<Text key={index} style={styles.ocularIssueTitle}>
+															{disorder.vision_disorder
+																.charAt(0)
+																.toUpperCase() +
+																disorder.vision_disorder.slice(1)}
+														</Text>
+													</View>
+													<View style={styles.ocularIssueDetails}>
+														<Text style={styles.ocularIssueText}>
+															Résultat : {disorder.result}/50
+														</Text>
+														{disorder.vision_disorder === "myopie" ? (
+															disorder.result >= 0 && disorder.result <= 12 ? (
+																<Text style={styles.ocularIssueText}>
+																	Nous avons repéré un problème, ne tardez pas à
+																	prendre rendez-vous chez un ophtalmologue
+																</Text>
+															) : disorder.result > 12 &&
+															  disorder.result <= 25 ? (
+																<Text style={styles.ocularIssueText}>
+																	Nous avons repéré un problème, ne tardez pas à
+																	prendre rendez-vous chez un ophtalmologue
+																</Text>
+															) : disorder.result > 25 &&
+															  disorder.result <= 37 ? (
+																<Text style={styles.ocularIssueText}>
+																	Vous avez peut être un problème de vue, prenez
+																	rendez-vous chez un ophtalmologue
+																</Text>
+															) : disorder.result > 37 ? (
+																<Text style={styles.ocularIssueText}>
+																	Vous avez une très bonne vue, continuez à
+																	prendre soin de vos yeux
+																</Text>
+															) : null
+														) : null}
+													</View>
 												</View>
-											</View>
-										) : null}
+											) : null}
 
-										{disorder.vision_disorder === "daltonisme" ? (
-											<View style={styles.ocularIssue}>
-												<View style={styles.ocularIssueMain}>
-													{disorder.result >= 0 && disorder.result <= 2 ? (
-														<FontAwesome name="circle" size={18} color="red" />
-													) : disorder.result > 2 && disorder.result <= 4 ? (
-														<FontAwesome
-															name="circle"
-															size={18}
-															color="orange"
-														/>
-													) : disorder.result > 4 && disorder.result <= 7 ? (
-														<FontAwesome
-															name="circle"
-															size={18}
-															color="yellow"
-														/>
-													) : disorder.result > 7 ? (
-														<FontAwesome
-															name="circle"
-															size={18}
-															color="green"
-														/>
-													) : null}
-													<Text key={index} style={styles.ocularIssueTitle}>
-														{disorder.vision_disorder.charAt(0).toUpperCase() +
-															disorder.vision_disorder.slice(1)}
-													</Text>
-												</View>
-											</View>
-										) : null}
-										<View
-											className={`ocularIssueDetails ${
-												disorder.vision_disorder === "daltonisme"
-													? "openDaltonisme"
-													: ""
-											}`}
-										>
-											<Text className="ocularIssueNote">
-												Résultat : {disorder.result}/10
-											</Text>
 											{disorder.vision_disorder === "daltonisme" ? (
-												disorder.result >= 0 && disorder.result <= 2 ? (
-													<Text className="ocularIssueText">
-														Nous avons repéré un problème, ne tardez pas à
-														prendre rendez-vous chez un ophtalmologue
-													</Text>
-												) : disorder.result > 2 && disorder.result <= 4 ? (
-													<Text className="ocularIssueText">
-														Nous avons repéré un problème, ne tardez pas à
-														prendre rendez-vous chez un ophtalmologue
-													</Text>
-												) : disorder.result > 4 && disorder.result <= 7 ? (
-													<Text className="ocularIssueText">
-														Vous avez peut être un problème de vue, prenez
-														rendez-vous chez un ophtalmologue
-													</Text>
-												) : disorder.result > 7 ? (
-													<Text className="ocularIssueText">
-														Vous avez une très bonne vue, continuez à prendre
-														soin de vos yeux
-													</Text>
-												) : null
+												<View style={styles.ocularIssue}>
+													<View style={styles.ocularIssueMain}>
+														{disorder.result >= 0 && disorder.result <= 2 ? (
+															<FontAwesome
+																name="circle"
+																size={18}
+																color="red"
+															/>
+														) : disorder.result > 2 && disorder.result <= 4 ? (
+															<FontAwesome
+																name="circle"
+																size={18}
+																color="orange"
+															/>
+														) : disorder.result > 4 && disorder.result <= 7 ? (
+															<FontAwesome
+																name="circle"
+																size={18}
+																color="yellow"
+															/>
+														) : disorder.result > 7 ? (
+															<FontAwesome
+																name="circle"
+																size={18}
+																color="green"
+															/>
+														) : null}
+														<Text key={index} style={styles.ocularIssueTitle}>
+															{disorder.vision_disorder
+																.charAt(0)
+																.toUpperCase() +
+																disorder.vision_disorder.slice(1)}
+														</Text>
+													</View>
+													<View style={styles.ocularIssueDetails}>
+														<Text style={styles.ocularIssueText}>
+															Résultat : {disorder.result}/10
+														</Text>
+														{disorder.vision_disorder === "daltonisme" ? (
+															disorder.result >= 0 && disorder.result <= 2 ? (
+																<Text style={styles.ocularIssueText}>
+																	Nous avons repéré un problème, ne tardez pas à
+																	prendre rendez-vous chez un ophtalmologue
+																</Text>
+															) : disorder.result > 2 &&
+															  disorder.result <= 4 ? (
+																<Text style={styles.ocularIssueText}>
+																	Nous avons repéré un problème, ne tardez pas à
+																	prendre rendez-vous chez un ophtalmologue
+																</Text>
+															) : disorder.result > 4 &&
+															  disorder.result <= 7 ? (
+																<Text style={styles.ocularIssueText}>
+																	Vous avez peut être un problème de vue, prenez
+																	rendez-vous chez un ophtalmologue
+																</Text>
+															) : disorder.result > 7 ? (
+																<Text style={styles.ocularIssueText}>
+																	Vous avez une très bonne vue, continuez à
+																	prendre soin de vos yeux
+																</Text>
+															) : null
+														) : null}
+													</View>
+												</View>
 											) : null}
 										</View>
-									</View>
-								))
-							) : (
-								<Text className="ocularIssuesTextNoTest">
-									Vous n'avez pas encore effectué de tests
-								</Text>
-							)}
+									))
+								) : (
+									<Text style={styles.ocularIssueTextNoResults}>
+										Vous n'avez pas encore effectué de tests
+									</Text>
+								)}
+							</View>
 						</View>
+
+						<TouchableOpacity
+							onPress={UserSession.clearSession}
+							style={styles.buttonLogOut}
+						>
+							<MaterialIcons name="logout" size={24} color="white" />
+							<Text style={styles.buttonText}>SE DÉCONNECTER</Text>
+						</TouchableOpacity>
 					</View>
-				</View>
-				<View style={styles.texteContainer}></View>
-				<Button title="Se deco" onPress={UserSession.clearSession} />
+				</ScrollView>
 			</ImageBackground>
-		</SafeAreaView>
+			<TouchableOpacity style={styles.changeTheme} onPress={changeTheme}>
+				<Text style={[styles.texte, styles.whiteTexteUnchanged]}>
+					{currentTheme}
+				</Text>
+			</TouchableOpacity>
+		</View>
 	);
 }
 
 const basicStyle = StyleSheet.create({
+	// Theme
+
+	changeTheme: {
+		position: "absolute",
+		bottom: 16,
+		right: 16,
+		backgroundColor: projectColors.blueButtonHover,
+		borderRadius: 12,
+		paddingVertical: 8,
+		paddingHorizontal: 16,
+		elevation: 5,
+		shadowColor: "#000",
+		shadowOffset: { width: 0, height: 2 },
+		shadowOpacity: 0.25,
+		shadowRadius: 3.84,
+	},
+
+	whiteTexteUnchanged: {
+		color: "white",
+	},
+
+	flex1: {
+		flex: 1,
+	},
+
 	safeContainer: {
 		flex: 1,
 		overflow: "scroll",
@@ -376,8 +430,8 @@ const basicStyle = StyleSheet.create({
 	},
 
 	textContainer: {
+		textAlign: "center",
 		justifyContent: "flex-start",
-		paddingLeft: 20,
 	},
 
 	checkAcuity: {
@@ -386,15 +440,8 @@ const basicStyle = StyleSheet.create({
 		alignItems: "center",
 	},
 
-	checkAcuityNone: {
-		width: 24,
-		borderWidth: 2,
-		borderColor: "black",
-		marginRight: 10,
-	},
-
 	blackContainer: {
-		backgroundColor: projectColors.blueBlack,
+		backgroundColor: "red",
 	},
 
 	nameAndInitials: {
@@ -457,9 +504,8 @@ const basicStyle = StyleSheet.create({
 		justifyContent: "space-between",
 		backgroundColor: projectColors.blueBlack,
 		borderRadius: 15,
-		paddingVertical: 10,
-		paddingHorizontal: 15,
-		alignItems: "center",
+		paddingVertical: 15,
+		marginBottom: 15,
 	},
 
 	ocularIssues: {
@@ -470,15 +516,53 @@ const basicStyle = StyleSheet.create({
 	ocularIssueMain: {
 		display: "flex",
 		flexDirection: "row",
-		gap: "10px",
+		gap: 10,
 		alignItems: "center",
+		paddingLeft: 10,
 	},
 
 	ocularIssueTitle: {
 		fontSize: 16,
 		fontFamily: "Korolev-Bold",
-		paddingLeft: 10,
 		color: "white",
+	},
+
+	ocularIssueDetails: {
+		marginTop: 5,
+		paddingHorizontal: 20,
+	},
+
+	ocularIssueText: {
+		color: "white",
+		fontSize: 14,
+	},
+
+	ocularIssueTextNoResults: {
+		color: projectColors.blueBlack,
+		fontSize: 16,
+		fontFamily: "Korolev-Bold",
+	},
+
+	// Button logout
+
+	buttonLogOut: {
+		display: "flex",
+		flexDirection: "row",
+		backgroundColor: "red",
+		alignItems: "center",
+		justifyContent: "center",
+		alignSelf: "center",
+		width: "55%",
+		paddingVertical: 10,
+		borderRadius: 10,
+		cursor: "pointer",
+	},
+
+	buttonText: {
+		color: "white",
+		fontSize: 16,
+		marginLeft: 10,
+		fontFamily: "Korolev-Bold",
 	},
 });
 
@@ -495,5 +579,34 @@ const darkModeStyle = StyleSheet.create({
 	blackContainer: {
 		...basicStyle.blackContainer,
 		backgroundColor: projectColors.blueLight,
+	},
+	changeTheme: {
+		...basicStyle.changeTheme,
+		backgroundColor: projectColors.blueButton,
+	},
+	name: {
+		...basicStyle.name,
+		color: "white",
+	},
+	ocularIssue: {
+		...basicStyle.ocularIssue,
+		backgroundColor: projectColors.blueLight,
+	},
+	ocularIssueText: {
+		...basicStyle.ocularIssueText,
+		color: projectColors.blueBlack,
+		fontSize: 14,
+	},
+	ocularIssueTitle: {
+		...basicStyle.ocularIssueTitle,
+		color: projectColors.blueBlack,
+		fontFamily: "Korolev-Bold",
+		fontSize: 16,
+	},
+	ocularIssueTextNoResults: {
+		...basicStyle.ocularIssueTextNoResults,
+		color: "white",
+		fontSize: 16,
+		fontFamily: "Korolev-Bold",
 	},
 });
