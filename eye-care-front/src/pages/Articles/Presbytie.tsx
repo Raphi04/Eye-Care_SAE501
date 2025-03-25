@@ -1,35 +1,15 @@
 import { Link } from "react-router-dom";
 import ModelViewer from "../../components/ModelViewer";
 
-import Model1 from "../../assets/3D_Model/glasses.glb";
-import Model2 from "../../assets/3D_Model/OIIA_CAT.glb";
+import Model from "../../assets/3D_Model/glasses.glb";
 
 import Glasses from "../../assets/glasses.svg?react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import CommentsSection from "../../components/CommentsSection/CommentsSection";
-import { useEffect, useState } from "react";
 
 export default function Presbytie() {
-  const [currentModel, setCurrentModel] = useState<any>(Model1);
-
-  useEffect(() => {
-    const switchModel = setInterval(() => {
-      setCurrentModel((prevModel: any) => {
-        if (prevModel == Model1) {
-          console.log("convert to model 2");
-          return Model2;
-        } else {
-          console.log("convert to model 1");
-          return Model1;
-        }
-      });
-    }, 5000);
-
-    return () => clearInterval(switchModel);
-  }, []);
-
   return (
     <>
       <main>
@@ -54,8 +34,8 @@ export default function Presbytie() {
           </article>
           <article className="model">
             <ModelViewer
-              src={currentModel}
-              alt="OIIA"
+              src={Model}
+              alt="Lunette"
               scale="4 4 4"
               loading="eager"
               environmentImage="neutral"
