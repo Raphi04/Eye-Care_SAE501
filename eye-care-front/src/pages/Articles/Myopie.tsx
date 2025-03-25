@@ -1,9 +1,5 @@
-import { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
-import ModelViewer from "../../components/ModelViewer";
 
-import Model from "../../assets/3D_Model/OIIA_CAT.glb";
-import Skibidi from "../../assets/3D_Model/skibidi.jpg";
 import Glasses from "../../assets/glasses.svg?react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -11,25 +7,6 @@ import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import CommentsSection from "../../components/CommentsSection/CommentsSection";
 
 export default function Myopie() {
-  const oiia = useRef<HTMLModelViewerElement | null>(null);
-
-  useEffect(() => {
-    if (oiia.current) {
-      const toggleRotation = () => {
-        if (oiia.current) {
-          if (oiia.current.autoRotate) {
-            oiia.current.autoRotate = false;
-          } else {
-            oiia.current.autoRotate = true;
-            oiia.current.autoRotateSpeed = "30000%";
-          }
-        }
-      };
-      const interval = setInterval(toggleRotation, 1500);
-
-      return () => clearInterval(interval);
-    }
-  }, []);
   return (
     <>
       <main>
@@ -49,22 +26,6 @@ export default function Myopie() {
               oculaire et augmenter le risque de complications graves, telles
               que le décollement de la rétine.
             </p>
-          </article>
-          <article className="model">
-            <ModelViewer
-              ref={oiia}
-              src={Model}
-              scale="2 2 2"
-              alt="OIIA"
-              loading="eager"
-              skyboxImage={Skibidi}
-              environmentImage="neutral"
-              autoRotate
-              autoRotateDelay="0"
-              rotationPerSecond="30000%"
-              cameraControls
-              interaction-prompt="none"
-            />
           </article>
         </section>
 

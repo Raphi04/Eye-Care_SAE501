@@ -35,7 +35,7 @@ export default function Daltonisme() {
           <article className="model">
             <ModelViewer
               src={Model}
-              alt="OIIA"
+              alt="Phoropter"
               loading="eager"
               environmentImage="neutral"
               cameraControls
