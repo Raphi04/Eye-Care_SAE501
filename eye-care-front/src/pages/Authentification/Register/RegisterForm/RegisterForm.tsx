@@ -101,9 +101,7 @@ export default function RegisterForm() {
 
 		if (
 			password &&
-			!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(
-				password
-			)
+			!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])/.test(password)
 		) {
 			errors.push(
 				"Le mot de passe doit contenir au moins une majuscule, une minuscule, un chiffre et un caractère spécial."
@@ -126,6 +124,10 @@ export default function RegisterForm() {
 			usernamePro?.endsWith(" ")
 		) {
 			errors.push("Le nom et prénom ne peuvent pas contenir d'espace.");
+		}
+
+		if (password && password.length < 8) {
+			errors.push("Le mot de passe doit contenir au moins 8 caractères.");
 		}
 
 		if (password !== verifPassword) {
