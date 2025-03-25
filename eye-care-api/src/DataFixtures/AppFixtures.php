@@ -70,6 +70,10 @@ class AppFixtures extends Fixture
         $cecite->setDisorderName("cecite");
         $manager->persist($cecite);
 
+        $dmla = new VisionDisorder();
+        $dmla->setDisorderName("dmla");
+        $manager->persist($dmla);
+
         //Categories
         $myopieCategory = new Category();
         $myopieCategory->setSubject("myopie");

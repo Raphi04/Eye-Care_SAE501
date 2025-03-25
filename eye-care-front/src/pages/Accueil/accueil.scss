@@ -266,10 +266,6 @@ main.accueil {
       display: flex;
       align-items: center;
       padding-right: 6%;
-      img {
-        border-radius: 1rem;
-        box-shadow: $boxShadow;
-      }
     }
 
     .textContainer {
@@ -373,14 +369,242 @@ main.accueil {
       grid-template-rows: repeat(2, 1fr);
       gap: 2rem;
 
+      @media (max-width: 790px) {
+        gap: 1.6rem;
+      }
+      @media (max-width: 700px) {
+        gap: 1.4rem;
+      }
+      @media (max-width: 650px) {
+        gap: 1.3rem;
+      }
+      @media (max-width: 550px) {
+        gap: 1.1rem;
+      }
+
       .article {
-        background-color: $white;
         display: flex;
         flex-direction: column;
-        align-items: center;
-        padding: 25px;
-        border-radius: 10px;
-        color: $blueBlack;
+        justify-content: space-between;
+        background-color: $blueBlack;
+        padding: 20px 20px 0 0;
+        border-radius: 15px;
+        color: $white;
+        border: solid 4px $white;
+        transition: background-color 0.3s ease-out;
+
+        @media (max-width: 1020px) {
+          padding: 15px 15px 0 0;
+          border-radius: 12px;
+          border: solid 3px $white;
+        }
+        @media (max-width: 880px) {
+          padding: 12px 12px 0 0;
+          border-radius: 10px;
+          border: solid 3px $white;
+        }
+        @media (max-width: 790px) {
+          padding: 10px 10px 0 0;
+          border-radius: 8px;
+          border: solid 2px $white;
+        }
+        @media (max-width: 700px) {
+          padding: 8px 8px 0 0;
+          border-radius: 8px;
+          border: solid 1.4px $white;
+        }
+        @media (max-width: 650px) {
+          padding: 6.5px 6.5px 0 0;
+          border-radius: 8px;
+          border: solid 1px $white;
+        }
+        @media (max-width: 550px) {
+          padding: 4.5px 4.5px 0 0;
+          border-radius: 6px;
+          border: solid 1px $white;
+        }
+
+        .textArticle {
+          display: flex;
+          justify-content: end;
+          font-size: 1.5rem;
+          font-family: $fontBold;
+
+          @media (max-width: 1020px) {
+            font-size: 1.3rem;
+          }
+          @media (max-width: 880px) {
+            font-size: 1.1rem;
+          }
+          @media (max-width: 790px) {
+            font-size: 1rem;
+          }
+          @media (max-width: 700px) {
+            font-size: 0.9rem;
+          }
+          @media (max-width: 650px) {
+            font-size: 0.8rem;
+          }
+          @media (max-width: 550px) {
+            font-size: 0.6rem;
+          }
+        }
+
+        .imageArticle {
+          &-myopie {
+            width: 41vh;
+            margin-top: auto;
+            align-self: center;
+
+            @media (max-width: 1020px) {
+              width: 35vh;
+            }
+            @media (max-width: 880px) {
+              width: 31vh;
+            }
+            @media (max-width: 790px) {
+              width: 27vh;
+            }
+            @media (max-width: 700px) {
+              width: 24vh;
+            }
+            @media (max-width: 650px) {
+              width: 21vh;
+            }
+            @media (max-width: 550px) {
+              width: 19vh;
+            }
+          }
+
+          &-presbytie {
+            width: 16vh;
+            margin-top: auto;
+            align-self: center;
+
+            @media (max-width: 1020px) {
+              width: 13vh;
+            }
+            @media (max-width: 880px) {
+              width: 11vh;
+            }
+            @media (max-width: 790px) {
+              width: 10vh;
+            }
+            @media (max-width: 700px) {
+              width: 9vh;
+            }
+            @media (max-width: 650px) {
+              width: 8vh;
+            }
+            @media (max-width: 550px) {
+              width: 7vh;
+            }
+          }
+
+          &-daltonisme {
+            width: 42vh;
+            margin-top: auto;
+            align-self: center;
+
+            @media (max-width: 1020px) {
+              width: 36vh;
+            }
+            @media (max-width: 880px) {
+              width: 32vh;
+            }
+            @media (max-width: 790px) {
+              width: 28vh;
+            }
+            @media (max-width: 700px) {
+              width: 26vh;
+            }
+            @media (max-width: 650px) {
+              width: 23vh;
+            }
+            @media (max-width: 550px) {
+              width: 20vh;
+            }
+          }
+
+          &-hypermetropie {
+            width: 35vh;
+            margin-top: auto;
+            align-self: center;
+
+            @media (max-width: 1020px) {
+              width: 30vh;
+            }
+            @media (max-width: 880px) {
+              width: 28vh;
+            }
+            @media (max-width: 790px) {
+              width: 26vh;
+            }
+            @media (max-width: 700px) {
+              width: 24vh;
+            }
+            @media (max-width: 650px) {
+              width: 21vh;
+            }
+            @media (max-width: 550px) {
+              width: 19vh;
+            }
+          }
+
+          &-astigmatisme {
+            width: 42vh;
+            margin-top: auto;
+            align-self: center;
+
+            @media (max-width: 1020px) {
+              width: 36vh;
+            }
+            @media (max-width: 880px) {
+              width: 32vh;
+            }
+            @media (max-width: 790px) {
+              width: 28vh;
+            }
+            @media (max-width: 700px) {
+              width: 26vh;
+            }
+            @media (max-width: 650px) {
+              width: 23vh;
+            }
+            @media (max-width: 550px) {
+              width: 20vh;
+            }
+          }
+
+          &-dmla {
+            width: 37vh;
+            margin-top: auto;
+            align-self: center;
+
+            @media (max-width: 1020px) {
+              width: 30vh;
+            }
+            @media (max-width: 880px) {
+              width: 28vh;
+            }
+            @media (max-width: 790px) {
+              width: 26vh;
+            }
+            @media (max-width: 700px) {
+              width: 24vh;
+            }
+            @media (max-width: 650px) {
+              width: 21vh;
+            }
+            @media (max-width: 550px) {
+              width: 19vh;
+            }
+          }
+        }
+
+        &:hover {
+          background-color: rgba($color: #ffffff, $alpha: 0.15);
+        }
       }
     }
   }

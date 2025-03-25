@@ -17,7 +17,8 @@ export default function Ishihara() {
   });
 
   const [testIsStarted, setTestIsStarted] = useState<Boolean>(false);
-  const [getScoreLoadingState, setGetScoreLoadingState] = useState<boolean>(false);
+  const [getScoreLoadingState, setGetScoreLoadingState] =
+    useState<boolean>(false);
 
   async function getDaltonismeScore() {
     setGetScoreLoadingState(true);
@@ -60,13 +61,15 @@ export default function Ishihara() {
     getDaltonismeScore();
     if (!connectedUser && !loadingState) {
       setGetScoreLoadingState(false);
-      const currentDaltonismeScore = localStorage.getItem("daltonismeScore") || "";
+      const currentDaltonismeScore =
+        localStorage.getItem("daltonismeScore") || "";
       setDaltonismeScore(currentDaltonismeScore);
     }
   }, [connectedUser, loadingState]);
 
   function handleChangeTestIsStarted() {
-    const scrollBarWidth = window.innerWidth - document.documentElement.clientWidth;
+    const scrollBarWidth =
+      window.innerWidth - document.documentElement.clientWidth;
     const newState = !testIsStarted;
     if (newState) {
       document.body.style.overflowY = "hidden";
@@ -87,17 +90,18 @@ export default function Ishihara() {
       <div className="textContainer">
         <h2>Test d'Ishihara</h2>
         <p>
-          Le test d'Ishihara permet de détecter un potentiel daltonisme chez le patient. Il existe
-          plusieurs types de daltonisme, tels que la protanopie, la tritanopie ou bien la
-          deutéranopie
+          Le test d'Ishihara permet de détecter un potentiel daltonisme chez le
+          patient. Il existe plusieurs types de daltonisme, tels que la
+          protanopie, la tritanopie ou bien la deutéranopie
         </p>
       </div>
 
       <div className="textContainer">
         <h2>Déroulement du test</h2>
         <p>
-          Vous allez voir sur la gauche une série de nombres cachés dans des cercles de couleurs
-          différents. Vous allez devoir écrire ces nombre dans le champ de formulaire juste à côté.
+          Vous allez voir sur la gauche une série de nombres cachés dans des
+          cercles de couleurs différents. Vous allez devoir écrire ces nombre
+          dans le champ de formulaire juste à côté.
         </p>
       </div>
 
@@ -110,35 +114,44 @@ export default function Ishihara() {
         )}
 
         {!loadingState && !connectedUser && (
-          <p>Votre score actuel : {daltonismeScore ? daltonismeScore + "/10" : "-"}</p>
+          <p>
+            Votre score actuel :{" "}
+            {daltonismeScore ? daltonismeScore + "/30" : "-"}
+          </p>
         )}
 
         {!loadingState && connectedUser && !getScoreLoadingState && (
-          <p>Votre score actuel : {daltonismeScore ? daltonismeScore + "/10" : "-"}</p>
+          <p>
+            Votre score actuel :{" "}
+            {daltonismeScore ? daltonismeScore + "/30" : "-"}
+          </p>
         )}
       </div>
 
       <div className="textContainer">
         <h2>Diagnostique</h2>
         <p>
-          Notre test n'est pas à prendre comme un résultat définitif et correspondant à 100% à votre
-          acuité visuelle. Il se peut qu'il n'ait pas pu s'adapter à la morphologie de votre écran
-          ou qu'il ait été réalisé dans de mauvaises conditions
+          Notre test n'est pas à prendre comme un résultat définitif et
+          correspondant à 100% à votre acuité visuelle. Il se peut qu'il n'ait
+          pas pu s'adapter à la morphologie de votre écran ou qu'il ait été
+          réalisé dans de mauvaises conditions
           <br />
           <br />
-          Si vous avez eu des difficulté à voir les nombres caché dans les cercles, il est alors
-          conseillé de consulter un professionnel de santé.
+          Si vous avez eu des difficulté à voir les nombres caché dans les
+          cercles, il est alors conseillé de consulter un professionnel de
+          santé.
         </p>
       </div>
 
       <div className="textContainer">
         <h2>Pour consulter</h2>
         <p>
-          En cas de suspicion de daltonisme, vous pouvez consulter un ophtalmologiste. C'est un
-          médecin spécialisé dans la science de l'œil qui pourra vous faire passer ce test dans un
-          cadre professionnel. Il n'existe à l'heure actuelle aucun traitement contre le daltonisme.
-          Cependant, il existe des lunettes et des lentilles qui permettent aux personnes atteintes
-          de daltonisme de mieux distinguer les couleurs.
+          En cas de suspicion de daltonisme, vous pouvez consulter un
+          ophtalmologiste. C'est un médecin spécialisé dans la science de l'œil
+          qui pourra vous faire passer ce test dans un cadre professionnel. Il
+          n'existe à l'heure actuelle aucun traitement contre le daltonisme.
+          Cependant, il existe des lunettes et des lentilles qui permettent aux
+          personnes atteintes de daltonisme de mieux distinguer les couleurs.
         </p>
       </div>
 

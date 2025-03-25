@@ -30,64 +30,64 @@
 			font-family: $fontTextBold;
 			font-size: 1.2em;
 		}
-	}
 
-	.error-container {
-		width: 320px;
-		padding: 10px;
-		margin-top: 20px;
-		margin-left: auto;
-		margin-right: auto;
-		background-color: $red;
-		border-radius: 10px;
-		text-align: center;
-		display: flex;
-		flex-direction: column;
+		.error-container {
+			width: 320px;
+			padding: 10px;
+			margin-top: 20px;
+			margin-left: auto;
+			margin-right: auto;
+			background-color: $red;
+			border-radius: 10px;
+			text-align: center;
+			display: flex;
+			flex-direction: column;
 
-		.error-message {
-			font-family: $fontTextBold;
-			color: $white;
-			font-size: 1rem;
-			margin: 0;
-			line-height: 1.5;
-		}
-	}
-
-	.popupField {
-		margin-bottom: 10px;
-
-		.inputIconModify {
-			position: absolute;
-			transform: translate(880%, -155%);
-			color: #a6a6a6;
-
-			&.email {
-				transform: translate(765%, -150%);
+			.error-message {
+				font-family: $fontTextBold;
+				color: $white;
+				font-size: 1rem;
+				margin: 0;
+				line-height: 1.5;
 			}
 		}
 
-		.showPassword {
-			position: absolute;
-			transform: translate(2070%, -150%);
-			cursor: pointer;
+		.popupField {
+			margin-bottom: 10px;
 
-			&.show {
-				transform: translate(2305%, -150%);
+			.inputIconModify {
+				position: absolute;
+				transform: translate(880%, -155%);
+				color: #a6a6a6;
+
+				&.email {
+					transform: translate(765%, -150%);
+				}
 			}
-		}
 
-		.has-value {
-			font-family: $fontTextNormal;
-			font-size: 1em;
-		}
+			.showPassword {
+				position: absolute;
+				transform: translate(2070%, -150%);
+				cursor: pointer;
 
-		input {
-			width: 60%;
-			padding: 8px;
-			padding-left: 30px;
-			margin-top: 5px;
-			border: 3px solid $blueBlack;
-			border-radius: 8px;
+				&.show {
+					transform: translate(2305%, -150%);
+				}
+			}
+
+			.has-value {
+				font-family: $fontTextNormal;
+				font-size: 1em;
+			}
+
+			input {
+				width: 60%;
+				padding: 8px;
+				padding-left: 30px;
+				margin-top: 5px;
+				border: 3px solid $blueBlack;
+				border-radius: 8px;
+			}
 		}
 	}
 }

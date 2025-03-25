@@ -33,6 +33,7 @@ import "./global.scss";
 import Hypermetropie from "./pages/Articles/Hypermetropie.tsx";
 import DmlaTest from "./pages/Tests/DmlaTest.tsx";
 import Administration from "./pages/Administration/Administration.tsx";
+import Oeil from "./pages/Articles/Oeil.tsx";
 
 const router = createBrowserRouter([
   {
@@ -105,6 +106,10 @@ const router = createBrowserRouter([
           {
             path: "hypermetropie",
             element: <Hypermetropie />,
+          },
+          {
+            path: "oeil",
+            element: <Oeil />,
           },
         ],
       },

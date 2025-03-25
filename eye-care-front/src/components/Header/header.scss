@@ -278,20 +278,20 @@ header {
       }
 
       /*&::after {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: calc(50%);
-        transform: translateX(-50%);
-        width: 4px;
-        height: 100%;
-        background-color: $white;
-        border-radius: 30px;
-
-        body.dark & {
-          background-color: $blueBlack;
-        }
-      }*/
+		  content: "";
+		  position: absolute;
+		  top: 0;
+		  left: calc(50%);
+		  transform: translateX(-50%);
+		  width: 4px;
+		  height: 100%;
+		  background-color: $white;
+		  border-radius: 30px;
+  
+		  body.dark & {
+			background-color: $blueBlack;
+		  }
+		}*/
 
       .slide {
         height: 35px;
@@ -437,16 +437,6 @@ header {
             background-color: $white;
             transition: background-color 0.3s ease-out;
 
-            @media (max-width: 992px) {
-              padding: 10px 7px;
-            }
-            @media (max-width: 766px) {
-              padding: 7px 4px;
-            }
-            @media (max-width: 576px) {
-              padding: 6px 3px;
-            }
-
             body.dark & {
               background-color: $blueBlack;
             }
@@ -458,12 +448,15 @@ header {
                 background-color: $blueBlackHover;
               }
             }
-
             &:nth-child(2) {
               border-top: 1px solid $blueBlack;
+
+              body.dark & {
+                border-top: 1px solid $white;
+              }
             }
 
-            &.deconexion {
+            &.disconnect {
               border-top: 1px solid $blueBlack;
 
               p,

@@ -1,8 +1,5 @@
 import { Link } from "react-router-dom";
-import ModelViewer from "../../components/ModelViewer";
 
-import Model from "../../assets/3D_Model/emmanuel.glb";
-import White from "../../assets/3D_Model/white.png";
 import Glasses from "../../assets/glasses.svg?react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -28,17 +25,6 @@ export default function Astigmatisme() {
               tête et une gêne dans la vie quotidienne, surtout lorsqu’il n’est
               pas corrigé.
             </p>
-          </article>
-          <article className="model">
-            <ModelViewer
-              src={Model}
-              alt="OIIA"
-              loading="eager"
-              skyboxImage={White}
-              environmentImage="neutral"
-              cameraControls
-              interaction-prompt="none"
-            />
           </article>
         </section>
 
