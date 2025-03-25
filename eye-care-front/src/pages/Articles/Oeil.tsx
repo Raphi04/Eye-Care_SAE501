@@ -130,7 +130,7 @@ export default function Oeil() {
             {activeButton === "Retine" && (
               <div className="activetxt">
                 <h2>la rétine</h2>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum dolorem laboriosam, adipisci explicabo autem veniam cupiditate aliquid porro dolores quisquam ut deleniti itaque rerum vitae. Doloremque quia laboriosam nemo omnis.</p>
+                <p>La rétine est une fine membrane tapissant le fond du globe oculaire. Recouverte de cellules sensibles à la lumière, elle capte et analyse les signaux lumineux, puis les transforme en impulsions électriques. Ces signaux sont ensuite transmis au cerveau via le nerf optique, permettant ainsi la reconstitution de l’image.</p>
               </div>
             )}
           </section>
