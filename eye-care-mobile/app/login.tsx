@@ -67,36 +67,41 @@ export default function login() {
     };
 
     return (
-        <SafeAreaView style={styles.safeContainer}>
-            <ImageBackground source={backgroundImage} style={styles.backgroundImage} resizeMode="cover">
-                <View style={styles.formContainer}>
-                    <Text style={styles.connexion}>CONNEXION</Text>
-                    <TextInput
-                        onChangeText={setEmail}
-                        value={email}
-                        placeholder="Email"
-                        keyboardType="email-address"
-                        style={styles.input}
-                    />
-                    <TextInput
-                        onChangeText={setPassword}
-                        value={password}
-                        placeholder="Mot de passe"
-                        secureTextEntry={true}
-                                                style={styles.input}
-                    />
-                    <TouchableOpacity style={styles.button} onPress={login}>
-                        <Text style={styles.buttonText}>SE CONNECTER </Text>
-                    </TouchableOpacity>
-                    <Link href="/" style={styles.button2}>
-                        <Text style={styles.texte}> Retourner à l'Accueil </Text>
-                    </Link>
-                    <TouchableOpacity onPress={changeTheme} style={styles.button2}>
-                        <Text style={styles.texte}>{currentTheme}</Text>
-                    </TouchableOpacity>
-                </View>
-            </ImageBackground>
-        </SafeAreaView>
+        <View style={styles.flex1}>
+            <SafeAreaView style={styles.flex1}>
+                <ImageBackground source={backgroundImage} style={styles.backgroundImage} resizeMode="cover">
+                    <View style={styles.formContainer}>
+                        <Text style={styles.connexion}>CONNEXION</Text>
+                        <TextInput
+                            onChangeText={setEmail}
+                            value={email}
+                            placeholder="Email"
+                            keyboardType="email-address"
+                            style={styles.input}
+                        />
+                        <TextInput
+                            onChangeText={setPassword}
+                            value={password}
+                            placeholder="Mot de passe"
+                            secureTextEntry={true}
+                                                    style={styles.input}
+                        />
+                        <View style={styles.row}>
+                            <TouchableOpacity style={styles.button} onPress={login}>
+                                <Text style={styles.buttonText}>SE CONNECTER </Text>
+                            </TouchableOpacity>
+                            <Link href="/" style={styles.button}>
+                                <Text style={styles.buttonText}> Retourner à l'Accueil </Text>
+                            </Link>
+                        </View>
+                    </View>
+                </ImageBackground>
+            </SafeAreaView>
+            <TouchableOpacity style={styles.changeTheme} onPress={changeTheme}>
+                <Text style={[styles.texte, styles.whiteTexteUnchanged]}>{currentTheme}</Text>
+            </TouchableOpacity>
+        </View>
+        
     );
 }
 
@@ -106,7 +111,7 @@ const basicStyle = StyleSheet.create({
         backgroundColor: projectColors.blueLight,
     },
 
-    safeContainer: {
+    flex1: {
         flex: 1,
     },
 
@@ -146,21 +151,43 @@ const basicStyle = StyleSheet.create({
 
     button: {
         backgroundColor: projectColors.blueButtonHover,
-        borderRadius: 16,
-        paddingVertical: 12,
-        paddingHorizontal: 24,
+        borderRadius: 12,
+        paddingVertical: 8,
+        paddingHorizontal: 14,
         marginBottom: 10,
+        marginHorizontal: 8,
     },
 
     buttonText: {
+        textAlign: "center",
         color: "white",
-        fontSize: 20,
+        fontSize: 15,
         fontFamily: "Korolev-Heavy",
     },
 
-    button2: {
-        marginBottom: 5,
+    changeTheme: {
+        position: "absolute",
+        bottom: 16,
+        right: 16,
+        backgroundColor: projectColors.blueButtonHover,
+        borderRadius: 12,
+        paddingVertical: 8,
+        paddingHorizontal: 16,
+        elevation: 5,
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
     },
+
+    whiteTexteUnchanged: {
+        color: "white",
+    },
+
+    row: {
+        flexDirection: "row",
+        marginBottom: 8,
+    }
 });
 
 const darkModeStyle = StyleSheet.create({
@@ -168,4 +195,5 @@ const darkModeStyle = StyleSheet.create({
     backgroundImage: { ...basicStyle.backgroundImage, backgroundColor: projectColors.blueBlack },
     connexion: { ...basicStyle.connexion, color: "white" },
     texte: { ...basicStyle.texte, color: "white" },
+    changeTheme: { ...basicStyle.changeTheme, backgroundColor: projectColors.blueButton },
 });
