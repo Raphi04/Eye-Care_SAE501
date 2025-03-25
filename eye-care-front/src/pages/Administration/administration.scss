@@ -48,6 +48,8 @@ main.administration {
     width: 100%;
     padding: 0 25px;
     background-color: $white;
+    border-radius: 0 0 15px 15px;
+    box-shadow: $boxShadowLight;
 
     .button {
       cursor: pointer;
