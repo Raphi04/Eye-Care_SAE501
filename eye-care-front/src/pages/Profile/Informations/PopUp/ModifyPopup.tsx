@@ -96,16 +96,13 @@ export default function ModifyPopup({
 		}
 
 		if (
-			newPassword &&
-			!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(
-				newPassword
-			)
+			password &&
+			!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])/.test(password)
 		) {
 			errors.push(
 				"Le mot de passe doit contenir au moins une majuscule, une minuscule, un chiffre et un caractère spécial."
 			);
 		}
-
 		if (
 			(username && (username.match(/ /g) || []).length >= 2) ||
 			username?.startsWith(" ") ||
@@ -114,6 +111,10 @@ export default function ModifyPopup({
 			errors.push(
 				"Le nom d'utilisateur ne peut pas contenir plus d'un espace, ni commencer ou terminer par un espace."
 			);
+		}
+
+		if (password && password.length < 8) {
+			errors.push("Le mot de passe doit contenir au moins 8 caractères.");
 		}
 
 		if (newPassword !== verifNewPassword) {
@@ -155,7 +156,7 @@ export default function ModifyPopup({
 				if (status === 400) {
 					setGlobalErrors([`Erreur : ${message || "Données invalides."}`]);
 				} else if (status === 401) {
-					setGlobalErrors(["Mot de passe actuel incorrect."]);
+					setGlobalErrors(["Token incorrect."]);
 				} else {
 					setGlobalErrors([`Erreur de mise à jour : ${message || "Inconnue"}`]);
 				}
