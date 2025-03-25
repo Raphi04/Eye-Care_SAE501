@@ -1,15 +1,36 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFrown, faMeh, faSmile, faSpinner, faXmark } from "@fortawesome/free-solid-svg-icons";
-import Ishihara1 from "../../../assets/ishihara1.png";
-import Ishihara2 from "../../../assets/ishihara2.png";
-import Ishihara3 from "../../../assets/ishihara3.png";
-import Ishihara4 from "../../../assets/ishihara4.png";
-import Ishihara5 from "../../../assets/ishihara5.png";
-import Ishihara6 from "../../../assets/ishihara6.png";
-import Ishihara7 from "../../../assets/ishihara7.png";
-import Ishihara8 from "../../../assets/ishihara8.png";
-import Ishihara9 from "../../../assets/ishihara9.png";
-import Ishihara10 from "../../../assets/ishihara10.png";
+import Ishihara1 from "../../../assets/protadeute/3.jpg";
+import Ishihara2 from "../../../assets/protadeute/69.jpg";
+import Ishihara3 from "../../../assets/protadeute/12.jpg";
+import Ishihara4 from "../../../assets/protadeute/7.jpg";
+import Ishihara5 from "../../../assets/protadeute/16.jpg";
+import Ishihara6 from "../../../assets/protadeute/6.jpg";
+import Ishihara7 from "../../../assets/protadeute/74.jpg";
+import Ishihara8 from "../../../assets/protadeute/9.jpg";
+import Ishihara9 from "../../../assets/protadeute/13.jpg";
+import Ishihara10 from "../../../assets/protadeute/8.jpg";
+import Ishihara11 from "../../../assets/trina/6.jpg";
+import Ishihara12 from "../../../assets/trina/25.jpg";
+import Ishihara13 from "../../../assets/trina/67.jpg";
+import Ishihara14 from "../../../assets/trina/38.jpg";
+import Ishihara15 from "../../../assets/trina/12.jpg";
+import Ishihara16 from "../../../assets/trina/99.jpg";
+import Ishihara17 from "../../../assets/trina/78.jpg";
+import Ishihara18 from "../../../assets/trina/31.jpg";
+import Ishihara19 from "../../../assets/trina/14.jpg";
+import Ishihara20 from "../../../assets/trina/45.jpg";
+import Ishihara21 from "../../../assets/glubiboulga/29T.jpg";
+import Ishihara22 from "../../../assets/glubiboulga/5P.jpg";
+import Ishihara23 from "../../../assets/glubiboulga/12T.jpg";
+import Ishihara24 from "../../../assets/glubiboulga/6P.jpg";
+import Ishihara25 from "../../../assets/glubiboulga/15T.jpg";
+import Ishihara26 from "../../../assets/glubiboulga/5T.jpg";
+import Ishihara27 from "../../../assets/glubiboulga/74P.jpg";
+import Ishihara28 from "../../../assets/glubiboulga/12T.jpg";
+import Ishihara29 from "../../../assets/glubiboulga/45P.jpg";
+import Ishihara30 from "../../../assets/glubiboulga/15P.jpg";
+
 
 import "./popUps.scss";
 import { useEffect, useRef, useState } from "react";
@@ -45,9 +66,29 @@ export default function IshiharaPop({ closePopUp, upDateScore }: IshiharaPopProp
     Ishihara8,
     Ishihara9,
     Ishihara10,
+    Ishihara11,
+    Ishihara12,
+    Ishihara13,
+    Ishihara14,
+    Ishihara15,
+    Ishihara16,
+    Ishihara17,
+    Ishihara18,
+    Ishihara19,
+    Ishihara20,
+    Ishihara21,
+    Ishihara22,
+    Ishihara23,
+    Ishihara24,
+    Ishihara25,
+    Ishihara26,
+    Ishihara27,
+    Ishihara28,
+    Ishihara29,
+    Ishihara30,
   ];
 
-  const values = [69, 4, 22, 78, 51, 99, 25, 44, 12, 8];
+  const values = [3, 69, 12, 7, 16, 6, 74, 9, 13, 8, 6, 25, 67, 38, 12, 99, 78, 31, 14, 45, 29, 5, 12, 7, 15, 5, 74, 15, 45, 6];
 
   const [daltonismeArray, setDaltonismeArray] = useState<DaltonismeArray[]>([]);
   const [currentIndex, setCurrentIndex] = useState<number>(0);
@@ -60,7 +101,7 @@ export default function IshiharaPop({ closePopUp, upDateScore }: IshiharaPopProp
 
   useEffect(() => {
     if (!alreadyGenerated.current) {
-      for (let i = 0; i < 10; i++) {
+      for (let i = 0; i < 30; i++) {
         const object: DaltonismeArray = {
           src: images[i],
           number: values[i],
@@ -109,7 +150,7 @@ export default function IshiharaPop({ closePopUp, upDateScore }: IshiharaPopProp
       inputAnswerNumber.current.focus();
     }
 
-    if (newCurrentIndex == 10) {
+    if (newCurrentIndex == 30) {
       let newDaltonismeScore = 0;
       updatedDaltonismeArray.map((object) => {
         if (object.number == object.answer) {
@@ -133,7 +174,7 @@ export default function IshiharaPop({ closePopUp, upDateScore }: IshiharaPopProp
     }
   }
   useEffect(() => {
-    if (currentIndex == 10) {
+    if (currentIndex == 30) {
       document.addEventListener("keydown", handleEnter);
     }
 
@@ -177,10 +218,10 @@ export default function IshiharaPop({ closePopUp, upDateScore }: IshiharaPopProp
     <>
       <div className="popUpContainer">
         <div className="popUp">
-          {currentIndex !== 10 && (
+          {currentIndex !== 30 && (
             <>
               <div className="firstPartPopUp">
-                {daltonismeArray.length == 10 && (
+                {daltonismeArray.length == 30 && (
                   <img src={daltonismeArray[currentIndex].src} alt="Ishihara" />
                 )}
               </div>
@@ -207,15 +248,15 @@ export default function IshiharaPop({ closePopUp, upDateScore }: IshiharaPopProp
             </>
           )}
 
-          {currentIndex == 10 && (
+          {currentIndex == 30 && (
             <>
               <div className="fullPopUp result">
                 <div className="resultInfos">
-                  <h3>Test fini ! Vous avez obtenu un score de {newDaltonismeScore}/10 !</h3>
+                  <h3>Test fini ! Vous avez obtenu un score de {newDaltonismeScore}/30 !</h3>
                 </div>
                 <div className="resultSmiley">
-                  {newDaltonismeScore < 3 && <FontAwesomeIcon icon={faFrown} />}
-                  {newDaltonismeScore < 7 && newDaltonismeScore >= 4 && (
+                  {newDaltonismeScore < 12 && <FontAwesomeIcon icon={faFrown} />}
+                  {newDaltonismeScore < 24 && newDaltonismeScore >= 13 && (
                     <FontAwesomeIcon icon={faMeh} />
                   )}
                   {newDaltonismeScore >= 8 && <FontAwesomeIcon icon={faSmile} />}
