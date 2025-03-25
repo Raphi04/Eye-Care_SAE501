@@ -6,3 +6,4 @@
 /.vs
 eye-care-api/public/uploads
 eye-care-api/.env
+/eye-care-front/.vs
