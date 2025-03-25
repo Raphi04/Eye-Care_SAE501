@@ -88,13 +88,13 @@ export default function OcularIssuesContent() {
 										onClick={toggleDetailsDaltonisme}
 									>
 										<div className="ocularIssueMain">
-											{disorder.result >= 0 && disorder.result <= 2 ? (
+											{disorder.result >= 0 && disorder.result <= 12 ? (
 												<div className="ocularIssueIndicator danger"></div>
-											) : disorder.result > 2 && disorder.result <= 4 ? (
+											) : disorder.result > 12 && disorder.result <= 18 ? (
 												<div className="ocularIssueIndicator warning"></div>
-											) : disorder.result > 4 && disorder.result <= 7 ? (
+											) : disorder.result > 18 && disorder.result <= 24 ? (
 												<div className="ocularIssueIndicator medium"></div>
-											) : disorder.result > 7 ? (
+											) : disorder.result > 24 ? (
 												<div className="ocularIssueIndicator good"></div>
 											) : null}
 											<h3 key={index} className="ocularIssuesTitle">
@@ -151,25 +151,25 @@ export default function OcularIssuesContent() {
 									}`}
 								>
 									<p className="ocularIssueNote">
-										Résultat : {disorder.result}/10
+										Résultat : {disorder.result}/30
 									</p>
 									{disorder.vision_disorder === "daltonisme" ? (
-										disorder.result >= 0 && disorder.result <= 2 ? (
+										disorder.result >= 0 && disorder.result <= 12 ? (
 											<p className="ocularIssueText">
 												Nous avons repéré un problème, ne tardez pas à prendre
 												rendez-vous chez un ophtalmologue
 											</p>
-										) : disorder.result > 2 && disorder.result <= 4 ? (
+										) : disorder.result > 12 && disorder.result <= 18 ? (
 											<p className="ocularIssueText">
 												Nous avons repéré un problème, ne tardez pas à prendre
 												rendez-vous chez un ophtalmologue
 											</p>
-										) : disorder.result > 4 && disorder.result <= 7 ? (
+										) : disorder.result > 18 && disorder.result <= 24 ? (
 											<p className="ocularIssueText">
 												Vous avez peut être un problème de vue, prenez
 												rendez-vous chez un ophtalmologue
 											</p>
-										) : disorder.result > 7 ? (
+										) : disorder.result > 24 ? (
 											<p className="ocularIssueText">
 												Vous avez une très bonne vue, continuez à prendre soin
 												de vos yeux
