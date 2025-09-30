@@ -56,30 +56,83 @@ main {
 				}
 			}
 
-			p {
-				font-size: 1.6rem;
-				text-align: justify;
-				line-height: 2rem;
-				color: $white;
+			.textImageContainer {
+				display: flex !important;
+				align-items: center;
+				gap: 5rem;
 
-				@media (max-width: 992px) {
-					font-size: 1.4rem;
-				}
-				@media (max-width: 768px) {
-					font-size: 1.2rem;
-				}
-				@media (max-width: 576px) {
-					font-size: 1rem;
+				p {
+					flex: 2;
+					font-size: 1.6rem;
+					text-align: justify;
+					line-height: 2rem;
+					color: $white;
+
+					@media (max-width: 992px) {
+						font-size: 1.4rem;
+					}
+					@media (max-width: 768px) {
+						font-size: 1.2rem;
+					}
+					@media (max-width: 576px) {
+						font-size: 1rem;
+					}
+
+					body.dark & {
+						color: $blueBlack;
+					}
 				}
 
-				body.dark & {
-					color: $blueBlack;
-				}
-			}
-			.imageArticle {
-				&-myopie {
-					width: 20vw;
-					height: 20vh;
+				.imageArticle {
+					flex: 1;
+
+					&-myopie {
+						width: 26%;
+
+						@media (max-width: 1100px) {
+							display: none;
+						}
+					}
+
+					&-presbytie {
+						width: 15%;
+
+						@media (max-width: 1100px) {
+							display: none;
+						}
+					}
+
+					&-hypermetropie {
+						width: 30%;
+
+						@media (max-width: 1100px) {
+							display: none;
+						}
+					}
+
+					&-daltonisme {
+						width: 32%;
+
+						@media (max-width: 1100px) {
+							display: none;
+						}
+					}
+
+					&-astigmatisme {
+						width: 30%;
+
+						@media (max-width: 1100px) {
+							display: none;
+						}
+					}
+
+					&-dmla {
+						width: 32%;
+
+						@media (max-width: 1100px) {
+							display: none;
+						}
+					}
 				}
 			}
 		}
