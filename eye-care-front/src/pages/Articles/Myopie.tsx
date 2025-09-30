@@ -13,13 +13,7 @@ export default function Myopie() {
 				<section className="presentationMaladie">
 					<article className="textContainer">
 						<h2>LA MYOPIE</h2>
-						<div
-							style={{
-								display: "flex",
-								alignItems: "center",
-								gap: "3rem",
-							}}
-						>
+						<div className="textImageContainer">
 							<p>
 								La myopie est un trouble visuel courant qui se traduit par une
 								vision claire pour les objets proches mais une difficulté à voir
